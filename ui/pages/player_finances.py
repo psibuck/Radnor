@@ -9,6 +9,3 @@ class FinancesPage(PageBase):
     def Draw(self):
         print("This is the finances page")
         print("Lee owes bank")
-
-    def HandleInput(self, input):
-        super.HandleInput(input)

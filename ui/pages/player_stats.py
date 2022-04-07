@@ -9,7 +9,3 @@ class StatsPage(PageBase):
     def Draw(self):
         print("This is the stats page")
         print("Tom goals: 0")
-
-    def HandleInput(self, input):
-
-        super.HandleInput(input)
