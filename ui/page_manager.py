@@ -15,7 +15,7 @@ class PageManager:
         self.pages.append(StatsPage(self))
         self.pages.append(FinancesPage(self))
         self.root = tk.Tk()
-
+        self.root.geometry("800x600")
         self.SetupTabs()
 
     def SetupTabs(self):
