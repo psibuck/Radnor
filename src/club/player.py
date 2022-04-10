@@ -6,6 +6,9 @@ class Player:
         self.name = ""
         self.is_signed_on = False
 
+    def __lt__(self, other):
+        return self.name.lower() < other.name.lower()
+
     # TO-DO Make this JSON
     def Save(self, file):
         file.write(self.name + "\n")

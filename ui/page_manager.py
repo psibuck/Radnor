@@ -9,7 +9,6 @@ class PageManager:
 
     def __init__(self, app):
         self.page_index = 0
-        self.home_page = "home"
         self.pages = []
         self.pages.append(HomePage(self))
         self.pages.append(StatsPage(self))

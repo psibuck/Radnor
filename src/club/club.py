@@ -16,6 +16,7 @@ class Club:
                     loaded_player = Player()
                     loaded_player.Load(ProcessData(player_data))
                     self.players.append(loaded_player)
+        self.players.sort()
 
     def SaveClub(self, file):
         SaveObjects(file, self.players)
@@ -24,5 +25,6 @@ class Club:
         new_player = Player()
         new_player.name = name
         self.players.append(new_player)
+        self.players.sort()
 
 
