@@ -7,7 +7,7 @@ from tkinter import *
 
 class PageManager:
 
-    def __init__(self):
+    def __init__(self, app):
         self.page_index = 0
         self.home_page = "home"
         self.pages = []
@@ -16,44 +16,44 @@ class PageManager:
         self.pages.append(FinancesPage(self))
         self.root = tk.Tk()
         self.root.geometry("800x600")
+        self.root.title("Club Name Here")
+        self.root.protocol("WM_DELETE_WINDOW", self.CloseRequested)
+        self.app = app
+
         self.SetupTabs()
 
+        self.content_area = tk.Frame(self.root)
+        self.content_area.pack(fill=BOTH, expand=YES)
+        
+        button = Button(self.content_area, text = "test")
+        button.pack(fill=BOTH, expand = YES)
+        self.SwitchPage(self.page_index)
+
     def SetupTabs(self):
-        frame = tk.Frame(self.root)
+        frame = tk.Frame(self.root, height=50)
         frame.pack()
 
         index = 0
         for page in self.pages:
-            button = Button(frame, text = page.name, command = lambda index = index: self.OnTabSelected(index))
+            button = Button(frame, text = page.name, command = lambda index = index: self.SwitchPage(index))
             button.pack(side = LEFT)
             index += 1
-
-    def OnTabSelected(self, index):
-        print("Tab " + str(index) + " Selected")
 
     def SwitchPage(self, page_index):
         if page_index < len(self.pages):
             self.page_index = page_index
+        
+        for widget in self.content_area.winfo_children():
+            widget.destroy()
 
-    def PrintControls(self):
-        index = 0
-        message = ""
-        for page in self.pages:
-            message += "Press " + str(index + 1) + " for " + self.pages[index].name + "\n"
-            index += 1
-        print(message)
-    
-    def HandleInput(self, input):
-        page_to_switch_to = int(input)
-        self.SwitchPage(page_to_switch_to - 1)  
+        page = self.pages[self.page_index]
+        page.SetupContent(self.content_area)
 
     def Draw(self):
         self.root.mainloop()
-        
-        self.PrintControls()
-        self.pages[self.page_index].Draw()
-        self.GetInput()
-        
-    def GetInput(self):
-        player_input = input("So what do you want to do?")
-        self.pages[self.page_index].HandleInput(player_input)
+
+    def CloseRequested(self):
+        self.app.Quit()
+
+    def Shutdown(self):
+        self.root.destroy()

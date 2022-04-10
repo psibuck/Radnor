@@ -1,12 +1,11 @@
-
+from tkinter import Label
 
 class PageBase:
 
     def __init__(self, manager):
         self.manager = manager
 
-    def HandleInput(self, input):
-        self.manager.HandleInput(input)
-
-    def Draw(self):
-        return
+    def SetupContent(self, frame):
+        label = Label(frame, text="unimplemented page")
+        label.pack()
+        return 

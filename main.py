@@ -6,28 +6,27 @@ from data.file_names import PLAYER_FILE
 class Application:
 
     def __init__(self):
-        self.players = self.LoadPlayers()
+        self.club = Club()
+        self.club.LoadPlayers(PLAYER_FILE)
+        self.ui = PageManager(self)
+        
         self.is_running = True
 
-    def LoadPlayers(self):
-        return
+    def Activate(self):
+        self.ui.Draw()
 
     def LoadMatchReports(self):
         return
     
     def Quit(self):
-        self.is_running = False
+        app.club.SaveClub(PLAYER_FILE)
+        self.ui.Shutdown()
 
-
+# Refactor this, consider role of page manager vs app, same thing?
 app = Application()
-PM = PageManager()
-club = Club()
-club.LoadPlayers(PLAYER_FILE)
+app.Activate()
 
-while app.is_running:
-    PM.Draw()
 
-club.SaveClub(PLAYER_FILE)
 
 
     
