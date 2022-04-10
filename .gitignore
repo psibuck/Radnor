@@ -1,2 +1,3 @@
 .vscode/launch.json
 *.cpython-39.pyc
+data/local

@@ -1,4 +1,7 @@
+from src.club.club import Club
 from ui.page_manager import PageManager
+
+from data.file_names import PLAYER_FILE
 
 class Application:
 
@@ -18,7 +21,13 @@ class Application:
 
 app = Application()
 PM = PageManager()
+club = Club()
+club.LoadPlayers(PLAYER_FILE)
 
 while app.is_running:
     PM.Draw()
+
+club.SaveClub(PLAYER_FILE)
+
+
     
