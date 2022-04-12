@@ -28,7 +28,10 @@ class HomePage(PageBase):
                 widget.destroy()
 
         for player in self.manager.app.club.players:
-            PlayerEntry(self.player_list, player.name, self.OnRemovePlayerButtonPressed)
+            entry = PlayerEntry(self.player_list, player.name)
+            remove_button = Button(entry.frame, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
+            remove_button.pack(side = RIGHT)
+
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self.frame, height = 50)

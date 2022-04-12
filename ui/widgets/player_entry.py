@@ -2,20 +2,18 @@ from tkinter import Button, Frame, Label, LEFT, RIGHT
 
 class PlayerEntry:
 
-    def __init__(self, owner, player_name, remove_command):
+    def __init__(self, owner, player_name):
         self.name = player_name
+        self.frame = None
         self.parent = owner
-        self.SetupUI(remove_command)
+        self.SetupUI()
 
-    def SetupUI(self, remove_command):
-        frame = Frame(self.parent)
-        frame.pack()
+    def SetupUI(self):
+        self.frame = Frame(self.parent)
+        self.frame.pack()
 
-        label = Label(frame, text = self.name)
+        label = Label(self.frame, text = self.name)
         label.pack(side = LEFT)
-
-        remove_button = Button(frame, text = "X", command = lambda name = self.name: remove_command(name))
-        remove_button.pack(side = RIGHT)
 
 
 
