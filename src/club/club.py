@@ -27,4 +27,11 @@ class Club:
         self.players.append(new_player)
         self.players.sort()
 
+    def RemovePlayer(self, name):
+        for player in self.players:
+            if player.name == name:
+                self.players.remove(player)
+                break
+        self.players.sort()
+
 

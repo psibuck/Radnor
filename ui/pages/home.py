@@ -1,5 +1,6 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
+from ui.widgets.player_entry import PlayerEntry
 
 class HomePage(PageBase):
     
@@ -27,8 +28,7 @@ class HomePage(PageBase):
                 widget.destroy()
 
         for player in self.manager.app.club.players:
-            new_label = Label(self.player_list, text = player.name)
-            new_label.pack(side = TOP)
+            PlayerEntry(self.player_list, player.name, self.OnRemovePlayerButtonPressed)
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self.frame, height = 50)
@@ -43,6 +43,10 @@ class HomePage(PageBase):
         self.manager.app.club.AddPlayer(player_name)
         while self.input_box.get():
             self.input_box.delete(0)
+        self.ShowPlayerList()
+
+    def OnRemovePlayerButtonPressed(self, player_name):
+        self.manager.app.club.RemovePlayer(player_name)
         self.ShowPlayerList()
     
     def HandleInput(self, input):
