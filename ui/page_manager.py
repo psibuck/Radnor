@@ -39,12 +39,15 @@ class PageManager:
             index += 1
 
     def SwitchPage(self, page_index):
+        prev_page = self.pages[self.page_index]
+
         if page_index < len(self.pages):
             self.page_index = page_index
         
         for widget in self.content_area.winfo_children():
             widget.destroy()
 
+        prev_page.Shutdown()
         page = self.pages[self.page_index]
         page.SetupContent(self.content_area)
 

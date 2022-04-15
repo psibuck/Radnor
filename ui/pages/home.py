@@ -12,7 +12,8 @@ class HomePage(PageBase):
         self.frame = None
         
     def SetupContent(self, frame):
-        self.frame = frame
+        if self.frame == None:
+            self.frame = frame
 
         self.ShowPlayerButtonArea()
         self.ShowPlayerList()
@@ -47,5 +48,12 @@ class HomePage(PageBase):
     
     def HandleInput(self, input):
         return super().HandleInput(input)
-        
+
+    def Shutdown(self):
+        if self.input_box is not None:
+            self.input_box.destroy()
+        self.frame = None
+        if self.player_list is not None:
+            self.player_list.destroy()
+            self.player_list = None     
 
