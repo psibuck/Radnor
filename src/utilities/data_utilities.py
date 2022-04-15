@@ -1,7 +1,7 @@
 
 
 def SaveObjects(file_name, object_list):
-    file_to_write = open(file_name, 'w+')
+    file_to_write = open(file_name, 'w')
 
     for object in object_list:
         object.Save(file_to_write)

@@ -1,5 +1,7 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
+from ui.widgets.object_trading_display import ObjectTradingDisplay
+from ui.widgets.player_entry import PlayerEntry
 
 class HomePage(PageBase):
     
@@ -17,6 +19,7 @@ class HomePage(PageBase):
 
         self.ShowPlayerButtonArea()
         self.ShowPlayerList()
+        self.ShowMatchReportList()
 
     
     def ShowPlayerList(self):
@@ -28,8 +31,10 @@ class HomePage(PageBase):
                 widget.destroy()
 
         for player in self.manager.app.club.players:
-            new_label = Label(self.player_list, text = player.name)
-            new_label.pack(side = TOP)
+            entry = PlayerEntry(self.player_list, player)
+            remove_button = Button(entry.frame, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
+            remove_button.pack(side = RIGHT)
+
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self.frame, height = 50)
@@ -39,11 +44,18 @@ class HomePage(PageBase):
         add_player_button.pack(side = RIGHT)
         add_player_frame.pack()
 
+    def ShowMatchReportList(self):
+        ObjectTradingDisplay(self.manager.app.club.players, self.frame)
+
     def OnAddPlayerButtonPressed(self):
         player_name = self.input_box.get()
         self.manager.app.club.AddPlayer(player_name)
         while self.input_box.get():
             self.input_box.delete(0)
+        self.ShowPlayerList()
+
+    def OnRemovePlayerButtonPressed(self, player_name):
+        self.manager.app.club.RemovePlayer(player_name)
         self.ShowPlayerList()
     
     def HandleInput(self, input):
