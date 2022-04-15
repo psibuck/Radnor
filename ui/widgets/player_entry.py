@@ -2,8 +2,8 @@ from tkinter import Button, Frame, Label, LEFT, RIGHT
 
 class PlayerEntry:
 
-    def __init__(self, owner, player_name):
-        self.name = player_name
+    def __init__(self, owner, player):
+        self.player = player
         self.frame = None
         self.parent = owner
         self.SetupUI()
@@ -12,7 +12,7 @@ class PlayerEntry:
         self.frame = Frame(self.parent)
         self.frame.pack()
 
-        label = Label(self.frame, text = self.name)
+        label = Label(self.frame, text = self.player.name)
         label.pack(side = LEFT)
 
 
