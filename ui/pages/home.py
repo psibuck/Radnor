@@ -1,7 +1,7 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
 from ui.widgets.object_list import ObjectListWidget
-from ui.widgets.object_trading_display import ObjectTradingDisplay
+from ui.widgets.select_team_widget import SelectTeamWidget
 from ui.widgets.player_entry import PlayerEntry
 
 class HomePage(PageBase):
@@ -49,7 +49,7 @@ class HomePage(PageBase):
         add_player_frame.pack()
 
     def ShowMatchReportList(self):
-        ObjectTradingDisplay(self.manager.app.club.players, self.frame)
+        SelectTeamWidget(self.manager.app.club.players, self.frame)
 
     def OnAddPlayerButtonPressed(self):
         player_name = self.input_box.get()
