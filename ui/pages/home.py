@@ -1,5 +1,6 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
+from ui.widgets.object_list import ObjectListWidget
 from ui.widgets.object_trading_display import ObjectTradingDisplay
 from ui.widgets.player_entry import PlayerEntry
 
@@ -10,6 +11,7 @@ class HomePage(PageBase):
         self.name = "Club"
 
         self.input_box = None
+        self.old_player_list = None
         self.player_list = None
         self.frame = None
         
@@ -24,17 +26,19 @@ class HomePage(PageBase):
     
     def ShowPlayerList(self):
         if self.player_list == None:
-            self.player_list = Frame(self.frame)
-            self.player_list.pack(fill=BOTH, expand=YES)
-        else:
-            for widget in self.player_list.winfo_children():
-                widget.destroy()
+            self.player_list = ObjectListWidget(self.frame, "Player List")
+            self.player_list.pack(side=TOP)
 
+        self.player_list.ClearWidgets()
+
+        player_widgets = []
         for player in self.manager.app.club.players:
             entry = PlayerEntry(self.player_list, player)
-            remove_button = Button(entry.frame, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
-            remove_button.pack(side = RIGHT)
+            remove_button = Button(entry, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
+            remove_button.pack(side = LEFT)
+            player_widgets.append(entry)
 
+        self.player_list.Setup(player_widgets)
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self.frame, height = 50)
@@ -65,7 +69,11 @@ class HomePage(PageBase):
         if self.input_box is not None:
             self.input_box.destroy()
         self.frame = None
+        if self.old_player_list is not None:
+            self.old_player_list.destroy()
+            self.old_player_list = None    
+
         if self.player_list is not None:
             self.player_list.destroy()
-            self.player_list = None     
+            self.player_list = None 
 

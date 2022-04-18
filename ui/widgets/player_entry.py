@@ -1,18 +1,15 @@
-from tkinter import Button, Frame, Label, LEFT, RIGHT
+from tkinter import Frame, Label, LEFT
 
-class PlayerEntry:
+class PlayerEntry(Frame):
 
-    def __init__(self, owner, player):
+    def __init__(self, parent, player):
+        Frame.__init__(self, parent)
+
         self.player = player
-        self.frame = None
-        self.parent = owner
         self.SetupUI()
 
     def SetupUI(self):
-        self.frame = Frame(self.parent)
-        self.frame.pack()
-
-        label = Label(self.frame, text = self.player.name)
+        label = Label(self, text = self.player.name)
         label.pack(side = LEFT)
 
 

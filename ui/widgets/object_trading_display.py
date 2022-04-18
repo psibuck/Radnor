@@ -1,24 +1,25 @@
 from tkinter import *
+from ui.widgets.object_list import ObjectListWidget
 
 from ui.widgets.player_entry import PlayerEntry
 
 # an ObjectTradingDisplay is a ui display that allows trading of objects between two lists of objects.
-class ObjectTradingDisplay:
+class ObjectTradingDisplay(Frame):
 
     def __init__(self, object_list, parent):
+        Frame.__init__(self, parent)
+        self.pack()
         self.initial_objects = object_list
         self.selected_objects = []
-        self.frame = Frame(parent)
-        self.frame.pack()
 
-        label = Label(self.frame, text="test")
+        label = Label(self, text="test")
         label.pack()
 
-        self.initial_frame = Frame(self.frame)
-        self.initial_frame.pack(side = LEFT)
+        self.initial_frame = ObjectListWidget(self, "Available Players")
+        self.initial_frame.pack(side = LEFT, anchor=N)
 
-        self.selected_frame = Frame(self.frame)
-        self.selected_frame.pack(side = RIGHT)
+        self.selected_frame = ObjectListWidget(self, "First XI")
+        self.selected_frame.pack(side = RIGHT, anchor=N)
 
         self.SetupObjectLists()
 
@@ -37,17 +38,16 @@ class ObjectTradingDisplay:
             self.SetupObjectLists()
 
     def SetupObjectLists(self):
-        for widget in self.initial_frame.winfo_children():
-            widget.destroy()
-        for widget in self.selected_frame.winfo_children():
-            widget.destroy()
+        self.SetupList(self.initial_frame, self.initial_objects, self.SelectObject, "+")
+        self.SetupList(self.selected_frame, self.selected_objects, self.DeselectObject, "-")
+    
+    def SetupList(self, list, objects, action, button_icon):
+        list.ClearWidgets()
 
-        for entry in self.initial_objects:
-            entry_widget = PlayerEntry(self.initial_frame, entry)
-            select_button = Button(entry_widget.frame, text = "+", command = lambda object = entry: self.SelectObject(object))
+        widgets = []
+        for object in objects:
+            entry_widget = PlayerEntry(list, object)
+            select_button = Button(entry_widget, text = button_icon, command = lambda w = object: action(w))
             select_button.pack(side = RIGHT)
-        
-        for entry in self.selected_objects:
-            entry_widget = PlayerEntry(self.selected_frame, entry)
-            remove_button = Button(entry_widget.frame, text = "X", command = lambda object = entry: self.DeselectObject(object))
-            remove_button.pack(side = RIGHT)
+            widgets.append(entry_widget)
+        list.Setup(widgets)
