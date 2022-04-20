@@ -11,7 +11,8 @@ REPORT_FILE = "/reports.txt"
 
 class Club:
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.players = []
         self.match_reports = []
 
@@ -34,6 +35,8 @@ class Club:
 
 
     def SaveClub(self, folder):
+        if not os.path.exists(folder):
+            os.mkdir(folder)
         SaveObjects(folder + PLAYER_FILE, self.players)
         SaveObjects(folder + REPORT_FILE, self.match_reports)
 

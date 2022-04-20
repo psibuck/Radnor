@@ -6,8 +6,8 @@ from data.file_names import PLAYER_FILE
 class Application:
 
     def __init__(self):
-        self.club = Club()
-        self.club.LoadPlayers(PLAYER_FILE)
+        self.club = Club("Radnor")
+        self.club.Load("data/local/" + self.club.name)
         self.ui = PageManager(self)
         
         self.is_running = True
@@ -19,7 +19,7 @@ class Application:
         return
     
     def Quit(self):
-        app.club.SaveClub(PLAYER_FILE)
+        app.club.SaveClub("data/local/" + app.club.name)
         self.ui.Shutdown()
 
 # Refactor this, consider role of page manager vs app, same thing?
