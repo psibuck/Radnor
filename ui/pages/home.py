@@ -1,7 +1,6 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
 from ui.widgets.object_list import ObjectListWidget
-from ui.widgets.select_team_widget import SelectTeamWidget
 from ui.widgets.player_entry import PlayerEntry
 
 class HomePage(PageBase):
@@ -21,8 +20,6 @@ class HomePage(PageBase):
 
         self.ShowPlayerButtonArea()
         self.ShowPlayerList()
-        self.ShowMatchReportList()
-
     
     def ShowPlayerList(self):
         if self.player_list == None:
@@ -47,9 +44,6 @@ class HomePage(PageBase):
         self.input_box.pack(side = LEFT)
         add_player_button.pack(side = RIGHT)
         add_player_frame.pack()
-
-    def ShowMatchReportList(self):
-        SelectTeamWidget(self.manager.app.club.players, self.frame)
 
     def OnAddPlayerButtonPressed(self):
         player_name = self.input_box.get()

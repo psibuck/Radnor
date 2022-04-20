@@ -1,11 +1,13 @@
 from cgi import test
 import os
 from os.path import exists
+import random
 
 from src.club.club import *
 from src.club.player import Player
+from src.match.match_report import MatchReport
 
-def TEST_create_club_and_add_players(test_file):
+def TEST_create_club_and_add_players(test_folder):
     print("Running create club and add players test")
 
     club_one = Club()
@@ -14,10 +16,10 @@ def TEST_create_club_and_add_players(test_file):
     for player in test_players:
         club_one.AddPlayer(player)
 
-    club_one.SaveClub(test_file)
+    club_one.SaveClub(test_folder)
 
     club_two = Club()
-    club_two.LoadPlayers(test_file)
+    club_two.Load(test_folder)
 
     num_players = len(club_one.players)
     if num_players != len(club_two.players):
@@ -32,21 +34,50 @@ def TEST_create_club_and_add_players(test_file):
             i += 1
     return True
 
-tests = [TEST_create_club_and_add_players]
+def TEST_create_match_report_and_save_and_load(test_folder):
+    print("Running create match report and save and load test")
 
-test_file_name = "test_player_list.txt"
+    club_one = Club()
+    match_report = MatchReport()
+    test_players = ["jack", "steve", "alex", "michael", "peter", "archie", "richard", "thomas", "andrew", "mason", "brad", "phil", "jonny"]
+
+    while len(match_report.starting_lineup) < 11:
+        match_report.AddStarter(random.choice(test_players))
+    while len(match_report.subs) < 5:
+        match_report.AddSub(random.choice(test_players))
+
+    club_one.AddMatchReport(match_report)
+    club_one.SaveClub(test_folder)
+
+    club_two = Club()
+    club_two.Load(test_folder)
+
+    if len(club_two.match_reports) != 1:
+        return False
+
+    report = club_two.match_reports[0]
+    if len(report.starting_lineup) != 11:
+        return False
+    if len(report.subs) != 5:
+        return False
+    
+    return True   
+
+tests = [TEST_create_club_and_add_players, TEST_create_match_report_and_save_and_load]
+
+test_folder_name = "test"
 
 count = 0
 successful = 0
 for test_def in tests:
-    if test_def(test_file_name):
+    if test_def(test_folder_name):
         print(str(test_def.__name__) + " passed")
         successful += 1
     else:
         print(str(test_def.__name__) + " failed")
     count += 1
-    os.remove(test_file_name)
 
 print("we ran " + str(count) + " tests. " + str(successful) + " passes.")
-    
+
+# TODO - clean-up test files    
     
