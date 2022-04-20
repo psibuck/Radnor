@@ -31,7 +31,7 @@ class SelectTeamWidget(Frame):
         self.SetupObjectLists()
 
     def SelectStarter(self, object):
-        if len(self.first_XI < 11):
+        if len(self.first_XI) < 11:
             self.SwapObject(self.available_players, self.first_XI, object)
 
     def SelectSub(self, object):

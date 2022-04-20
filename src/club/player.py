@@ -6,6 +6,8 @@ class Player:
         self.name = ""
         self.is_signed_on = False
 
+        self.matches_played = 0
+
     def __lt__(self, other):
         return self.name.lower() < other.name.lower()
 
