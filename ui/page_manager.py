@@ -1,6 +1,7 @@
 from ui.pages.home import *
 from ui.pages.player_finances import FinancesPage
 from ui.pages.player_stats import StatsPage
+from ui.pages.match_reports import MatchReports
 
 import tkinter as tk
 from tkinter import *
@@ -13,6 +14,7 @@ class PageManager:
         self.pages.append(HomePage(self))
         self.pages.append(StatsPage(self))
         self.pages.append(FinancesPage(self))
+        self.pages.append(MatchReports(self))
         self.root = tk.Tk()
         self.root.geometry("800x600")
         self.root.title("Club Name Here")

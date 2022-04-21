@@ -10,7 +10,7 @@ from src.match.match_report import MatchReport
 def TEST_create_club_and_add_players(test_folder):
     print("Running create club and add players test")
 
-    club_one = Club()
+    club_one = Club(test_folder)
 
     test_players = ["jack", "steve", "alex"]
     for player in test_players:
@@ -18,7 +18,7 @@ def TEST_create_club_and_add_players(test_folder):
 
     club_one.SaveClub(test_folder)
 
-    club_two = Club()
+    club_two = Club(test_folder)
     club_two.Load(test_folder)
 
     num_players = len(club_one.players)
@@ -37,19 +37,19 @@ def TEST_create_club_and_add_players(test_folder):
 def TEST_create_match_report_and_save_and_load(test_folder):
     print("Running create match report and save and load test")
 
-    club_one = Club()
+    club_one = Club(test_folder)
     match_report = MatchReport()
     test_players = ["jack", "steve", "alex", "michael", "peter", "archie", "richard", "thomas", "andrew", "mason", "brad", "phil", "jonny"]
 
     while len(match_report.starting_lineup) < 11:
-        match_report.AddStarter(random.choice(test_players))
+        match_report.AddStarter(Player(random.choice(test_players)))
     while len(match_report.subs) < 5:
-        match_report.AddSub(random.choice(test_players))
+        match_report.AddSub(Player(random.choice(test_players)))
 
     club_one.AddMatchReport(match_report)
     club_one.SaveClub(test_folder)
 
-    club_two = Club()
+    club_two = Club(test_folder)
     club_two.Load(test_folder)
 
     if len(club_two.match_reports) != 1:

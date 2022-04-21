@@ -8,23 +8,23 @@ class MatchReport:
         self.starting_lineup = []
         self.subs = []
 
-    def AddStarter(self, player_name):
+    def AddStarter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
             print("ERROR: Starting lineup is full")
         else:
-            self.starting_lineup.append(player_name)
+            self.starting_lineup.append(player.name)
     
-    def AddSub(self,player_name):
+    def AddSub(self, player):
         if len(self.subs) >= MAX_SUBS:
             print("ERROR: Subs bench is full")
         else:
-            self.subs.append(player_name)
+            self.subs.append(player.name)
 
-    def RemoveStarter(self, player_name):
-        self.starting_lineup.remove(player_name)
+    def RemoveStarter(self, player):
+        self.starting_lineup.remove(player.name)
 
-    def RemoveSub(self, player_name):
-        self.subs.remove(player_name)
+    def RemoveSub(self, player):
+        self.subs.remove(player.name)
         
     def GenListString(self, list):
         string_out = "["

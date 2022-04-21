@@ -45,8 +45,7 @@ class Club:
         self.LoadMatchReports(folder)
 
     def AddPlayer(self, name):
-        new_player = Player()
-        new_player.name = name
+        new_player = Player(name)
         self.players.append(new_player)
         self.players.sort()
     

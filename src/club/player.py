@@ -2,8 +2,8 @@
 
 class Player:
 
-    def __init__(self):
-        self.name = ""
+    def __init__(self, name=""):
+        self.name = name
         self.is_signed_on = False
 
         self.matches_played = 0

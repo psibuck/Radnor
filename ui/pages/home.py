@@ -20,7 +20,7 @@ class HomePage(PageBase):
 
         self.ShowPlayerButtonArea()
         self.ShowPlayerList()
-    
+
     def ShowPlayerList(self):
         if self.player_list == None:
             self.player_list = ObjectListWidget(self.frame, "Player List")
@@ -47,10 +47,11 @@ class HomePage(PageBase):
 
     def OnAddPlayerButtonPressed(self):
         player_name = self.input_box.get()
-        self.manager.app.club.AddPlayer(player_name)
-        while self.input_box.get():
-            self.input_box.delete(0)
-        self.ShowPlayerList()
+        if len(player_name) > 0:
+            self.manager.app.club.AddPlayer(player_name)
+            while self.input_box.get():
+                self.input_box.delete(0)
+            self.ShowPlayerList()
 
     def OnRemovePlayerButtonPressed(self, player_name):
         self.manager.app.club.RemovePlayer(player_name)

@@ -9,3 +9,6 @@ class PageBase:
         label = Label(frame, text="unimplemented page")
         label.pack()
         return 
+
+    def Shutdown(self):
+        return

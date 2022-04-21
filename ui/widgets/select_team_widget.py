@@ -15,7 +15,7 @@ class SelectTeamWidget(Frame):
     def __init__(self, available_players, parent):
         Frame.__init__(self, parent)
         self.pack()
-        self.available_players = available_players
+        self.available_players = available_players[:]
         self.first_XI = []
         self.subs = []
 
