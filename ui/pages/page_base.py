@@ -1,14 +1,18 @@
 from tkinter import Label
+from tkinter import Frame
 
-class PageBase:
+class PageBase(Frame):
+    name = "No name provided"
+    
+    def __init__(self, root, app):
+        Frame.__init__(self, root)
+        self.club = app.club
 
-    def __init__(self, manager):
-        self.manager = manager
-
-    def SetupContent(self, frame):
-        label = Label(frame, text="unimplemented page")
+    def SetupContent(self):
+        label = Label(self, text="unimplemented page")
         label.pack()
         return 
 
     def Shutdown(self):
-        return
+        for widget in self.winfo_children():
+            widget.destroy()

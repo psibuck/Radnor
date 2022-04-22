@@ -7,27 +7,24 @@ from tkinter import Button, Frame, Label, BOTTOM, TOP
 
 class MatchReports(PageBase):
     
-    def __init__(self, manager):
-        super().__init__(manager)
+    def __init__(self, root, app):
+        super().__init__(root, app)
         self.name = "Matches"
-        self.frame = None
         self.save_button =  None
         self.match_report_widget = None
 
-    def SetupContent(self, frame):
-        if self.frame == None:
-            self.frame = frame
-        self.save_button = Button(self.frame, text = "Save", command = self.HandleSaveClicked)
-        self.add_button = Button(self.frame, text = "+", command = self.HandleAddButtonPressed)
-        self.match_report_space = Frame(self.frame)
+    def SetupContent(self):
+        self.save_button = Button(self, text = "Save", command = self.HandleSaveClicked)
+        self.add_button = Button(self, text = "+", command = self.HandleAddButtonPressed)
+        self.match_report_space = Frame(self)
         self.match_report_space.pack(side = TOP)
 
         self.ShowMatchReportList()
 
     def ShowMatchReportList(self):
         count = 0
-        for match_report in self.manager.app.club.match_reports:
-            label = Label(self.frame, text = match_report.subs[0])
+        for match_report in self.club.match_reports:
+            label = Label(self, text = match_report.subs[0])
             #label.grid(row=count, column=1)
             label.pack()
             count += 1
@@ -42,7 +39,7 @@ class MatchReports(PageBase):
             new_report.AddStarter(player)
         for sub in self.match_report_widget.subs:
             new_report.AddSub(sub)
-        self.manager.app.club.match_reports.append(new_report)
+        self.club.match_reports.append(new_report)
 
         for widget in self.match_report_space.winfo_children():
             widget.destroy()
@@ -51,7 +48,7 @@ class MatchReports(PageBase):
 
     
     def HandleAddButtonPressed(self):   
-        self.match_report_widget = SelectTeamWidget(self.manager.app.club.players, self.match_report_space)
+        self.match_report_widget = SelectTeamWidget(self.club.players, self.match_report_space)
         self.save_button.pack(side = BOTTOM)
         self.add_button.pack_forget()
 

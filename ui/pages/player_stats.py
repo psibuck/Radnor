@@ -3,16 +3,12 @@ from ui.widgets.select_team_widget import SelectTeamWidget
 
 class StatsPage(PageBase):
     
-    def __init__(self, manager):
-        super().__init__(manager)
+    def __init__(self, root, app):
+        super().__init__(root, app)
         self.name = "stats"
-        self.frame = None
 
-    def SetupContent(self, frame):
-        if self.frame == None:
-            self.frame = frame
-
+    def SetupContent(self):
         self.ShowMatchReportList()
 
     def ShowMatchReportList(self):
-        SelectTeamWidget(self.manager.app.club.players, self.frame)
+        SelectTeamWidget(self.club.players, self)

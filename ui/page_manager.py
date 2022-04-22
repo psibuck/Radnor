@@ -1,3 +1,4 @@
+from re import I
 from ui.pages.home import *
 from ui.pages.player_finances import FinancesPage
 from ui.pages.player_stats import StatsPage
@@ -9,26 +10,23 @@ from tkinter import *
 class PageManager:
 
     def __init__(self, app):
-        self.page_index = 0
-        self.pages = []
-        self.pages.append(HomePage(self))
-        self.pages.append(StatsPage(self))
-        self.pages.append(FinancesPage(self))
-        self.pages.append(MatchReports(self))
         self.root = tk.Tk()
+        self.app = app
+
+        self.current_page = None
+        self.pages = []
+        self.pages.append(HomePage)
+        self.pages.append(StatsPage)
+        self.pages.append(FinancesPage)
+        self.pages.append(MatchReports)
         self.root.geometry("800x600")
         self.root.title("Club Name Here")
         self.root.protocol("WM_DELETE_WINDOW", self.CloseRequested)
-        self.app = app
 
-        self.SetupTabs()
-
+        self.SetupTabs()  
         self.content_area = tk.Frame(self.root)
-        self.content_area.pack(fill=BOTH, expand=YES)
-        
-        button = Button(self.content_area, text = "test")
-        button.pack(fill=BOTH, expand = YES)
-        self.SwitchPage(self.page_index)
+        self.content_area.pack(fill=BOTH, expand=YES)      
+        self.SwitchPage(0)
 
     def SetupTabs(self):
         frame = tk.Frame(self.root, height=50)
@@ -41,17 +39,17 @@ class PageManager:
             index += 1
 
     def SwitchPage(self, page_index):
-        prev_page = self.pages[self.page_index]
-
         if page_index < len(self.pages):
-            self.page_index = page_index
         
-        for widget in self.content_area.winfo_children():
-            widget.destroy()
+            if self.current_page != None:
+                self.current_page.Shutdown()
 
-        prev_page.Shutdown()
-        page = self.pages[self.page_index]
-        page.SetupContent(self.content_area)
+            for widget in self.content_area.winfo_children():
+                widget.destroy()
+ 
+            self.current_page = self.pages[page_index](self.content_area, self.app)
+            self.current_page.SetupContent()
+            self.current_page.pack()
 
     def Draw(self):
         self.root.mainloop()
