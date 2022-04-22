@@ -33,7 +33,6 @@ class Club:
                     new_report.Load(report_data)
                     self.AddMatchReport(new_report)
 
-
     def SaveClub(self, folder):
         if not os.path.exists(folder):
             os.mkdir(folder)
@@ -43,6 +42,8 @@ class Club:
     def Load(self, folder):
         self.LoadPlayers(folder)
         self.LoadMatchReports(folder)
+
+        self.ProcessMatchReports()
 
     def AddPlayer(self, name):
         new_player = Player(name)
@@ -59,4 +60,13 @@ class Club:
                 break
         self.players.sort()
 
-
+    def ProcessMatchReports(self):
+        for report in self.match_reports:
+            for starter in report.starting_lineup:
+                for player in self.players:
+                    if player.name == starter:
+                        player.matches_started += 1
+            for sub in report.subs:
+                for player in self.players:
+                    if player.name == sub:
+                        player.matches_as_sub += 1

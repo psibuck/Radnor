@@ -12,7 +12,7 @@ class PlayerEntry(Frame):
         label = Label(self, text = self.player.name)
         label.pack(side = LEFT)
 
-        mp_label = Label(self, text = str(self.player.matches_played))
+        mp_label = Label(self, text = str(self.player.GetAppearances()))
         mp_label.pack(side = LEFT)
 
 

@@ -6,7 +6,8 @@ class Player:
         self.name = name
         self.is_signed_on = False
 
-        self.matches_played = 0
+        self.matches_started = 0
+        self.matches_as_sub = 0
 
     def __lt__(self, other):
         return self.name.lower() < other.name.lower()
@@ -20,4 +21,7 @@ class Player:
     def Load(self, file_data):
         self.name = file_data[0]
         return
+
+    def GetAppearances(self):
+        return str(self.matches_started) + "(" + str(self.matches_as_sub) + ")"
 
