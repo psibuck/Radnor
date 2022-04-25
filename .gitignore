@@ -2,3 +2,5 @@
 *.pyc
 data/local
 test/
+build/
+main.spec
