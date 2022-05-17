@@ -6,6 +6,7 @@ from ui.widgets.select_team_widget import SelectTeamWidget
 from tkinter import Button, Frame, Label, BOTTOM, TOP
 
 class MatchReports(PageBase):
+    name = "Matches"
     
     def __init__(self, root, app):
         super().__init__(root, app)

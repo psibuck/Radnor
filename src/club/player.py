@@ -12,6 +12,9 @@ class Player:
     def __lt__(self, other):
         return self.name.lower() < other.name.lower()
 
+    def __str__(self) -> str:
+        return self.name
+
     # TO-DO Make this JSON
     def Save(self, file):
         file.write(self.name + "\n")

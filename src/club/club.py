@@ -4,10 +4,14 @@ from os.path import exists
 
 from src.club.player import Player
 from src.match.match_report import MatchReport
+from src.club.training_report import TrainingReport
+from src.club.training_venue import TrainingVenue
 from src.utilities.data_utilities import *
 
 PLAYER_FILE = "/players.txt"
-REPORT_FILE = "/reports.txt"
+MATCH_REPORTS_FILE = "/match_reports.txt"
+TRAINING_REPORTS_FILE = "/training_reports.txt"
+TRAINING_VENUES_FILE = "/training_venues.txt"
 
 class Club:
 
@@ -15,7 +19,19 @@ class Club:
         self.name = name
         self.players = []
         self.match_reports = []
+        self.training_reports = []
+        self.training_venues = []
 
+    def LoadContent(self, folder, content_class, file):
+        content_out = []
+        if os.path.exists(folder + file):
+            with open(folder + file, "r") as source:
+                for data in source:
+                    loaded_content = content_class()
+                    loaded_content.Load(data)
+                    content_out.append(loaded_content)
+        return content_out
+            
     def LoadPlayers(self, folder):
         if os.path.exists(folder + PLAYER_FILE):
             with open(folder + PLAYER_FILE, "r") as source:
@@ -23,25 +39,30 @@ class Club:
                     loaded_player = Player()
                     loaded_player.Load(ProcessData(player_data))
                     self.players.append(loaded_player)
-        self.players.sort()
         
     def LoadMatchReports(self, folder):
-        if os.path.exists(folder + REPORT_FILE):
-            with open(folder + REPORT_FILE) as source:
+        if os.path.exists(folder + MATCH_REPORTS_FILE):
+            with open(folder + MATCH_REPORTS_FILE) as source:
                 for report_data in source:
                     new_report = MatchReport()
                     new_report.Load(report_data)
                     self.AddMatchReport(new_report)
 
+
     def SaveClub(self, folder):
         if not os.path.exists(folder):
             os.mkdir(folder)
         SaveObjects(folder + PLAYER_FILE, self.players)
-        SaveObjects(folder + REPORT_FILE, self.match_reports)
+        SaveObjects(folder + MATCH_REPORTS_FILE, self.match_reports)
+        SaveObjects(folder + TRAINING_REPORTS_FILE, self.training_reports)
+        SaveObjects(folder + TRAINING_VENUES_FILE, self.training_venues)
 
     def Load(self, folder):
+        # ordering matteres here
         self.LoadPlayers(folder)
-        self.LoadMatchReports(folder)
+        self.match_reports = self.LoadContent(folder, MatchReport, MATCH_REPORTS_FILE)
+        self.training_venues = self.LoadContent(folder, TrainingVenue, TRAINING_VENUES_FILE)
+        self.training_reports = self.LoadContent(folder, TrainingReport, TRAINING_REPORTS_FILE)
 
         self.ProcessMatchReports()
 

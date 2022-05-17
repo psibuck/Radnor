@@ -1,3 +1,5 @@
+from src.utilities.data_utilities import GenerateListString
+
 MAX_PLAYERS = 11
 MAX_SUBS = 5
 
@@ -26,23 +28,10 @@ class MatchReport:
     def RemoveSub(self, player):
         self.subs.remove(player.name)
         
-    def GenListString(self, list):
-        string_out = "["
-        initial = True
-        for entry in list:
-            if not initial:
-                string_out += ","
-            else:
-                initial = False
-            
-            string_out += entry
-        string_out += "]"
-        return string_out
-
     # TO-DO Make this JSON
     def Save(self, file):
-        starters = self.GenListString(self.starting_lineup)
-        subs = self.GenListString(self.subs)
+        starters = GenerateListString(self.starting_lineup)
+        subs = GenerateListString(self.subs)
         file.write(starters + ";" + subs)
 
     # TO-DO Make this Json
