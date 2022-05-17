@@ -1,4 +1,3 @@
-from difflib import Match
 from src.match.match_report import MatchReport
 
 from ui.pages.page_base import PageBase

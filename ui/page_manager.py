@@ -3,9 +3,11 @@ from ui.pages.home import *
 from ui.pages.player_finances import FinancesPage
 from ui.pages.player_stats import StatsPage
 from ui.pages.match_reports import MatchReports
+from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
 from tkinter import *
+
 
 class PageManager:
 
@@ -16,9 +18,8 @@ class PageManager:
         self.current_page = None
         self.pages = []
         self.pages.append(HomePage)
-        self.pages.append(StatsPage)
-        self.pages.append(FinancesPage)
         self.pages.append(MatchReports)
+        self.pages.append(TrainingReports)
         self.root.geometry("800x600")
         self.root.title("Club Name Here")
         self.root.protocol("WM_DELETE_WINDOW", self.CloseRequested)
@@ -49,7 +50,7 @@ class PageManager:
  
             self.current_page = self.pages[page_index](self.content_area, self.app)
             self.current_page.SetupContent()
-            self.current_page.pack()
+            self.current_page.pack(fill=BOTH)
 
     def Draw(self):
         self.root.mainloop()
