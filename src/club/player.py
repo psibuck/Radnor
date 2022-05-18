@@ -9,6 +9,8 @@ class Player:
         self.matches_started = 0
         self.matches_as_sub = 0
 
+        self.training_attendance = 0
+
     def __lt__(self, other):
         return self.name.lower() < other.name.lower()
 

@@ -25,14 +25,31 @@ class HomePage(PageBase):
     def RefreshPlayerList(self):
         self.player_list.ClearWidgets()
 
-        player_widgets = []
-        for player in self.club.players:
-            entry = PlayerEntry(self.player_list, player)
-            remove_button = Button(entry, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
-            remove_button.pack(side = LEFT)
-            player_widgets.append(entry)
+        column = 0
+        headers = ["name", "starts(sub)", "training", "controls"]
+        for header in headers:
+            new_header = Label(self.player_list, text=header)
+            new_header.grid(row=0, column=column)
+            column += 1
 
-        self.player_list.Setup(player_widgets)
+        add_field = lambda title, row, column, frame : Label(frame, text=title).grid(row=row, column=column)
+        
+        row = 1
+        for player in self.club.players:
+            column = 0
+
+            add_field(player.name, row, column, self.player_list)
+            column += 1
+            add_field(player.GetAppearances(), row, column, self.player_list)
+            column += 1
+            add_field(player.training_attendance, row, column, self.player_list)
+            column += 1
+
+            remove_button = Button(self.player_list, text = "X", command = lambda: self.OnRemovePlayerButtonPressed(player.name))
+            remove_button.grid(row=row, column=column)
+
+            row += 1
+
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self, height = 50)

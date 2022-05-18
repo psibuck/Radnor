@@ -58,13 +58,14 @@ class Club:
         SaveObjects(folder + TRAINING_VENUES_FILE, self.training_venues)
 
     def Load(self, folder):
-        # ordering matteres here
+        # ordering matters here
         self.LoadPlayers(folder)
         self.match_reports = self.LoadContent(folder, MatchReport, MATCH_REPORTS_FILE)
         self.training_venues = self.LoadContent(folder, TrainingVenue, TRAINING_VENUES_FILE)
         self.training_reports = self.LoadContent(folder, TrainingReport, TRAINING_REPORTS_FILE)
 
         self.ProcessMatchReports()
+        self.ProcessTrainingReports()
 
     def AddPlayer(self, name):
         new_player = Player(name)
@@ -91,3 +92,8 @@ class Club:
                 for player in self.players:
                     if player.name == sub:
                         player.matches_as_sub += 1
+
+    def ProcessTrainingReports(self):
+        return
+
+        
