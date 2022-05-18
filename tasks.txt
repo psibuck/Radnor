@@ -1,0 +1,7 @@
+Project
+- fix the continous integration to actually run the tests
+
+
+TrainingReport
+- add the ability to add training sessions
+- ability to remove venues and remove training sessions
