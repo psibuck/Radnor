@@ -5,13 +5,12 @@ Project
 
 TrainingReport
 - add the ability to add training sessions
-    - add players to training sessions
+    - add players to training sessions (DONE)
     - select venues from dropdown
-- ability to remove venues and remove training sessions
+- ability to remove venues
+- remove training sessions
 
 Players
-- add training attendance to player attributes
-- add column headers to home screen and make it a grid(table)
 - fix bug where the player reports don't update on home when you make changes
 
 UI

@@ -1,6 +1,9 @@
 from tkinter import *
+from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
+
+import random
 
 class TrainingReports(PageBase):
     name = "Training"
@@ -10,6 +13,7 @@ class TrainingReports(PageBase):
         self.venue_frame = None
         self.training_list_frame = None
         self.creator_space = None
+        self.trained_players = []
 
     def SetupContent(self):
         self.grid_columnconfigure(0, weight = 1)
@@ -74,11 +78,33 @@ class TrainingReports(PageBase):
     def AddTrainingButtonPressed(self):
         self.ClearCreatorSpace()
 
+        self.training_checkboxes = []
+        row = 0
+        for player in self.club.players:
+            select_button = Checkbutton(self.creator_space, text=player.name, command= lambda name = player.name : self.SelectPlayer(name))
+            select_button.grid(row=row, column=0)
+            self.training_checkboxes.append(select_button)        
+            row += 1
+        
+        save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
+        save_button.grid(row=0, column=1)
+
         #https://stackoverflow.com/questions/45441885/how-can-i-create-a-dropdown-menu-from-a-list-in-tkinter
 
-    
-    def AddTrainingSession(self, players):
-        return
+    def SelectPlayer(self, player_name):
+        if player_name in self.trained_players:
+            self.trained_players.remove(player_name)
+        else:
+            self.trained_players.append(player_name)
+
+    def AddTrainingSession(self):
+        new_report = TrainingReport()
+        new_report.attendees = self.trained_players
+        new_report.venue = random.choice(self.club.training_venues)
+        self.club.training_reports.append(new_report)
+        self.trained_players = []
+        self.SetupTrainingSpace()
+        self.ClearCreatorSpace()
 
     def AddVenue(self, venue_name, venue_cost):
         self.ClearCreatorSpace()
@@ -93,6 +119,9 @@ class TrainingReports(PageBase):
         new_header.grid(row=0, column=column)
 
     def SetupTrainingSpace(self):
+        for widget in self.training_list_frame.winfo_children():
+            widget.destroy()
+
         training_list_label = Label(self.training_list_frame, text="Training Sessions")
         training_list_label.pack(side = TOP)
 
@@ -114,6 +143,9 @@ class TrainingReports(PageBase):
             label = Label(training_list, text=report.venue.name)
             label.grid(row = row, column = 1)
             row += 1
+
+        add_training_button = Button(training_list, text="+", command=self.AddTrainingButtonPressed)
+        add_training_button.grid(row=row, column=0)
 
     def ClearCreatorSpace(self):
         for widget in self.creator_space.winfo_children():
