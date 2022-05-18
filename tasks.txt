@@ -1,7 +1,22 @@
 Project
 - fix the continous integration to actually run the tests
-
+- read and load Json instead of text files
+- consider iteration cost of iterating match reports/training reports/ players on load
 
 TrainingReport
 - add the ability to add training sessions
+    - add players to training sessions
+    - select venues from dropdown
 - ability to remove venues and remove training sessions
+
+Players
+- add training attendance to player attributes
+- add column headers to home screen and make it a grid(table)
+- fix bug where the player reports don't update on home when you make changes
+
+UI
+- Table class?
+    - takes header list and object properties
+- date input?
+- value of ObjectListWidget?
+
