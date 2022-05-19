@@ -5,7 +5,6 @@ Project
 
 TrainingReport
 - add the ability to add training sessions
-    - add players to training sessions (DONE)
     - select venues from dropdown
 - ability to remove venues
 - remove training sessions

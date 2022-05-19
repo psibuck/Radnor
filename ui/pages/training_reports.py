@@ -15,6 +15,7 @@ class TrainingReports(PageBase):
         self.training_list_frame = None
         self.creator_space = None
         self.trained_players = []
+        self.selected_venue = StringVar()
 
     def SetupContent(self):
         self.grid_columnconfigure(0, weight = 1)
@@ -82,10 +83,15 @@ class TrainingReports(PageBase):
             self.training_checkboxes.append(select_button)        
             row += 1
         
-        save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
-        save_button.grid(row=0, column=1)
+        venue_names = []
+        for venue in self.club.training_venues:
+            venue_names.append(venue.name)
+        self.selected_venue.set(venue_names[0])
+        venue_dropdown = OptionMenu(self.creator_space, self.selected_venue, *venue_names)
+        venue_dropdown.grid(row=0, column=1)
 
-        #https://stackoverflow.com/questions/45441885/how-can-i-create-a-dropdown-menu-from-a-list-in-tkinter
+        save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
+        save_button.grid(row=0, column=2)
 
     def SelectPlayer(self, player_name):
         if player_name in self.trained_players:
@@ -96,6 +102,11 @@ class TrainingReports(PageBase):
     def AddTrainingSession(self):
         new_report = TrainingReport()
         new_report.attendees = self.trained_players
+
+        for venue in self.club.training_venues:
+            if venue.name == self.selected_venue.get():
+                new_report.venue = venue
+                break
         new_report.venue = random.choice(self.club.training_venues)
         self.club.AddTrainingReport(new_report)
         self.trained_players = []
