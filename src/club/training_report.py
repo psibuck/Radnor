@@ -44,5 +44,8 @@ class TrainingReport:
             return False
 
         return True
+
+    def GetNumAttendees(self):
+        return len(self.attendees)
         
         

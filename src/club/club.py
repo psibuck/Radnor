@@ -80,11 +80,8 @@ class Club:
         self.training_reports.append(report)
         self.ProcessTrainingReport(report)
 
-    def RemovePlayer(self, name):
-        for player in self.players:
-            if player.name == name:
-                self.players.remove(player)
-                break
+    def RemovePlayer(self, player):
+        self.players.remove(player)
         self.players.sort()
 
     def ProcessMatchReports(self):

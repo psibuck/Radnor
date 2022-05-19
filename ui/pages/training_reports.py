@@ -3,7 +3,7 @@ from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
-from ui.widgets.title import Title
+from ui.widgets.labels import Title
 
 import random
 
@@ -139,30 +139,15 @@ class TrainingReports(PageBase):
         training_list_label = Title(self.training_list_frame, text="Training Sessions")
         training_list_label.pack(side = TOP)
 
-        training_list = Frame(self.training_list_frame)
-        training_list.pack(side=TOP)
-
-        row = 0
-        column = 0
-        
-        self.AddHeader(training_list, "Num Attendees", column)
-        column += 1
-        self.AddHeader(training_list, "Venue", column)
-
-        row += 1
+        training_table = Table(self.training_list_frame, remove_func = self.RemoveTrainingReport)
+        columns = [TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
+        training_table.AddColumns(columns)
         for report in self.club.training_reports:
-            num_attendees = Label(training_list, text=str(len(report.attendees)))
-            num_attendees.grid(row=row, column = 0)
+            training_table.AddObject(report)
+        training_table.pack(side=TOP)
 
-            label = Label(training_list, text=report.venue.name)
-            label.grid(row = row, column = 1)
-
-            remove_button = Button(training_list, text="X", command = lambda report = report : self.RemoveTrainingReport(report))
-            remove_button.grid(row=row, column = 2)
-            row += 1
-
-        add_training_button = Button(training_list, text="+", command=self.AddTrainingButtonPressed)
-        add_training_button.grid(row=row, column=0)
+        add_training_button = Button(self.training_list_frame, text="+", command=self.AddTrainingButtonPressed)
+        add_training_button.pack(side=TOP)
 
     def ClearCreatorSpace(self):
         for widget in self.creator_space.winfo_children():

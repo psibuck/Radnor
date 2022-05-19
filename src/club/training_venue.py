@@ -9,6 +9,9 @@ class TrainingVenue:
     def __eq__(self, other):
         return self.name == other.name and self.cost == other.cost
 
+    def __str__(self):
+        return self.name
+        
     def Save(self, file):
         file.write(self.Stringify() + "\n")
 
