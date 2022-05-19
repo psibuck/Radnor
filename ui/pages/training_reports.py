@@ -97,7 +97,7 @@ class TrainingReports(PageBase):
         new_report = TrainingReport()
         new_report.attendees = self.trained_players
         new_report.venue = random.choice(self.club.training_venues)
-        self.club.training_reports.append(new_report)
+        self.club.AddTrainingReport(new_report)
         self.trained_players = []
         self.SetupTrainingSpace()
         self.ClearCreatorSpace()

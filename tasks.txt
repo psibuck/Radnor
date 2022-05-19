@@ -10,12 +10,9 @@ TrainingReport
 - ability to remove venues
 - remove training sessions
 
-Players
-- fix bug where the player reports don't update on home when you make changes
-
 UI
-- Table class? (DONE)
-    - takes header list and object properties
 - date input?
 - value of ObjectListWidget?
 
+BUGS
+- bug reading match reports in

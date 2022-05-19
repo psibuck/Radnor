@@ -18,9 +18,9 @@ class Club:
     def __init__(self, name):
         self.name = name
         self.players = []
-        self.match_reports = []
-        self.training_reports = []
-        self.training_venues = []
+        self.match_reports = list[MatchReport]
+        self.training_reports = list[TrainingReport]
+        self.training_venues = list[TrainingVenue]
 
     def LoadContent(self, folder, content_class, file):
         content_out = []
@@ -74,6 +74,11 @@ class Club:
     
     def AddMatchReport(self, report):
         self.match_reports.append(report)
+        self.ProcessMatchReport(report)
+
+    def AddTrainingReport(self, report):
+        self.training_reports.append(report)
+        self.ProcessTrainingReport(report)
 
     def RemovePlayer(self, name):
         for player in self.players:
@@ -84,16 +89,26 @@ class Club:
 
     def ProcessMatchReports(self):
         for report in self.match_reports:
-            for starter in report.starting_lineup:
-                for player in self.players:
-                    if player.name == starter:
-                        player.matches_started += 1
-            for sub in report.subs:
-                for player in self.players:
-                    if player.name == sub:
-                        player.matches_as_sub += 1
+            self.ProcessMatchReport(report)
+    
+    def ProcessMatchReport(self, report):
+        for starter in report.starting_lineup:
+            for player in self.players:
+                if player.name == starter:
+                    player.matches_started += 1
+        for sub in report.subs:
+            for player in self.players:
+                if player.name == sub:
+                    player.matches_as_sub += 1
+
+    def ProcessTrainingReport(self, report):
+        for attendee in report.attendees:
+            for player in self.players:
+                if player.name == attendee:
+                    player.training_attendance += 1
 
     def ProcessTrainingReports(self):
-        return
+        for report in self.training_reports:
+            self.ProcessTrainingReport(report)
 
         

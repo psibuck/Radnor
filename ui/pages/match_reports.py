@@ -39,7 +39,7 @@ class MatchReports(PageBase):
             new_report.AddStarter(player)
         for sub in self.match_report_widget.subs:
             new_report.AddSub(sub)
-        self.club.match_reports.append(new_report)
+        self.club.AddMatchReport(new_report)
 
         for widget in self.match_report_space.winfo_children():
             widget.destroy()
