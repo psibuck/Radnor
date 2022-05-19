@@ -3,6 +3,7 @@ from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
+from ui.widgets.title import Title
 
 import random
 
@@ -20,6 +21,7 @@ class TrainingReports(PageBase):
     def SetupContent(self):
         self.grid_columnconfigure(0, weight = 1)
         self.grid_columnconfigure(1, weight = 1)
+        self.grid_columnconfigure(2, weight = 3)
         self.grid_rowconfigure(0, weight = 1)
 
         self.venue_frame = Frame(self, bg = "red")
@@ -29,7 +31,7 @@ class TrainingReports(PageBase):
         self.training_list_frame.grid(row = 0, column = 1, sticky = "nesw")
         
         self.creator_space = Frame(self, bg="black")
-        self.creator_space.grid(row=1, columnspan=2, sticky = "nesw")
+        self.creator_space.grid(row=0, column=2, sticky = "nesw")
         
         venue_label = Label(self.creator_space, text="Creator")
         venue_label.pack(side = TOP)
@@ -41,10 +43,10 @@ class TrainingReports(PageBase):
         for widget in self.venue_frame.winfo_children():
             widget.destroy()
 
-        venue_label = Label(self.venue_frame, text="Venues")
+        venue_label = Title(self.venue_frame, "Venues")
         venue_label.pack(side = TOP)
 
-        venue_table = Table(self.venue_frame)
+        venue_table = Table(self.venue_frame, self.RemoveVenue)
         venue_table.pack(side = TOP)
         columns = [TableColumn("Name", "name"), TableColumn("Cost", "cost")]
         venue_table.AddColumns(columns)
@@ -54,6 +56,11 @@ class TrainingReports(PageBase):
 
         add_venue_button = Button(self.venue_frame, text="+", command=self.AddVenueButtonPressed)
         add_venue_button.pack(side = TOP)
+
+    def RemoveVenue(self, venue):
+        self.ClearCreatorSpace()
+        self.club.training_venues.remove(venue)
+        self.SetupVenueSpace()
 
     def AddVenueButtonPressed(self):
         self.ClearCreatorSpace()
@@ -79,7 +86,7 @@ class TrainingReports(PageBase):
         row = 0
         for player in self.club.players:
             select_button = Checkbutton(self.creator_space, text=player.name, command= lambda name = player.name : self.SelectPlayer(name))
-            select_button.grid(row=row, column=0)
+            select_button.grid(row=row, column=0, sticky=W)
             self.training_checkboxes.append(select_button)        
             row += 1
         
@@ -129,7 +136,7 @@ class TrainingReports(PageBase):
         for widget in self.training_list_frame.winfo_children():
             widget.destroy()
 
-        training_list_label = Label(self.training_list_frame, text="Training Sessions")
+        training_list_label = Title(self.training_list_frame, text="Training Sessions")
         training_list_label.pack(side = TOP)
 
         training_list = Frame(self.training_list_frame)
@@ -149,6 +156,9 @@ class TrainingReports(PageBase):
 
             label = Label(training_list, text=report.venue.name)
             label.grid(row = row, column = 1)
+
+            remove_button = Button(training_list, text="X", command = lambda report = report : self.RemoveTrainingReport(report))
+            remove_button.grid(row=row, column = 2)
             row += 1
 
         add_training_button = Button(training_list, text="+", command=self.AddTrainingButtonPressed)
@@ -157,3 +167,8 @@ class TrainingReports(PageBase):
     def ClearCreatorSpace(self):
         for widget in self.creator_space.winfo_children():
             widget.destroy()
+
+    def RemoveTrainingReport(self, report):
+        self.ClearCreatorSpace()
+        self.club.training_reports.remove(report)
+        self.SetupTrainingSpace()

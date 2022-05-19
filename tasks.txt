@@ -3,12 +3,6 @@ Project
 - read and load Json instead of text files
 - consider iteration cost of iterating match reports/training reports/ players on load
 
-TrainingReport
-- add the ability to add training sessions
-    - select venues from dropdown
-- ability to remove venues
-- remove training sessions
-
 UI
 - date input?
 - value of ObjectListWidget?

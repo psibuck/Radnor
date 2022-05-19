@@ -1,4 +1,4 @@
-from tkinter import Frame, Label
+from tkinter import Button, Frame, Label
 
 class TableColumn:
 
@@ -8,10 +8,11 @@ class TableColumn:
 
 class Table(Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, remove_func=None):
         Frame.__init__(self, parent)
         self.row = 1
         self.columns = list[TableColumn]
+        self.remove_func = remove_func
 
     def AddColumns(self, columns: list[TableColumn]):
         self.columns = columns
@@ -32,4 +33,7 @@ class Table(Frame):
                 new_entry = Label(self, text=str(getattr(object, property_name)))
                 new_entry.grid(row = self.row, column = col)
                 col += 1
+        if self.remove_func is not None:
+            remove_button = Button(self, text="X", command= lambda object=object : self.remove_func(object))
+            remove_button.grid(row=self.row, column=col)
         self.row += 1
