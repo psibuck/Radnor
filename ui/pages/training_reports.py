@@ -2,6 +2,7 @@ from tkinter import *
 from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
+from ui.widgets.table import Table, TableColumn
 
 import random
 
@@ -42,21 +43,16 @@ class TrainingReports(PageBase):
         venue_label = Label(self.venue_frame, text="Venues")
         venue_label.pack(side = TOP)
 
-        venue_space = Frame(self.venue_frame)
-        venue_space.pack(side=TOP)
+        venue_table = Table(self.venue_frame)
+        venue_table.pack(side = TOP)
+        columns = [TableColumn("Name", "name"), TableColumn("Cost", "cost")]
+        venue_table.AddColumns(columns)
 
-        row = 0
         for venue in self.club.training_venues:
-            venue_name = Label(venue_space, text=venue.name)
-            venue_name.grid(row=row, column=0)
+            venue_table.AddObject(venue)
 
-            venue_cost_string = "£" + str(venue.cost)
-            venue_cost = Label(venue_space, text=venue_cost_string)
-            venue_cost.grid(row=row, column=1)
-            row += 1
-
-        add_venue_button = Button(venue_space, text="+", command=self.AddVenueButtonPressed)
-        add_venue_button.grid(row=row+2, column = 0, columnspan=2)
+        add_venue_button = Button(self.venue_frame, text="+", command=self.AddVenueButtonPressed)
+        add_venue_button.pack(side = TOP)
 
     def AddVenueButtonPressed(self):
         self.ClearCreatorSpace()

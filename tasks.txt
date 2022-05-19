@@ -14,7 +14,7 @@ Players
 - fix bug where the player reports don't update on home when you make changes
 
 UI
-- Table class?
+- Table class? (DONE)
     - takes header list and object properties
 - date input?
 - value of ObjectListWidget?
