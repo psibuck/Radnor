@@ -1,5 +1,5 @@
 from multiprocessing.dummy import Process
-import os
+import os, json
 from os.path import exists
 
 from src.club.player import Player
@@ -8,19 +8,22 @@ from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from src.utilities.data_utilities import *
 
-PLAYER_FILE = "/players.txt"
-MATCH_REPORTS_FILE = "/match_reports.txt"
-TRAINING_REPORTS_FILE = "/training_reports.txt"
-TRAINING_VENUES_FILE = "/training_venues.txt"
+PLAYER_FILE = "/players.json"
+MATCH_REPORTS_FILE = "/match_reports.json"
+TRAINING_REPORTS_FILE = "/training_reports.json"
+TRAINING_VENUES_FILE = "/training_venues.json"
 
 class Club:
 
     def __init__(self, name):
         self.name = name
+
+        # Before these were explicit to avoid adding incorrect objects
+        # investigate why this fails in load from json
         self.players = []
-        self.match_reports = list[MatchReport]
-        self.training_reports = list[TrainingReport]
-        self.training_venues = list[TrainingVenue]
+        self.match_reports = []
+        self.training_reports = []
+        self.training_venues = []
 
     def LoadContent(self, folder, content_class, file):
         content_out = []
@@ -52,17 +55,16 @@ class Club:
     def SaveClub(self, folder):
         if not os.path.exists(folder):
             os.mkdir(folder)
-        SaveObjects(folder + PLAYER_FILE, self.players)
-        SaveObjects(folder + MATCH_REPORTS_FILE, self.match_reports)
-        SaveObjects(folder + TRAINING_REPORTS_FILE, self.training_reports)
-        SaveObjects(folder + TRAINING_VENUES_FILE, self.training_venues)
+        SaveToJson(folder + PLAYER_FILE, self.players)
+        SaveToJson(folder + MATCH_REPORTS_FILE, self.match_reports)
+        SaveToJson(folder + TRAINING_VENUES_FILE, self.training_venues)
+        SaveToJson(folder + TRAINING_REPORTS_FILE, self.training_reports)
 
     def Load(self, folder):
-        # ordering matters here
-        self.LoadPlayers(folder)
-        self.match_reports = self.LoadContent(folder, MatchReport, MATCH_REPORTS_FILE)
-        self.training_venues = self.LoadContent(folder, TrainingVenue, TRAINING_VENUES_FILE)
-        self.training_reports = self.LoadContent(folder, TrainingReport, TRAINING_REPORTS_FILE)
+        LoadFromJson(folder + PLAYER_FILE, Player, self.players)
+        LoadFromJson(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
+        LoadFromJson(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
+        LoadFromJson(folder + TRAINING_REPORTS_FILE, TrainingReport, self.training_reports)
 
         self.ProcessMatchReports()
         self.ProcessTrainingReports()

@@ -1,6 +1,5 @@
 Project
 - fix the continous integration to actually run the tests
-- read and load Json instead of text files
 - consider iteration cost of iterating match reports/training reports/ players on load
 
 UI
@@ -9,3 +8,7 @@ UI
 
 BUGS
 - bug reading match reports in
+
+MATCHES
+- we need to have a flag for match type : league, friendly, cup
+- we need to track an opponent for Matches

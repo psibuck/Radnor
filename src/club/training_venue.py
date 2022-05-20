@@ -26,5 +26,15 @@ class TrainingVenue:
     def Stringify(self):
         return str(str(self.name) + "," + str(self.cost))
 
+    def ToJson(self):
+        return {
+            "name": self.name,
+            "cost": self.cost
+        }
+    
+    def FromJson(self, json_data):
+        self.name = json_data["name"]
+        self.cost = json_data["cost"]
+
 
 

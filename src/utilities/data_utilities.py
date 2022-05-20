@@ -1,28 +1,25 @@
+import os, json
 
+def LoadFromJson(file, content_class, array):
+    if os.path.exists(file):
+        with open(file) as json_file:
+            # if file is empty this is an exception
+            try:
+                data = json.load(json_file)
+                for entry in data:
+                    new_object = content_class()
+                    if hasattr(new_object, "FromJson"):
+                        new_object.FromJson(entry)
+                        array.append(new_object)
+                    else:
+                        print("ERROR: failed to load object as FromJson not implemented")
+            except json.JSONDecodeError:
+                pass
 
-def SaveObjects(file_name, object_list):
-    file_to_write = open(file_name, 'w')
-
-    for object in object_list:
-        object.Save(file_to_write)
-
-def ProcessData(raw_data):
-    raw_data = raw_data.strip("\n").split(",")
-    return raw_data
-
-def GenerateListString(list):
-    string_out = "["
-    initial = True
-    for entry in list:
-        if not initial:
-            string_out += ","
-        else:
-            initial = False
-        
-        string_out += str(entry)
-    string_out += "]"
-    return string_out
-
-def LoadArray(data):
-    data = data.strip("[").strip("]")
-    return data.split(",")
+def SaveToJson(file, objects):
+    with open(file, 'w') as json_file:
+        data = []
+        for object in objects:
+            data.append(object.ToJson())
+        json_blob = json.dumps(data, indent = 4)
+        json_file.write(json_blob)

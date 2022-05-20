@@ -1,4 +1,4 @@
-from src.utilities.data_utilities import GenerateListString
+import json
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
@@ -28,14 +28,12 @@ class MatchReport:
     def RemoveSub(self, player):
         self.subs.remove(player.name)
         
-    # TO-DO Make this JSON
-    def Save(self, file):
-        starters = GenerateListString(self.starting_lineup)
-        subs = GenerateListString(self.subs)
-        file.write(starters + ";" + subs)
+    def FromJson(self, json_data):
+        self.starting_lineup = json_data["starters"]
+        self.subs = json_data["subs"]
 
-    # TO-DO Make this Json
-    def Load(self, file_data):
-        data = file_data.split(";")
-        self.starting_lineup = data[0].strip("[").strip("]").split(",")
-        self.subs = data[1].strip("[").strip("]").split(",")
+    def ToJson(self):
+        return {
+            "starters" : self.starting_lineup,
+            "subs": self.subs
+        }
