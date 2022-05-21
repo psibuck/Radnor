@@ -6,7 +6,7 @@ from re import I
 
 from src.club.club import *
 from src.club.player import Player
-from src.match.match_report import MatchType, MatchReport
+from src.match.match_report import MatchType, MatchReport, Venue
 
 TEST_PLAYERS = ["jack", "steve", "alex", "michael", "peter", "archie", "richard", "thomas", "andrew", "mason", "brad", "phil", "jonny"]
 TEST_VENUE_NAMES = ["nou camp", "old trafford", "anfield", "etihad"]
@@ -46,6 +46,7 @@ def TEST_create_match_report_and_save_and_load(test_folder):
         match_report.AddSub(Player(random.choice(TEST_PLAYERS)))
 
     match_report.match_type = random.choice(list(MatchType))
+    match_report.venue = random.choice(list(Venue))
 
     club_one.AddMatchReport(match_report)
     club_one.SaveClub(test_folder)
@@ -62,6 +63,8 @@ def TEST_create_match_report_and_save_and_load(test_folder):
     if len(report.subs) != 5:
         return False
     if match_report.match_type != report.match_type:
+        return False
+    if match_report.venue != report.venue:
         return False
     
     return True   

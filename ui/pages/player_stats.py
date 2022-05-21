@@ -1,5 +1,5 @@
 from ui.pages.page_base import PageBase
-from ui.widgets.select_team_widget import SelectTeamWidget
+from ui.widgets.create_match_report_widget import CreateMatchReportWidget
 
 class StatsPage(PageBase):
     
@@ -11,4 +11,4 @@ class StatsPage(PageBase):
         self.ShowMatchReportList()
 
     def ShowMatchReportList(self):
-        SelectTeamWidget(self.club.players, self)
+        CreateMatchReportWidget(self.club.players, self)
