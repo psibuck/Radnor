@@ -1,7 +1,12 @@
-import json
+from enum import Enum
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
+
+class MatchType(Enum):
+    LEAGUE = 1
+    CUP = 2
+    FRIENDLY = 3
 
 # A match report tracks all the data that we know occurred for a given match
 class MatchReport:
@@ -9,6 +14,7 @@ class MatchReport:
     def __init__(self):
         self.starting_lineup = []
         self.subs = []
+        self.match_type = MatchType.LEAGUE
 
     def AddStarter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
@@ -31,9 +37,11 @@ class MatchReport:
     def FromJson(self, json_data):
         self.starting_lineup = json_data["starters"]
         self.subs = json_data["subs"]
+        self.match_type = MatchType(json_data["match_type"])
 
     def ToJson(self):
         return {
             "starters" : self.starting_lineup,
-            "subs": self.subs
+            "subs": self.subs,
+            "match_type": self.match_type.value
         }

@@ -6,9 +6,13 @@ UI
 - date input?
 - value of ObjectListWidget?
 
-BUGS
-- bug reading match reports in
-
 MATCHES
 - we need to have a flag for match type : league, friendly, cup
 - we need to track an opponent for Matches
+- visual display of match reports
+
+TRAINING
+- visual display of training reports
+
+BUG
+- bug displaying match reports
