@@ -5,15 +5,18 @@ class PlayerEntry(Frame):
     def __init__(self, parent, player):
         Frame.__init__(self, parent)
 
+        self.row = 0
+        self.column = 0
+
         self.player = player
         self.SetupUI()
 
     def SetupUI(self):
-        label = Label(self, text = self.player.name)
-        label.pack(side = LEFT)
+        self.AddControl(Label(self, text = self.player.name))
 
-        mp_label = Label(self, text = str(self.player.GetAppearances()))
-        mp_label.pack(side = LEFT)
+    def AddControl(self, control_widget):
+        control_widget.grid(row=self.row, column=self.column)
+        self.column += 1
 
 
 

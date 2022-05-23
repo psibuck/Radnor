@@ -77,7 +77,7 @@ class CreateMatchReportWidget(Frame):
 
             for button_info in button_info_list:
                 new_button = Button(entry_widget, text = button_info.icon, command = lambda w = object, button_action = button_info.action: button_action(w))
-                new_button.pack(side = RIGHT)
+                entry_widget.AddControl(new_button)
             widgets.append(entry_widget)
         list.Setup(widgets)
 
