@@ -11,8 +11,6 @@ UI
 
 MATCHES
 - visual display of match reports
-- add a score line to Matches
-- change team ordering if home or away
 
 TRAINING
 - visual display of training reports
