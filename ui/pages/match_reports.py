@@ -30,7 +30,7 @@ class MatchReports(PageBase):
 
         report_table = Table(self.match_report_space)
         report_table.pack(side = TOP)
-        columns = [TableColumn("Type", function="GetMatchType"), TableColumn("Venue", function="GetVenue")]
+        columns = [TableColumn("Opponent", "opponent"), TableColumn("Type", function="GetMatchType"), TableColumn("Venue", function="GetVenue")]
         report_table.AddColumns(columns)
         for match_report in self.club.match_reports:
             report_table.AddObject(match_report)
@@ -41,7 +41,7 @@ class MatchReports(PageBase):
         self.ShowMatchReportList()
     
     def HandleAddButtonPressed(self):   
-        self.match_report_widget = CreateMatchReportWidget(self.club.players, self.match_report_space)
+        self.match_report_widget = CreateMatchReportWidget(self.club, self.match_report_space)
         self.save_button.pack(side = BOTTOM)
 
     def ShutDown(self):

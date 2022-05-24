@@ -11,4 +11,4 @@ class StatsPage(PageBase):
         self.ShowMatchReportList()
 
     def ShowMatchReportList(self):
-        CreateMatchReportWidget(self.club.players, self)
+        CreateMatchReportWidget(self.club, self)

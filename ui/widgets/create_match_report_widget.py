@@ -3,6 +3,7 @@ from src.match.match_report import MatchReport, MatchType, Venue
 from ui.widgets.object_list import ObjectListWidget
 
 from ui.widgets.player_entry import PlayerEntry
+from ui.widgets.table import TableHeader
 
 class ButtonInfo:
 
@@ -12,36 +13,70 @@ class ButtonInfo:
 
 # SelectTeamWidget allows the user to select a first XI and subs bench from the signed on players
 class CreateMatchReportWidget(Frame):
+    opponent_row = 0
+    match_type_row = 1
+    venue_row = 2
 
-    def __init__(self, available_players, parent, match_report_created_command=None):
+    def __init__(self, club, parent, match_report_created_command=None):
         Frame.__init__(self, parent)
+        self.club = club
         self.pack()
-        self.available_players = available_players[:]
+        self.available_players = club.players[:]
         self.first_XI = []
         self.subs = []
 
         self.on_create = match_report_created_command
 
-        self.available_players_list = ObjectListWidget(self, "Available Players")
-        self.available_players_list.grid(row=0, column=0, sticky=N)
+        self.option_area = Frame(self)
+        self.option_area.pack(side=TOP)
 
-        self.selected_players_list = ObjectListWidget(self, "First XI")
-        self.selected_players_list.grid(row=0, column=1, sticky=N)
+        player_area = Frame(self)
+        player_area.pack(side=BOTTOM)
 
-        self.substitute_players_list = ObjectListWidget(self, "Substitutes")
-        self.substitute_players_list.grid(row=0, column=2, sticky=N)
+        TableHeader(self.option_area, "Opposition").grid(row=self.opponent_row, column=0)
+        self.selected_opponent = StringVar()
+        if len(club.opponents) > 0:
+            self.selected_opponent.set(club.opponents[0])
+        self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(club.opponents))
+        self.opposition_list.grid(row=self.opponent_row, column=1)
+        self.oppo_entry = Entry(self.option_area, text="New Opponent")
+        self.oppo_entry.grid(row=self.opponent_row, column=2)
+        Button(self.option_area, text="+", command=self.AddOpponent).grid(row=self.opponent_row, column=3)
 
+        TableHeader(self.option_area, "Match Type").grid(row=self.match_type_row, column=0)
         self.selected_match_type = StringVar()
         self.selected_match_type.set(str(MatchType(1)))
-        match_type_selector = OptionMenu(self, self.selected_match_type, *list(MatchType))
-        match_type_selector.grid(row=0, column = 3, sticky=N)
+        match_type_selector = OptionMenu(self.option_area, self.selected_match_type, *list(MatchType))
+        match_type_selector.grid(row=self.match_type_row, column=1)
 
+        TableHeader(self.option_area, "Venue").grid(row=self.venue_row, column=0)
         self.selected_venue = StringVar()
         self.selected_venue.set(str(Venue(1)))
-        venue_selector = OptionMenu(self, self.selected_venue, *list(Venue))
-        venue_selector.grid(row=0, column = 4, sticky=N)
+        venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
+        venue_selector.grid(row=self.venue_row, column=1)
+
+        self.available_players_list = ObjectListWidget(player_area, "Available Players")
+        self.available_players_list.grid(row=1, column=0, sticky=N)
+
+        self.selected_players_list = ObjectListWidget(player_area, "First XI")
+        self.selected_players_list.grid(row=1, column=1, sticky=N)
+
+        self.substitute_players_list = ObjectListWidget(player_area, "Substitutes")
+        self.substitute_players_list.grid(row=1, column=2, sticky=N)
 
         self.SetupObjectLists()
+
+    def AddOpponent(self):
+        opponent_name = self.oppo_entry.get()
+        if len(opponent_name) > 0:
+            self.club.AddOpponent(opponent_name)
+            self.selected_opponent.set(opponent_name)
+
+            menu = self.opposition_list.__getitem__("menu")
+            if menu != None:
+                menu.add_command(label=opponent_name)
+            while self.oppo_entry.get():
+                self.oppo_entry.delete(0)
 
     def SelectStarter(self, object):
         if len(self.first_XI) < 11:
@@ -89,5 +124,6 @@ class CreateMatchReportWidget(Frame):
             new_match_report.AddSub(sub)
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
         new_match_report.venue = Venue[self.selected_venue.get()]
+        new_match_report.opponent = self.selected_opponent.get()
         return new_match_report
         

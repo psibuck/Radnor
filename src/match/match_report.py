@@ -1,5 +1,7 @@
 from enum import Enum
 
+from src.utilities.data_utilities import JsonGet
+
 MAX_PLAYERS = 11
 MAX_SUBS = 5
 
@@ -27,6 +29,7 @@ class MatchReport:
         self.subs = []
         self.match_type = MatchType.LEAGUE
         self.venue = Venue.HOME
+        self.opponent = ""
 
     def AddStarter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
@@ -53,15 +56,17 @@ class MatchReport:
         return self.venue.name
 
     def FromJson(self, json_data):
-        self.starting_lineup = json_data["starters"]
-        self.subs = json_data["subs"]
-        self.match_type = MatchType(json_data["match_type"])
-        self.venue = Venue(json_data["venue"])
+        self.starting_lineup = JsonGet(json_data, "starters")
+        self.subs = JsonGet(json_data, "subs")
+        self.match_type = JsonGet(json_data, "match_type", MatchType)
+        self.venue = JsonGet(json_data, "venue", Venue)
+        self.opponent = JsonGet(json_data, "opponent")
 
     def ToJson(self):
         return {
             "starters" : self.starting_lineup,
             "subs": self.subs,
             "match_type": self.match_type.value,
-            "venue": self.venue.value
+            "venue": self.venue.value,
+            "opponent": self.opponent
         }

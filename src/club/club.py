@@ -24,33 +24,7 @@ class Club:
         self.match_reports = []
         self.training_reports = []
         self.training_venues = []
-
-    def LoadContent(self, folder, content_class, file):
-        content_out = []
-        if os.path.exists(folder + file):
-            with open(folder + file, "r") as source:
-                for data in source:
-                    loaded_content = content_class()
-                    loaded_content.Load(data)
-                    content_out.append(loaded_content)
-        return content_out
-            
-    def LoadPlayers(self, folder):
-        if os.path.exists(folder + PLAYER_FILE):
-            with open(folder + PLAYER_FILE, "r") as source:
-                for player_data in source:
-                    loaded_player = Player()
-                    loaded_player.Load(ProcessData(player_data))
-                    self.players.append(loaded_player)
-        
-    def LoadMatchReports(self, folder):
-        if os.path.exists(folder + MATCH_REPORTS_FILE):
-            with open(folder + MATCH_REPORTS_FILE) as source:
-                for report_data in source:
-                    new_report = MatchReport()
-                    new_report.Load(report_data)
-                    self.AddMatchReport(new_report)
-
+        self.opponents = ["test"]
 
     def SaveClub(self, folder):
         if not os.path.exists(folder):
@@ -109,5 +83,9 @@ class Club:
     def ProcessTrainingReports(self):
         for report in self.training_reports:
             self.ProcessTrainingReport(report)
+
+    def AddOpponent(self, opponent):
+        self.opponents.append(opponent)
+        self.opponents.sort()
 
         

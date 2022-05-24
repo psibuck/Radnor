@@ -23,3 +23,13 @@ def SaveToJson(file, objects):
             data.append(object.ToJson())
         json_blob = json.dumps(data, indent = 4)
         json_file.write(json_blob)
+
+def JsonGet(blob, variable_name, class_name=None):
+    try:
+        variable = blob[variable_name]
+        if class_name is not None:
+            return class_name(variable)
+        else:
+            return variable
+    except KeyError:
+        return "-"

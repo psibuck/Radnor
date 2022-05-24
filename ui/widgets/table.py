@@ -35,7 +35,6 @@ class Table(Frame):
                 else:
                     new_entry = Label(self, text=str(getattr(object, property_name)))
                     new_entry.grid(row = self.row, column = col)
-                    col += 1
             elif column.function is not None:
                 function = column.function
                 if not hasattr(object, function):
@@ -43,7 +42,7 @@ class Table(Frame):
                 else:
                     new_entry = Label(self, text=str(getattr(object, function)()))
                     new_entry.grid(row = self.row, column = col)
-                    col += 1
+            col += 1
         if self.remove_func is not None:
             remove_button = Button(self, text="X", command= lambda object=object : self.remove_func(object))
             remove_button.grid(row=self.row, column=col)

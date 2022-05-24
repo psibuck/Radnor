@@ -14,3 +14,6 @@ MATCHES
 
 TRAINING
 - visual display of training reports
+
+BUG
+- if you add an opponent they are not selectable from the OptionMenu
