@@ -2,12 +2,14 @@ Project
 - fix the continous integration to actually run the tests
 - consider iteration cost of iterating match reports/training reports/ players on load
 
+FEATURES
+- add multiple club select on boot
+
 UI
 - date input?
 - value of ObjectListWidget?
 
 MATCHES
-- we need to track an opponent for Matches
 - visual display of match reports
 - add a score line to Matches
 - change team ordering if home or away
