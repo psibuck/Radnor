@@ -1,20 +1,37 @@
 import os, json
 
-def LoadFromJson(file, content_class, array):
+def __GetJsonData(file):
     if os.path.exists(file):
         with open(file) as json_file:
             # if file is empty this is an exception
             try:
-                data = json.load(json_file)
-                for entry in data:
-                    new_object = content_class()
-                    if hasattr(new_object, "FromJson"):
-                        new_object.FromJson(entry)
-                        array.append(new_object)
-                    else:
-                        print("ERROR: failed to load object as FromJson not implemented")
+                return json.load(json_file)
             except json.JSONDecodeError:
-                pass
+                return None
+
+def LoadObjectFromJson(file, object):
+    data = __GetJsonData(file)
+    if data is not None:
+        if hasattr(object, "FromJson"):
+            object.FromJson(data)
+        else:
+            print("ERROR: failed to load object as FromJson not implemented")
+
+def SaveObjectToJson(file, object):
+    with open(file, 'w') as json_file:
+        as_json = json.dumps(object.ToJson(), indent = 4)
+        json_file.write(as_json)
+
+def LoadFromJson(file, content_class, array):
+    data = __GetJsonData(file)
+    if data is not None:
+        for entry in data:
+            new_object = content_class()
+            if hasattr(new_object, "FromJson"):
+                new_object.FromJson(entry)
+                array.append(new_object)
+            else:
+                print("ERROR: failed to load object as FromJson not implemented")
 
 def SaveToJson(file, objects):
     with open(file, 'w') as json_file:

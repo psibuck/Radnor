@@ -8,6 +8,7 @@ from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from src.utilities.data_utilities import *
 
+CLUB_FILE = "/club.json"
 PLAYER_FILE = "/players.json"
 MATCH_REPORTS_FILE = "/match_reports.json"
 TRAINING_REPORTS_FILE = "/training_reports.json"
@@ -24,17 +25,19 @@ class Club:
         self.match_reports = []
         self.training_reports = []
         self.training_venues = []
-        self.opponents = ["test"]
+        self.opponents = []
 
     def SaveClub(self, folder):
         if not os.path.exists(folder):
             os.mkdir(folder)
+        SaveObjectToJson(folder + CLUB_FILE, self)
         SaveToJson(folder + PLAYER_FILE, self.players)
         SaveToJson(folder + MATCH_REPORTS_FILE, self.match_reports)
         SaveToJson(folder + TRAINING_VENUES_FILE, self.training_venues)
         SaveToJson(folder + TRAINING_REPORTS_FILE, self.training_reports)
 
     def Load(self, folder):
+        LoadObjectFromJson(folder + CLUB_FILE, self)
         LoadFromJson(folder + PLAYER_FILE, Player, self.players)
         LoadFromJson(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
         LoadFromJson(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
@@ -87,5 +90,15 @@ class Club:
     def AddOpponent(self, opponent):
         self.opponents.append(opponent)
         self.opponents.sort()
+    
+    def FromJson(self, json_data):
+        self.name = JsonGet(json_data, "name")
+        self.opponents = JsonGet(json_data, "opponents")
+
+    def ToJson(self):
+        return {
+            "name": self.name,
+            "opponents": self.opponents
+        }
 
         
