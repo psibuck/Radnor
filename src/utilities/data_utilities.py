@@ -41,7 +41,7 @@ def SaveToJson(file, objects):
         json_blob = json.dumps(data, indent = 4)
         json_file.write(json_blob)
 
-def JsonGet(blob, variable_name, class_name=None):
+def JsonGet(blob, variable_name, class_name=None, type=str):
     try:
         variable = blob[variable_name]
         if class_name is not None:
@@ -49,4 +49,11 @@ def JsonGet(blob, variable_name, class_name=None):
         else:
             return variable
     except KeyError:
-        return "-"
+        if class_name is not None:
+            return None
+
+        if type == int:
+            return 0
+        elif type == float:
+            return 0.0
+        return ""

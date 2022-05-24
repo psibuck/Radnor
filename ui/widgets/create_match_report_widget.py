@@ -11,11 +11,17 @@ class ButtonInfo:
         self.icon = icon
         self.action = action
 
+class NumericEntry(Entry):
+
+    def __init__(self, parent):
+        Entry.__init__(self, parent)
+
 # SelectTeamWidget allows the user to select a first XI and subs bench from the signed on players
 class CreateMatchReportWidget(Frame):
-    opponent_row = 0
-    match_type_row = 1
-    venue_row = 2
+    scoreline_row = 0
+    opponent_row = 1
+    match_type_row = 2
+    venue_row = 3
 
     def __init__(self, club, parent, match_report_created_command=None):
         Frame.__init__(self, parent)
@@ -33,12 +39,21 @@ class CreateMatchReportWidget(Frame):
         player_area = Frame(self)
         player_area.pack(side=BOTTOM)
 
+
+        Label(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
+        self.our_scoreline = NumericEntry(self.option_area)
+        self.our_scoreline.grid(row=self.scoreline_row, column = 1)
+        Label(self.option_area, text="Opposition").grid(row=self.scoreline_row, column=2)
+        self.oppo_scoreline = NumericEntry(self.option_area)
+        self.oppo_scoreline.grid(row=self.scoreline_row, column = 3)
+
         TableHeader(self.option_area, "Opposition").grid(row=self.opponent_row, column=0)
         self.selected_opponent = StringVar()
+        self.opposition_list = None
         if len(club.opponents) > 0:
             self.selected_opponent.set(club.opponents[0])
-        self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(club.opponents))
-        self.opposition_list.grid(row=self.opponent_row, column=1)
+            self.AddOppositionList()
+
         self.oppo_entry = Entry(self.option_area, text="New Opponent")
         self.oppo_entry.grid(row=self.opponent_row, column=2)
         Button(self.option_area, text="+", command=self.AddOpponent).grid(row=self.opponent_row, column=3)
@@ -66,15 +81,19 @@ class CreateMatchReportWidget(Frame):
 
         self.SetupObjectLists()
 
+    def AddOppositionList(self):
+        if self.opposition_list is not None:
+            self.opposition_list.grid_forget()
+        self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(self.club.opponents))
+        self.opposition_list.grid(row=self.opponent_row, column=1)
+
     def AddOpponent(self):
         opponent_name = self.oppo_entry.get()
         if len(opponent_name) > 0:
             self.club.AddOpponent(opponent_name)
             self.selected_opponent.set(opponent_name)
 
-            menu = self.opposition_list.__getitem__("menu")
-            if menu != None:
-                menu.add_command(label=opponent_name)
+            self.AddOppositionList()
             while self.oppo_entry.get():
                 self.oppo_entry.delete(0)
 
@@ -122,6 +141,8 @@ class CreateMatchReportWidget(Frame):
             new_match_report.AddStarter(player)
         for sub in self.subs:
             new_match_report.AddSub(sub)
+        new_match_report.club_goals = self.our_scoreline.get()
+        new_match_report.opponent_goals = self.oppo_scoreline.get()
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
         new_match_report.venue = Venue[self.selected_venue.get()]
         new_match_report.opponent = self.selected_opponent.get()

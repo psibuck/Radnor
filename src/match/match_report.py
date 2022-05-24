@@ -30,6 +30,8 @@ class MatchReport:
         self.match_type = MatchType.LEAGUE
         self.venue = Venue.HOME
         self.opponent = ""
+        self.club_goals = 0
+        self.opponent_goals = 0
 
     def AddStarter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
@@ -55,12 +57,20 @@ class MatchReport:
     def GetVenue(self):
         return self.venue.name
 
+    def GetScoreline(self):
+        if self.venue == Venue.AWAY:
+            return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"
+        else:
+            return "test" + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
+
     def FromJson(self, json_data):
         self.starting_lineup = JsonGet(json_data, "starters")
         self.subs = JsonGet(json_data, "subs")
         self.match_type = JsonGet(json_data, "match_type", MatchType)
         self.venue = JsonGet(json_data, "venue", Venue)
         self.opponent = JsonGet(json_data, "opponent")
+        self.club_goals = JsonGet(json_data, "goals", type=int)
+        self.opponent_goals = JsonGet(json_data, "opponent_goals", type=int)
 
     def ToJson(self):
         return {
@@ -68,5 +78,7 @@ class MatchReport:
             "subs": self.subs,
             "match_type": self.match_type.value,
             "venue": self.venue.value,
-            "opponent": self.opponent
+            "opponent": self.opponent,
+            "goals": self.club_goals,
+            "opponent_goals": self.opponent_goals
         }
