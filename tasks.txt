@@ -1,6 +1,7 @@
 Project
 - fix the continous integration to actually run the tests
 - consider iteration cost of iterating match reports/training reports/ players on load
+- test deployment and log all bugs from raw boot
 
 FEATURES
 - add multiple club select on boot
@@ -15,11 +16,24 @@ MATCHES
 TRAINING
 - visual display of training reports
 
-BUG
-- if you add an opponent they are not selectable from the OptionMenu
-
 DATE
 - set initial date to todays date on date entry
 - add validation to stop more than two numbers being inserted
 - change month to a month dropdown
 - change year to a year dropdown
+
+BUG
+- if you add an opponent they are not selectable from the OptionMenu
+- window title is still "Club Name Here" 
+- logo is still feather
+- Radnor + Opposition are wrong font on Matches page
+- if no venues, adding a training sessions causes an error
+- can input anything in date input
+- can input same player name
+- cannot quit application:
+Traceback (most recent call last):
+  File "tkinter\__init__.py", line 1892, in __call__
+  File "ui\page_manager.py", line 59, in CloseRequested
+  File "main.py", line 22, in Quit
+  File "src\club\club.py", line 32, in SaveClub
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'data/local/Radnor'
