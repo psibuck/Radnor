@@ -2,6 +2,7 @@ from tkinter import *
 from src.match.match_report import MatchReport, MatchType, Venue
 from ui.widgets.object_list import ObjectListWidget
 
+from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
 from ui.widgets.table import TableHeader
 
@@ -22,6 +23,7 @@ class CreateMatchReportWidget(Frame):
     opponent_row = 1
     match_type_row = 2
     venue_row = 3
+    date_row = 4
 
     def __init__(self, club, parent, match_report_created_command=None):
         Frame.__init__(self, parent)
@@ -38,7 +40,6 @@ class CreateMatchReportWidget(Frame):
 
         player_area = Frame(self)
         player_area.pack(side=BOTTOM)
-
 
         Label(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
         self.our_scoreline = NumericEntry(self.option_area)
@@ -69,6 +70,9 @@ class CreateMatchReportWidget(Frame):
         self.selected_venue.set(str(Venue(1)))
         venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
         venue_selector.grid(row=self.venue_row, column=1)
+
+        self.date_entry = DateEntry(self.option_area)
+        self.date_entry.grid(row=self.date_row, column=0, columnspan=5)
 
         self.available_players_list = ObjectListWidget(player_area, "Available Players")
         self.available_players_list.grid(row=1, column=0, sticky=N)
@@ -146,5 +150,6 @@ class CreateMatchReportWidget(Frame):
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
         new_match_report.venue = Venue[self.selected_venue.get()]
         new_match_report.opponent = self.selected_opponent.get()
+        new_match_report.date = self.date_entry.GetDate()
         return new_match_report
         

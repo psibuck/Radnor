@@ -31,7 +31,7 @@ class MatchReports(PageBase):
         report_table = Table(self.match_report_space)
         report_table.pack(side = TOP)
 
-        columns = [TableColumn("Scoreline", function="GetScoreline"), TableColumn("Type", function="GetMatchType")]
+        columns = [TableColumn("Date", function="GetDate"), TableColumn("Scoreline", function="GetScoreline"), TableColumn("Type", function="GetMatchType")]
         report_table.AddColumns(columns)
         for match_report in self.club.match_reports:
             report_table.AddObject(match_report)

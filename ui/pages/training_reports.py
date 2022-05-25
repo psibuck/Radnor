@@ -2,6 +2,7 @@ from tkinter import *
 from src.club.training_report import TrainingReport
 from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
+from ui.widgets.date_entry import DateEntry
 from ui.widgets.table import Table, TableColumn
 from ui.widgets.labels import Title
 
@@ -20,21 +21,18 @@ class TrainingReports(PageBase):
 
     def SetupContent(self):
         self.grid_columnconfigure(0, weight = 1)
-        self.grid_columnconfigure(1, weight = 1)
-        self.grid_columnconfigure(2, weight = 3)
-        self.grid_rowconfigure(0, weight = 1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(1, weight = 10)
 
-        self.venue_frame = Frame(self, bg = "red")
+        self.venue_frame = Frame(self)
         self.venue_frame.grid(row = 0, column = 0, sticky = "nesw")
         
-        self.training_list_frame = Frame(self, bg = "green")
-        self.training_list_frame.grid(row = 0, column = 1, sticky = "nesw")
+        self.training_list_frame = Frame(self)
+        self.training_list_frame.grid(row = 1, column = 0, sticky = "nesw")
         
-        self.creator_space = Frame(self, bg="black")
-        self.creator_space.grid(row=0, column=2, sticky = "nesw")
-        
-        venue_label = Label(self.creator_space, text="Creator")
-        venue_label.pack(side = TOP)
+        self.creator_space = Frame(self)
+        self.creator_space.grid(row=0, column=1, sticky = "nesw")
 
         self.SetupVenueSpace()
         self.SetupTrainingSpace()
@@ -82,11 +80,19 @@ class TrainingReports(PageBase):
     def AddTrainingButtonPressed(self):
         self.ClearCreatorSpace()
 
+        training_table = Table(self.creator_space)
+        columns = [TableColumn("Date"), TableColumn("Players"), TableColumn("Venue")]
+        training_table.AddColumns(columns)
+        training_table.grid(row=0, column=0)
+
+        self.training_date = DateEntry(training_table)
+        self.training_date.grid(row=1, column=0)
+
         self.training_checkboxes = []
-        row = 0
+        row = 1
         for player in self.club.players:
-            select_button = Checkbutton(self.creator_space, text=player.name, command= lambda name = player.name : self.SelectPlayer(name))
-            select_button.grid(row=row, column=0, sticky=W)
+            select_button = Checkbutton(training_table, text=player.name, command= lambda name = player.name : self.SelectPlayer(name))
+            select_button.grid(row=row, column=1, sticky=W)
             self.training_checkboxes.append(select_button)        
             row += 1
         
@@ -94,11 +100,11 @@ class TrainingReports(PageBase):
         for venue in self.club.training_venues:
             venue_names.append(venue.name)
         self.selected_venue.set(venue_names[0])
-        venue_dropdown = OptionMenu(self.creator_space, self.selected_venue, *venue_names)
-        venue_dropdown.grid(row=0, column=1)
+        venue_dropdown = OptionMenu(training_table, self.selected_venue, *venue_names)
+        venue_dropdown.grid(row=1, column=2)
 
         save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
-        save_button.grid(row=0, column=2)
+        save_button.grid(row=1, column=3)
 
     def SelectPlayer(self, player_name):
         if player_name in self.trained_players:
@@ -136,11 +142,11 @@ class TrainingReports(PageBase):
         for widget in self.training_list_frame.winfo_children():
             widget.destroy()
 
-        training_list_label = Title(self.training_list_frame, text="Training Sessions")
+        training_list_label = Title(self.training_list_frame, text="Sessions")
         training_list_label.pack(side = TOP)
 
         training_table = Table(self.training_list_frame, remove_func = self.RemoveTrainingReport)
-        columns = [TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
+        columns = [TableColumn("Date", function="GetDate" ), TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
         training_table.AddColumns(columns)
         for report in self.club.training_reports:
             training_table.AddObject(report)

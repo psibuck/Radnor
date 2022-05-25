@@ -11,6 +11,7 @@ UI
 
 MATCHES
 - visual display of match reports
+- remove match reports button
 
 TRAINING
 - visual display of training reports

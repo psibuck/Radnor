@@ -1,6 +1,6 @@
 from enum import Enum
 
-from src.utilities.data_utilities import JsonGet
+from src.utilities.data_utilities import JsonGet, GetDateString
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
@@ -32,6 +32,7 @@ class MatchReport:
         self.opponent = ""
         self.club_goals = 0
         self.opponent_goals = 0
+        self.date = ""
 
     def AddStarter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
@@ -63,6 +64,9 @@ class MatchReport:
         else:
             return "test" + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
 
+    def GetDate(self):
+        return GetDateString(self.date)
+        
     def FromJson(self, json_data):
         self.starting_lineup = JsonGet(json_data, "starters")
         self.subs = JsonGet(json_data, "subs")
@@ -71,6 +75,7 @@ class MatchReport:
         self.opponent = JsonGet(json_data, "opponent")
         self.club_goals = JsonGet(json_data, "goals", type=int)
         self.opponent_goals = JsonGet(json_data, "opponent_goals", type=int)
+        self.date = JsonGet(json_data, "date")
 
     def ToJson(self):
         return {
@@ -80,5 +85,6 @@ class MatchReport:
             "venue": self.venue.value,
             "opponent": self.opponent,
             "goals": self.club_goals,
-            "opponent_goals": self.opponent_goals
+            "opponent_goals": self.opponent_goals,
+            "date": self.date
         }
