@@ -41,10 +41,10 @@ class CreateMatchReportWidget(Frame):
         player_area = Frame(self)
         player_area.pack(side=BOTTOM)
 
-        Label(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
+        TableHeader(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
         self.our_scoreline = NumericEntry(self.option_area)
         self.our_scoreline.grid(row=self.scoreline_row, column = 1)
-        Label(self.option_area, text="Opposition").grid(row=self.scoreline_row, column=2)
+        TableHeader(self.option_area, text="Opposition").grid(row=self.scoreline_row, column=2)
         self.oppo_scoreline = NumericEntry(self.option_area)
         self.oppo_scoreline.grid(row=self.scoreline_row, column = 3)
 

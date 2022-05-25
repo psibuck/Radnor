@@ -1,6 +1,5 @@
 Project
 - fix the continous integration to actually run the tests
-- consider iteration cost of iterating match reports/training reports/ players on load
 - test deployment and log all bugs from raw boot
 
 FEATURES
@@ -25,7 +24,6 @@ DATE
 BUG
 - if you add an opponent they are not selectable from the OptionMenu
 - logo is still feather
-- Radnor + Opposition are wrong font on Matches page
 - if no venues, adding a training sessions causes an error
 - can input anything in date input
 - cannot quit application:
