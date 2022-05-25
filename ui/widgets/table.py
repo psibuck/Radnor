@@ -25,6 +25,11 @@ class Table(Frame):
             header.grid(row=0, column = col)
             col += 1
         
+    def ClearRows(self):
+        for widget in self.winfo_children():
+            if widget.__class__ is not TableHeader:
+                widget.destroy()
+        
     def AddObject(self, object):
         col = 0
         for column in self.columns:

@@ -18,21 +18,18 @@ class HomePage(PageBase):
         self.ShowPlayerList()
 
     def ShowPlayerList(self):
-        self.player_list = ObjectListWidget(self, "Player List")
-        self.player_list.pack(side=TOP)
+        self.player_list = Table(self, remove_func=self.OnRemovePlayerButtonPressed)
+        columns = [TableColumn("Name", "name"), TableColumn("Appearances", function = "GetAppearances"), TableColumn("Training", "training_attendance")]
+        self.player_list.AddColumns(columns)
+        self.player_list.pack(side=LEFT)
         
         self.RefreshPlayerList()
 
     def RefreshPlayerList(self):
-        self.player_list.ClearWidgets()
+        self.player_list.ClearRows()
 
-        player_table = Table(self.player_list, remove_func=self.OnRemovePlayerButtonPressed)
-        columns = [TableColumn("Name", "name"), TableColumn("Appearances", function = "GetAppearances"), TableColumn("Training", "training_attendance")]
-        player_table.AddColumns(columns)
         for player in self.club.players:
-            player_table.AddObject(player)
-
-        player_table.pack(side=TOP)
+            self.player_list.AddObject(player)
         
     def ShowPlayerButtonArea(self):
         add_player_frame = Frame(self, height = 50)
