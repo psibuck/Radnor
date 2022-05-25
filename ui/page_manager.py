@@ -21,7 +21,7 @@ class PageManager:
         self.pages.append(MatchReports)
         self.pages.append(TrainingReports)
         self.root.geometry("800x600")
-        self.root.title("Club Name Here")
+        self.root.title(self.app.club.name)
         self.root.protocol("WM_DELETE_WINDOW", self.CloseRequested)
 
         self.SetupTabs()  

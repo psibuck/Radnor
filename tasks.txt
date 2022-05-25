@@ -24,7 +24,6 @@ DATE
 
 BUG
 - if you add an opponent they are not selectable from the OptionMenu
-- window title is still "Club Name Here" 
 - logo is still feather
 - Radnor + Opposition are wrong font on Matches page
 - if no venues, adding a training sessions causes an error
