@@ -12,6 +12,23 @@ TEST_PLAYERS = ["jack", "steve", "alex", "michael", "peter", "archie", "richard"
 TEST_VENUE_NAMES = ["nou camp", "old trafford", "anfield", "etihad"]
 TEST_VENUE_COSTS = [5, 2.50, 6, 10]
 
+def TEST_create_club_and_add_duplicate_player(test_folder):
+    club_one = Club(test_folder)
+
+    player_name = "same name"
+    valid, error = club_one.AddPlayer(player_name)
+
+    if valid == False:
+        print("TEST FAILED: failed to add player to club. Error: " + error)
+        return False
+    
+    valid, error = club_one.AddPlayer(player_name)
+    if not valid and len(club_one.players) == 1:
+        return True
+
+    print("TEST FAILED: successfully added duplicate player to club")
+    return False
+
 def TEST_create_club_and_add_players(test_folder):
     club_one = Club(test_folder)
 
@@ -138,7 +155,11 @@ def TEST_create_training_report_and_save_and_load(test_folder):
 
     return True
 
-tests = [TEST_create_club_and_add_players, TEST_create_match_report_and_save_and_load, TEST_create_training_venues_and_save_and_load, TEST_create_training_report_and_save_and_load]
+tests = [TEST_create_club_and_add_players,
+         TEST_create_club_and_add_duplicate_player,
+         TEST_create_match_report_and_save_and_load,
+         TEST_create_training_venues_and_save_and_load,
+         TEST_create_training_report_and_save_and_load]
 
 test_folder_name = "test"
 

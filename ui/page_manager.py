@@ -1,7 +1,5 @@
 from re import I
 from ui.pages.home import *
-from ui.pages.player_finances import FinancesPage
-from ui.pages.player_stats import StatsPage
 from ui.pages.match_reports import MatchReports
 from ui.pages.training_reports import TrainingReports
 

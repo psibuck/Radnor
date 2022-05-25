@@ -47,9 +47,13 @@ class Club:
         self.ProcessTrainingReports()
 
     def AddPlayer(self, name):
+        for player in self.players:
+            if player.name == name:
+                return False, "Player must have distinct name"
         new_player = Player(name)
         self.players.append(new_player)
         self.players.sort()
+        return True, None
     
     def AddMatchReport(self, report):
         self.match_reports.append(report)

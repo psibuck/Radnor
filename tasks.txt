@@ -28,7 +28,6 @@ BUG
 - Radnor + Opposition are wrong font on Matches page
 - if no venues, adding a training sessions causes an error
 - can input anything in date input
-- can input same player name
 - cannot quit application:
 Traceback (most recent call last):
   File "tkinter\__init__.py", line 1892, in __call__
