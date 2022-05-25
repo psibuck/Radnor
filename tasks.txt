@@ -24,7 +24,6 @@ DATE
 BUG
 - if you add an opponent they are not selectable from the OptionMenu
 - logo is still feather
-- if no venues, adding a training sessions causes an error
 - can input anything in date input
 - cannot quit application:
 Traceback (most recent call last):

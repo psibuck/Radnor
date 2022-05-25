@@ -96,12 +96,16 @@ class TrainingReports(PageBase):
             self.training_checkboxes.append(select_button)        
             row += 1
         
-        venue_names = []
-        for venue in self.club.training_venues:
-            venue_names.append(venue.name)
-        self.selected_venue.set(venue_names[0])
-        venue_dropdown = OptionMenu(training_table, self.selected_venue, *venue_names)
-        venue_dropdown.grid(row=1, column=2)
+        if len(self.club.training_venues) > 0:
+            venue_names = []
+            for venue in self.club.training_venues:
+                venue_names.append(venue.name)
+            self.selected_venue.set(venue_names[0])
+            venue_dropdown = OptionMenu(training_table, self.selected_venue, *venue_names)
+            venue_dropdown.grid(row=1, column=2)
+        else:
+            self.selected_venue.set("None")
+            Label(training_table, text="No Venues Added").grid(row=1, column=2)
 
         save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
         save_button.grid(row=1, column=3)
@@ -120,7 +124,6 @@ class TrainingReports(PageBase):
             if venue.name == self.selected_venue.get():
                 new_report.venue = venue
                 break
-        new_report.venue = random.choice(self.club.training_venues)
         self.club.AddTrainingReport(new_report)
         self.trained_players = []
         self.SetupTrainingSpace()
