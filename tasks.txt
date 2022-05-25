@@ -6,7 +6,6 @@ FEATURES
 - add multiple club select on boot
 
 UI
-- date input?
 - value of ObjectListWidget?
 
 MATCHES
@@ -18,3 +17,9 @@ TRAINING
 
 BUG
 - if you add an opponent they are not selectable from the OptionMenu
+
+DATE
+- set initial date to todays date on date entry
+- add validation to stop more than two numbers being inserted
+- change month to a month dropdown
+- change year to a year dropdown
