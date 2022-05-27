@@ -15,8 +15,10 @@ class Application:
         self.is_running = True
 
     def MakeDataStructure(self):
-        os.mkdir("data")
-        os.mkdir("data/local")
+        if not os.path.exists("data"):
+            os.mkdir("data")
+        if not os.path.exists("data/local"):
+            os.mkdir("data/local")   
 
     def Activate(self):
         self.ui.Draw()
