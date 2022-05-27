@@ -1,1 +1,0 @@
-PLAYER_FILE = "data/local/players.txt"
