@@ -1,6 +1,5 @@
 Project
 - fix the continous integration to actually run the tests
-- test deployment and log all bugs from raw boot
 
 FEATURES
 - add multiple club select on boot
@@ -15,13 +14,6 @@ MATCHES
 TRAINING
 - visual display of training reports
 
-DATE
-- set initial date to todays date on date entry
-- add validation to stop more than two numbers being inserted
-- change month to a month dropdown
-- change year to a year dropdown
-
 BUG
 - if you add an opponent they are not selectable from the OptionMenu
 - logo is still feather
-- can input anything in date input
