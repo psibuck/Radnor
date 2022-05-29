@@ -18,9 +18,10 @@ MONTHS = [
 ]
 class DateEntry(Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, vertical = False):
         Frame.__init__(self, parent)
         self.date_display = None
+        self.vertical = vertical
         
         months = []
         for i in range(len(MONTHS)):
@@ -36,6 +37,9 @@ class DateEntry(Frame):
         self.year.set(today.year)
         self.year.trace("w", self.UpdateDays)
 
+        self.row = 0
+        self.column = 0
+
         # Year first
         year_buffer = 2
         year = today.year
@@ -45,18 +49,15 @@ class DateEntry(Frame):
         while start_year <= end_year:
             years.append(start_year)
             start_year += 1
-        OptionMenu(self, self.year, *years).grid(row=0, column=5)
-
-
+        year_menu = OptionMenu(self, self.year, *years)
         # Then month
-        OptionMenu(self, self.month, *months).grid(row=0, column=3)
-
+        month_menu = OptionMenu(self, self.month, *months)
         # combination of two decides how many days 
         self.UpdateDays()
 
-        Label(self, text="D:").grid(row=0, column=0)
-        Label(self, text="M:").grid(row=0, column=2)
-        Label(self, text="Y:").grid(row=0, column=4)
+        self.AddToGrid(Label(self, text="D"), self.date_display)
+        self.AddToGrid(Label(self, text="M:"), month_menu)
+        self.AddToGrid(Label(self, text="Y:"), year_menu)
 
     def SanitizeDate(self, date):
         str_date = str(date)
@@ -71,6 +72,15 @@ class DateEntry(Frame):
         
         return days + months + years
 
+    def AddToGrid(self, label, widget):
+        label.grid(column = self.column, row = self.row)
+        widget.grid(column = self.column + 1, row = self.row)
+
+        if self.vertical:
+            self.row += 1
+        else:
+            self.column += 2
+
     # Days is set based on the selected year and month
     def UpdateDays(self, *args):
         # if it's February and it's a leap year
@@ -78,6 +88,7 @@ class DateEntry(Frame):
             self.SetupDateDisplay(29)
         else:
             self.SetupDateDisplay(MONTHS[self.month.get() - 1][1])
+        self.date_display.grid(row=0, column=1)
     
     def SetupDateDisplay(self, num_days):
         if self.date_display != None:
@@ -93,8 +104,6 @@ class DateEntry(Frame):
             i += 1
 
         self.date_display = OptionMenu(self, self.day, *days)
-        self.date_display.grid(row=0, column=1)
-
             
 
 

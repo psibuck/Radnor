@@ -85,7 +85,7 @@ class TrainingReports(PageBase):
         training_table.AddColumns(columns)
         training_table.grid(row=0, column=0)
 
-        self.training_date = DateEntry(training_table)
+        self.training_date = DateEntry(training_table, True)
         self.training_date.grid(row=1, column=0)
 
         self.training_checkboxes = []
