@@ -57,7 +57,7 @@ class MatchReport:
 
     def GetVenue(self):
         return self.venue.name
-
+    
     def GetScoreline(self):
         if self.venue == Venue.AWAY:
             return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"

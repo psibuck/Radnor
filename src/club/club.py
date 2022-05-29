@@ -67,19 +67,29 @@ class Club:
         self.players.remove(player)
         self.players.sort()
 
+    def RemoveMatchReport(self, report):
+        self.match_reports.remove(report)
+        self.ProcessMatchReport(report, False)
+
     def ProcessMatchReports(self):
         for report in self.match_reports:
             self.ProcessMatchReport(report)
     
-    def ProcessMatchReport(self, report):
+    def ProcessMatchReport(self, report, add=True):
         for starter in report.starting_lineup:
             for player in self.players:
                 if player.name == starter:
-                    player.matches_started += 1
+                    if add:
+                        player.matches_started += 1
+                    else:
+                        player.matches_started -= 1
         for sub in report.subs:
             for player in self.players:
                 if player.name == sub:
-                    player.matches_as_sub += 1
+                    if add:
+                        player.matches_as_sub += 1
+                    else:
+                        player.matches_as_sub -= 1
 
     def ProcessTrainingReport(self, report):
         for attendee in report.attendees:

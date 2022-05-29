@@ -10,9 +10,11 @@ UI
 MATCHES
 - visual display of match reports
 - remove match reports button
+- sort match reports by date
 
 TRAINING
 - visual display of training reports
+- sort training reports by date
 
 BUG
 - if you add an opponent they are not selectable from the OptionMenu

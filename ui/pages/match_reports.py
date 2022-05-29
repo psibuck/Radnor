@@ -28,13 +28,17 @@ class MatchReports(PageBase):
         for widget in self.match_report_space.winfo_children():
             widget.destroy()
 
-        report_table = Table(self.match_report_space)
+        report_table = Table(self.match_report_space, remove_func=self.HandleRemoveMatchReport)
         report_table.pack(side = TOP)
 
         columns = [TableColumn("Date", function="GetDate"), TableColumn("Scoreline", function="GetScoreline"), TableColumn("Type", function="GetMatchType")]
         report_table.AddColumns(columns)
         for match_report in self.club.match_reports:
             report_table.AddObject(match_report)
+
+    def HandleRemoveMatchReport(self, report):
+        self.club.RemoveMatchReport(report)
+        self.ShowMatchReportList()
 
     def HandleSaveClicked(self):
         self.save_button.pack_forget()
