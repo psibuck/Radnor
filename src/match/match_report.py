@@ -56,23 +56,15 @@ class MatchReport(Fixture):
     def FromJson(self, json_data):
         self.starting_lineup = JsonGet(json_data, "starters")
         self.subs = JsonGet(json_data, "subs")
-       # self.match_type = JsonGet(json_data, "match_type", MatchType)
-        #self.venue = JsonGet(json_data, "venue", Venue)
-        #self.opponent = JsonGet(json_data, "opponent")
         self.club_goals = JsonGet(json_data, "goals", type=int)
         self.opponent_goals = JsonGet(json_data, "opponent_goals", type=int)
-        #self.date = JsonGet(json_data, "date")
         super().FromJson(json_data["fixture"])
 
     def ToJson(self):
         return {
             "starters" : self.starting_lineup,
             "subs": self.subs,
-            #"match_type": self.match_type.value,
-            #"venue": self.venue.value,
-            #"opponent": self.opponent,
             "goals": self.club_goals,
             "opponent_goals": self.opponent_goals,
-            #"date": self.date,
             "fixture": super().ToJson()
         }
