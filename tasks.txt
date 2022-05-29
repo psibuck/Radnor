@@ -3,13 +3,13 @@ Project
 
 FEATURES
 - add multiple club select on boot
+- add confirmation dialog to all remove club objects
 
 UI
 - value of ObjectListWidget?
 
 MATCHES
 - visual display of match reports
-- remove match reports button
 - sort match reports by date
 
 TRAINING
