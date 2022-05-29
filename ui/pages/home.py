@@ -1,7 +1,5 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
-from ui.widgets.object_list import ObjectListWidget
-from ui.widgets.player_entry import PlayerEntry
 from ui.widgets.table import Table, TableColumn
 
 class HomePage(PageBase):
@@ -57,6 +55,3 @@ class HomePage(PageBase):
     def OnRemovePlayerButtonPressed(self, player):
         self.club.RemovePlayer(player)
         self.RefreshPlayerList()
-    
-    def HandleInput(self, input):
-        return super().HandleInput(input)
