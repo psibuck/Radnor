@@ -55,7 +55,7 @@ class DateEntry(Frame):
         # combination of two decides how many days 
         self.UpdateDays()
 
-        self.AddToGrid(Label(self, text="D"), self.date_display)
+        self.AddToGrid(Label(self, text="D:"), self.date_display)
         self.AddToGrid(Label(self, text="M:"), month_menu)
         self.AddToGrid(Label(self, text="Y:"), year_menu)
 

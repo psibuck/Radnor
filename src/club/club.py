@@ -1,7 +1,7 @@
-from multiprocessing.dummy import Process
-import os, json
+import os
 from os.path import exists
 
+from src.match.fixture import Fixture
 from src.club.player import Player
 from src.match.match_report import MatchReport
 from src.club.training_report import TrainingReport
@@ -9,6 +9,7 @@ from src.club.training_venue import TrainingVenue
 from src.utilities.data_utilities import *
 
 CLUB_FILE = "/club.json"
+FIXTURES_FILE = "/fixtures.json"
 PLAYER_FILE = "/players.json"
 MATCH_REPORTS_FILE = "/match_reports.json"
 TRAINING_REPORTS_FILE = "/training_reports.json"
@@ -25,6 +26,7 @@ class Club:
         self.match_reports = []
         self.training_reports = []
         self.training_venues = []
+        self.fixtures = []
         self.opponents = []
 
     def SaveClub(self, folder):
@@ -32,6 +34,7 @@ class Club:
             os.mkdir(folder)
         SaveObjectToJson(folder + CLUB_FILE, self)
         SaveToJson(folder + PLAYER_FILE, self.players)
+        SaveToJson(folder + FIXTURES_FILE, self.fixtures)
         SaveToJson(folder + MATCH_REPORTS_FILE, self.match_reports)
         SaveToJson(folder + TRAINING_VENUES_FILE, self.training_venues)
         SaveToJson(folder + TRAINING_REPORTS_FILE, self.training_reports)
@@ -39,6 +42,7 @@ class Club:
     def Load(self, folder):
         LoadObjectFromJson(folder + CLUB_FILE, self)
         LoadFromJson(folder + PLAYER_FILE, Player, self.players)
+        LoadFromJson(folder + FIXTURES_FILE, Fixture, self.fixtures)
         LoadFromJson(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
         LoadFromJson(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
         LoadFromJson(folder + TRAINING_REPORTS_FILE, TrainingReport, self.training_reports)
@@ -58,6 +62,12 @@ class Club:
     def AddMatchReport(self, report):
         self.match_reports.append(report)
         self.ProcessMatchReport(report)
+
+    def AddFixture(self, fixture):
+        self.fixtures.append(fixture)
+
+    def RemoveFixture(self, fixture):
+        self.fixtures.remove(fixture)
 
     def AddTrainingReport(self, report):
         self.training_reports.append(report)
