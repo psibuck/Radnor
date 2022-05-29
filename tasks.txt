@@ -7,6 +7,8 @@ FEATURES
 
 UI
 - value of ObjectListWidget?
+- create concept of wizard classes where we create objects
+- convert all existing spaces to use wizards
 
 MATCHES
 - visual display of match reports
@@ -17,5 +19,4 @@ TRAINING
 - sort training reports by date
 
 BUG
-- if you add an opponent they are not selectable from the OptionMenu
 - logo is still feather
