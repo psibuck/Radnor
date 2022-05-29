@@ -59,6 +59,6 @@ def JsonGet(blob, variable_name, class_name=None, type=str):
         return ""
 
 def GetDateString(raw_data):
-    if len(raw_data) != 6:
+    if len(raw_data) != 8:
         print("ERROR: date incorrectly formatted")
-    return raw_data[:2] + "/" + raw_data[2:4] + "/20" + raw_data[4:]
+    return raw_data[:2] + "/" + raw_data[2:4] + "/" + raw_data[4:]

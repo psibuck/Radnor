@@ -65,9 +65,9 @@ class DateEntry(Frame):
         return str_date
 
     def GetDate(self):
-        days = self.SanitizeDate(self.day_entry.get())
-        months = self.SanitizeDate(MONTHS.index(self.month.get()) + 1)
-        years = self.SanitizeDate(self.year_entry.get())
+        days = self.SanitizeDate(self.day.get())
+        months = self.SanitizeDate(self.month.get())
+        years = self.SanitizeDate(self.year.get())
         
         return days + months + years
 
