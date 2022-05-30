@@ -5,6 +5,7 @@ from ui.pages.page_base import PageBase
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.table import Table, TableColumn
 from ui.widgets.labels import Title
+from ui.wizards.add_venue_wizard import AddVenueWizard
 
 import random
 
@@ -61,21 +62,7 @@ class TrainingReports(PageBase):
         self.setup_venue_space()
 
     def add_venue_button_pressed(self):
-        self.clear_creator_space()
-        
-        name_label = Label(self.creator_space, text="Venue Name")
-        name_label.grid(row=0, column=0)
-        name_input = Entry(self.creator_space)
-        name_input.grid(row=1,column=0)
-
-        cost_label = Label(self.creator_space, text="Cost")
-        cost_label.grid(row=0, column=1)
-
-        cost_input = Entry(self.creator_space)
-        cost_input.grid(row=1, column=1)
-
-        save_button = Button(self.creator_space, text="SAVE", command = lambda: self.add_venue(name_input.get(), cost_input.get()))
-        save_button.grid(row=2, column=2)
+        self.page_manager.open_wizard(AddVenueWizard)
 
     def add_training_button_pressed(self):
         self.clear_creator_space()

@@ -2,7 +2,6 @@ from select import select
 from tkinter import *
 from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
-from ui.wizards.wizard_base import WizardInfo
 from ui.wizards.add_player_wizard import AddPlayerWizard
 
 class HomePage(PageBase):
@@ -30,8 +29,7 @@ class HomePage(PageBase):
             self.player_list.add_object(player)    
 
     def on_add_player_button_pressed(self):
-        new_wizard = WizardInfo(AddPlayerWizard)
-        self.page_manager.open_wizard(new_wizard)
+        self.page_manager.open_wizard(AddPlayerWizard)
 
     def on_remove_player_button_pressed(self, player):
         self.club.remove_player(player)

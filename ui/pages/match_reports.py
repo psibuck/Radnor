@@ -4,7 +4,6 @@ from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
 from ui.widgets.labels import Title
 from ui.wizards.create_match_report_wizard import CreateMatchReportWizard
-from ui.wizards.wizard_base import WizardInfo
 
 class MatchReports(PageBase):
     name = "Matches"
@@ -58,8 +57,8 @@ class MatchReports(PageBase):
     def handle_remove_fixture(self, fixture):
         return
     
-    def handle_create_result_pressed(self):   
-        self.page_manager.open_wizard(WizardInfo(CreateMatchReportWizard))
+    def handle_create_result_pressed(self):  
+        self.page_manager.open_wizard(CreateMatchReportWizard)
 
     def handle_create_fixture_pressed(self):
         return
