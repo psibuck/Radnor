@@ -1,5 +1,5 @@
 from enum import Enum
-from src.utilities.data_utilities import json_get
+from src.utilities.data_utilities import json_get, get_date_string
 
 class MatchType(Enum):
     LEAGUE = 1
@@ -38,3 +38,9 @@ class Fixture:
             "opponent": self.opponent,
             "date": self.date
         }
+    
+    def get_match_type(self):
+        return self.match_type.name
+
+    def get_date(self):
+        return get_date_string(self.date)

@@ -38,17 +38,11 @@ class MatchReport(Fixture):
     def remove_sub(self, player):
         self.subs.remove(player.name)
     
-    def get_match_type(self):
-        return self.match_type.name
-
     def get_scoreline(self):
         if self.venue == Venue.AWAY:
             return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"
         else:
             return "test" + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
-
-    def get_date(self):
-        return get_date_string(self.date)
         
     def from_json(self, json_data):
         self.starting_lineup = json_get(json_data, "starters")

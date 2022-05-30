@@ -62,7 +62,7 @@ class Club:
         self.match_reports.append(report)
         self.process_match_report(report)
 
-    def AddFixture(self, fixture):
+    def add_fixture(self, fixture):
         self.fixtures.append(fixture)
 
     def remove_fixture(self, fixture):

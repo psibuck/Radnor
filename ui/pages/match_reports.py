@@ -3,6 +3,7 @@ from tkinter import Button, Frame, LEFT, RIGHT, BOTTOM, TOP
 from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
 from ui.widgets.labels import Title
+from ui.wizards.add_fixture_wizard import AddFixtureWizard
 from ui.wizards.add_match_report_wizard import AddMatchReportWizard
 
 class MatchReports(PageBase):
@@ -61,7 +62,7 @@ class MatchReports(PageBase):
         self.page_manager.open_wizard(AddMatchReportWizard)
 
     def handle_create_fixture_pressed(self):
-        return
+        self.page_manager.open_wizard(AddFixtureWizard)
 
     def shutdown(self):
         self.pending_report = None

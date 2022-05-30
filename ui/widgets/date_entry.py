@@ -44,7 +44,7 @@ class DateEntry(Frame):
         year_buffer = 2
         year = today.year
         years = []
-        start_year = year - year_buffer
+        start_year = year
         end_year = year + year_buffer
         while start_year <= end_year:
             years.append(start_year)

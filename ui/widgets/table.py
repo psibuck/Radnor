@@ -36,14 +36,14 @@ class Table(Frame):
             if column.property is not None:
                 property_name = column.property
                 if not hasattr(object, property_name):
-                    print("TABLE ERROR: object does not have expected property")
+                    print("TABLE ERROR: object does not have expected property: " + str(property_name))
                 else:
                     new_entry = Label(self, text=str(getattr(object, property_name)))
                     new_entry.grid(row = self.row, column = col)
             elif column.function is not None:
                 function = column.function
                 if not hasattr(object, function):
-                    print("TABLE ERROR: object does not have expected function")
+                    print("TABLE ERROR: object does not have expected function: " + str(function))
                 else:
                     new_entry = Label(self, text=str(getattr(object, function)()))
                     new_entry.grid(row = self.row, column = col)
