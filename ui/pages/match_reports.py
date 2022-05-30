@@ -12,57 +12,57 @@ class MatchReports(PageBase):
     def __init__(self, manager, root):
         super().__init__(manager, root)
         self.name = "Matches"
-        Button(self, text="Add Fixture", command=self.HandleCreateFixturePressed).pack(side=TOP)
-        Button(self, text="Add Result", command=self.HandleCreateResultPressed).pack(side=TOP)
+        Button(self, text="Add Fixture", command=self.handle_create_fixture_pressed).pack(side=TOP)
+        Button(self, text="Add Result", command=self.handle_create_result_pressed).pack(side=TOP)
         self.match_report_widget = None
 
-    def SetupContent(self):
+    def setup_content(self):
         self.fixture_space = Frame(self)
         self.fixture_space.pack(side = LEFT)
         self.match_report_space = Frame(self)
         self.match_report_space.pack(side = RIGHT)
         
-        self.ShowFixtureList()
-        self.ShowMatchReportList()
+        self.show_fixture_list()
+        self.show_match_report_list()
 
-    def ShowFixtureList(self):
+    def show_fixture_list(self):
         for widget in self.fixture_space.winfo_children():
             widget.destroy()
 
         Title(self.fixture_space, "Fixtures").pack(side = TOP)
-        fixture_table = Table(self.fixture_space, remove_func=self.HandleRemoveFixture)
+        fixture_table = Table(self.fixture_space, remove_func=self.handle_remove_fixture)
         fixture_table.pack(side = TOP)  
 
-        columns = [TableColumn("Date", function="GetDate"), TableColumn("Vs", "opponent"), TableColumn("Type", function="GetMatchType")]
-        fixture_table.AddColumns(columns)
+        columns = [TableColumn("Date", function="get_date"), TableColumn("Vs", "opponent"), TableColumn("Type", function="get_match_type")]
+        fixture_table.add_columns(columns)
         for fixture in self.club.fixtures:
-            fixture_table.AddObject(fixture)
+            fixture_table.add_object(fixture)
 
-    def ShowMatchReportList(self):
+    def show_match_report_list(self):
         for widget in self.match_report_space.winfo_children():
             widget.destroy()
 
         Title(self.match_report_space, "Results").pack(side = TOP)
-        report_table = Table(self.match_report_space, remove_func=self.HandleRemoveMatchReport)
+        report_table = Table(self.match_report_space, remove_func=self.handle_remove_match_report)
         report_table.pack(side = TOP)
 
-        columns = [TableColumn("Date", function="GetDate"), TableColumn("Scoreline", function="GetScoreline"), TableColumn("Type", function="GetMatchType")]
-        report_table.AddColumns(columns)
+        columns = [TableColumn("Date", function="get_date"), TableColumn("Scoreline", function="get_scoreline"), TableColumn("Type", function="get_match_type")]
+        report_table.add_columns(columns)
         for match_report in self.club.match_reports:
-            report_table.AddObject(match_report)
+            report_table.add_object(match_report)
 
-    def HandleRemoveMatchReport(self, report):
-        self.club.RemoveMatchReport(report)
-        self.ShowMatchReportList()
+    def handle_remove_match_report(self, report):
+        self.club.remove_match_report(report)
+        self.show_match_report_list()
 
-    def HandleRemoveFixture(self, fixture):
+    def handle_remove_fixture(self, fixture):
         return
     
-    def HandleCreateResultPressed(self):   
-        self.page_manager.OpenWizard(WizardInfo(CreateMatchReportWizard))
+    def handle_create_result_pressed(self):   
+        self.page_manager.open_wizard(WizardInfo(CreateMatchReportWizard))
 
-    def HandleCreateFixturePressed(self):
+    def handle_create_fixture_pressed(self):
         return
 
-    def ShutDown(self):
+    def shutdown(self):
         self.pending_report = None

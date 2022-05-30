@@ -13,8 +13,8 @@ class WizardBase(PageBase):
 
         Button(root, text="Add", command=self.handle_add_pressed).pack(side=BOTTOM)
         
-    def Close(self):
-        self.page_manager.OnWizardClosed()
+    def close(self):
+        self.page_manager.on_wizard_closed()
         
     def handle_add_pressed(self):
         print("ERROR: handle_add_pressed not implemented!")

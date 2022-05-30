@@ -1,6 +1,7 @@
 Project
 - fix the continous integration to actually run the tests
 - make all functions lower_case
+- delete test folder after tests finish
 
 FEATURES
 - add multiple club select on boot

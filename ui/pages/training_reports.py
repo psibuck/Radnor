@@ -19,7 +19,7 @@ class TrainingReports(PageBase):
         self.trained_players = []
         self.selected_venue = StringVar()
 
-    def SetupContent(self):
+    def setup_content(self):
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
@@ -34,34 +34,34 @@ class TrainingReports(PageBase):
         self.creator_space = Frame(self)
         self.creator_space.grid(row=0, column=1, sticky = "nesw")
 
-        self.SetupVenueSpace()
-        self.SetupTrainingSpace()
+        self.setup_venue_space()
+        self.setup_training_space()
 
-    def SetupVenueSpace(self):
+    def setup_venue_space(self):
         for widget in self.venue_frame.winfo_children():
             widget.destroy()
 
         venue_label = Title(self.venue_frame, "Venues")
         venue_label.pack(side = TOP)
 
-        venue_table = Table(self.venue_frame, self.RemoveVenue)
+        venue_table = Table(self.venue_frame, self.remove_venue)
         venue_table.pack(side = TOP)
         columns = [TableColumn("Name", "name"), TableColumn("Cost", "cost")]
-        venue_table.AddColumns(columns)
+        venue_table.add_columns(columns)
 
         for venue in self.club.training_venues:
-            venue_table.AddObject(venue)
+            venue_table.add_object(venue)
 
-        add_venue_button = Button(self.venue_frame, text="+", command=self.AddVenueButtonPressed)
+        add_venue_button = Button(self.venue_frame, text="+", command=self.add_venue_button_pressed)
         add_venue_button.pack(side = TOP)
 
-    def RemoveVenue(self, venue):
-        self.ClearCreatorSpace()
+    def remove_venue(self, venue):
+        self.clear_creator_space()
         self.club.training_venues.remove(venue)
-        self.SetupVenueSpace()
+        self.setup_venue_space()
 
-    def AddVenueButtonPressed(self):
-        self.ClearCreatorSpace()
+    def add_venue_button_pressed(self):
+        self.clear_creator_space()
         
         name_label = Label(self.creator_space, text="Venue Name")
         name_label.grid(row=0, column=0)
@@ -74,15 +74,15 @@ class TrainingReports(PageBase):
         cost_input = Entry(self.creator_space)
         cost_input.grid(row=1, column=1)
 
-        save_button = Button(self.creator_space, text="SAVE", command = lambda: self.AddVenue(name_input.get(), cost_input.get()))
+        save_button = Button(self.creator_space, text="SAVE", command = lambda: self.add_venue(name_input.get(), cost_input.get()))
         save_button.grid(row=2, column=2)
 
-    def AddTrainingButtonPressed(self):
-        self.ClearCreatorSpace()
+    def add_training_button_pressed(self):
+        self.clear_creator_space()
 
         training_table = Table(self.creator_space)
         columns = [TableColumn("Date"), TableColumn("Players"), TableColumn("Venue")]
-        training_table.AddColumns(columns)
+        training_table.add_columns(columns)
         training_table.grid(row=0, column=0)
 
         self.training_date = DateEntry(training_table, True)
@@ -91,7 +91,7 @@ class TrainingReports(PageBase):
         self.training_checkboxes = []
         row = 1
         for player in self.club.players:
-            select_button = Checkbutton(training_table, text=player.name, command= lambda name = player.name : self.SelectPlayer(name))
+            select_button = Checkbutton(training_table, text=player.name, command= lambda name = player.name : self.select_player(name))
             select_button.grid(row=row, column=1, sticky=W)
             self.training_checkboxes.append(select_button)        
             row += 1
@@ -107,16 +107,16 @@ class TrainingReports(PageBase):
             self.selected_venue.set("None")
             Label(training_table, text="No Venues Added").grid(row=1, column=2)
 
-        save_button = Button(self.creator_space, text="Save", command=self.AddTrainingSession)
+        save_button = Button(self.creator_space, text="Save", command=self.add_training_session)
         save_button.grid(row=1, column=3)
 
-    def SelectPlayer(self, player_name):
+    def select_player(self, player_name):
         if player_name in self.trained_players:
             self.trained_players.remove(player_name)
         else:
             self.trained_players.append(player_name)
 
-    def AddTrainingSession(self):
+    def add_training_session(self):
         new_report = TrainingReport()
         new_report.attendees = self.trained_players
 
@@ -124,45 +124,41 @@ class TrainingReports(PageBase):
             if venue.name == self.selected_venue.get():
                 new_report.venue = venue
                 break
-        self.club.AddTrainingReport(new_report)
+        self.club.add_training_report(new_report)
         self.trained_players = []
-        self.SetupTrainingSpace()
-        self.ClearCreatorSpace()
+        self.setup_training_space()
+        self.clear_creator_space()
 
-    def AddVenue(self, venue_name, venue_cost):
-        self.ClearCreatorSpace()
+    def add_venue(self, venue_name, venue_cost):
+        self.clear_creator_space()
         
         new_venue = TrainingVenue(venue_name, venue_cost)
         self.club.training_venues.append(new_venue)
 
-        self.SetupVenueSpace()
+        self.setup_venue_space()
 
-    def AddHeader(self, table, name, column):
-        new_header = Label(table, text=name)
-        new_header.grid(row=0, column=column)
-
-    def SetupTrainingSpace(self):
+    def setup_training_space(self):
         for widget in self.training_list_frame.winfo_children():
             widget.destroy()
 
         training_list_label = Title(self.training_list_frame, text="Sessions")
         training_list_label.pack(side = TOP)
 
-        training_table = Table(self.training_list_frame, remove_func = self.RemoveTrainingReport)
-        columns = [TableColumn("Date", function="GetDate" ), TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
-        training_table.AddColumns(columns)
+        training_table = Table(self.training_list_frame, remove_func = self.remove_training_report)
+        columns = [TableColumn("Date", function="get_date" ), TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
+        training_table.add_columns(columns)
         for report in self.club.training_reports:
-            training_table.AddObject(report)
+            training_table.add_object(report)
         training_table.pack(side=TOP)
 
-        add_training_button = Button(self.training_list_frame, text="+", command=self.AddTrainingButtonPressed)
+        add_training_button = Button(self.training_list_frame, text="+", command=self.add_training_button_pressed)
         add_training_button.pack(side=TOP)
 
-    def ClearCreatorSpace(self):
+    def clear_creator_space(self):
         for widget in self.creator_space.winfo_children():
             widget.destroy()
 
-    def RemoveTrainingReport(self, report):
-        self.ClearCreatorSpace()
+    def remove_training_report(self, report):
+        self.clear_creator_space()
         self.club.training_reports.remove(report)
-        self.SetupTrainingSpace()
+        self.setup_training_space()

@@ -16,7 +16,7 @@ class Table(Frame):
         self.columns = list[TableColumn]
         self.remove_func = remove_func
 
-    def AddColumns(self, columns: list[TableColumn]):
+    def add_columns(self, columns: list[TableColumn]):
         self.columns = columns
         
         col = 0
@@ -25,12 +25,12 @@ class Table(Frame):
             header.grid(row=0, column = col)
             col += 1
         
-    def ClearRows(self):
+    def clear_rows(self):
         for widget in self.winfo_children():
             if widget.__class__ is not TableHeader:
                 widget.destroy()
         
-    def AddObject(self, object):
+    def add_object(self, object):
         col = 0
         for column in self.columns:
             if column.property is not None:

@@ -51,11 +51,11 @@ class CreateMatchReportWizard(WizardBase):
         self.opposition_list = None
         if len(self.club.opponents) > 0:
             self.selected_opponent.set(self.club.opponents[0])
-            self.AddOppositionList()
+            self.add_opposition_list()
 
         self.oppo_entry = Entry(self.option_area, text="New Opponent")
         self.oppo_entry.grid(row=self.opponent_row, column=2)
-        Button(self.option_area, text="+", command=self.AddOpponent).grid(row=self.opponent_row, column=3)
+        Button(self.option_area, text="+", command=self.add_opponent).grid(row=self.opponent_row, column=3)
 
         TableHeader(self.option_area, "Match Type").grid(row=self.match_type_row, column=0)
         self.selected_match_type = StringVar()
@@ -81,51 +81,51 @@ class CreateMatchReportWizard(WizardBase):
         self.substitute_players_list = ObjectListWidget(player_area, "Substitutes")
         self.substitute_players_list.grid(row=1, column=2, sticky=N)
 
-        self.SetupObjectLists()
+        self.setup_objects_list()
 
-    def AddOppositionList(self):
+    def add_opposition_list(self):
         if self.opposition_list is not None:
             self.opposition_list.grid_forget()
         self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(self.club.opponents))
         self.opposition_list.grid(row=self.opponent_row, column=1)
 
-    def AddOpponent(self):
+    def add_opponent(self):
         opponent_name = self.oppo_entry.get()
         if len(opponent_name) > 0:
-            self.club.AddOpponent(opponent_name)
+            self.club.add_opponent(opponent_name)
             self.selected_opponent.set(opponent_name)
 
-            self.AddOppositionList()
+            self.add_opposition_list()
             while self.oppo_entry.get():
                 self.oppo_entry.delete(0)
 
-    def SelectStarter(self, object):
+    def select_starter(self, object):
         if len(self.first_XI) < 11:
-            self.SwapObject(self.available_players, self.first_XI, object)
+            self.swap_object(self.available_players, self.first_XI, object)
 
-    def SelectSub(self, object):
+    def select_sub(self, object):
         if len(self.subs) < 5:
-            self.SwapObject(self.available_players, self.subs, object)
+            self.swap_object(self.available_players, self.subs, object)
     
-    def DeselectPlayer(self, object):
-        self.SwapObject(self.first_XI, self.available_players, object)
-        self.SwapObject(self.subs, self.available_players, object)
+    def deselect_sub(self, object):
+        self.swap_object(self.first_XI, self.available_players, object)
+        self.swap_object(self.subs, self.available_players, object)
     
-    def SwapObject(self, current_list, new_list, object):
+    def swap_object(self, current_list, new_list, object):
         if object in current_list:
             current_list.remove(object)
             new_list.append(object)
             new_list.sort()
 
-            self.SetupObjectLists()
+            self.setup_objects_list()
 
-    def SetupObjectLists(self):
-        self.SetupList(self.available_players_list, self.available_players, [ButtonInfo(self.SelectSub, "SUB"), ButtonInfo(self.SelectStarter, "XI")]) 
-        self.SetupList(self.selected_players_list, self.first_XI, [ButtonInfo(self.DeselectPlayer, "-")])
-        self.SetupList(self.substitute_players_list, self.subs, [ButtonInfo(self.DeselectPlayer, "-")])
+    def setup_objects_list(self):
+        self.setup_list(self.available_players_list, self.available_players, [ButtonInfo(self.select_sub, "SUB"), ButtonInfo(self.select_starter, "XI")]) 
+        self.setup_list(self.selected_players_list, self.first_XI, [ButtonInfo(self.deselect_sub, "-")])
+        self.setup_list(self.substitute_players_list, self.subs, [ButtonInfo(self.deselect_sub, "-")])
     
-    def SetupList(self, list, objects, button_info_list):
-        list.ClearWidgets()
+    def setup_list(self, list, objects, button_info_list):
+        list.clear_widgets()
 
         widgets = []
         for object in objects:
@@ -133,21 +133,21 @@ class CreateMatchReportWizard(WizardBase):
 
             for button_info in button_info_list:
                 new_button = Button(entry_widget, text = button_info.icon, command = lambda w = object, button_action = button_info.action: button_action(w))
-                entry_widget.AddControl(new_button)
+                entry_widget.add_control(new_button)
             widgets.append(entry_widget)
-        list.Setup(widgets)
+        list.setup(widgets)
 
     def handle_add_pressed(self):
         new_match_report = MatchReport()
         for player in self.first_XI:
-            new_match_report.AddStarter(player)
+            new_match_report.add_starter(player)
         for sub in self.subs:
-            new_match_report.AddSub(sub)
+            new_match_report.add_sub(sub)
         new_match_report.club_goals = self.our_scoreline.get()
         new_match_report.opponent_goals = self.oppo_scoreline.get()
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
         new_match_report.venue = Venue[self.selected_venue.get()]
         new_match_report.opponent = self.selected_opponent.get()
-        new_match_report.date = self.date_entry.GetDate()
-        self.club.AddMatchReport(new_match_report)
-        self.Close()        
+        new_match_report.date = self.date_entry.get_date()
+        self.club.add_match_report(new_match_report)
+        self.close()        

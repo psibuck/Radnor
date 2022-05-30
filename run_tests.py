@@ -58,9 +58,9 @@ def TEST_create_match_report_and_save_and_load(test_folder):
     match_report = MatchReport()
 
     while len(match_report.starting_lineup) < 11:
-        match_report.AddStarter(Player(random.choice(TEST_PLAYERS)))
+        match_report.add_starter(Player(random.choice(TEST_PLAYERS)))
     while len(match_report.subs) < 5:
-        match_report.AddSub(Player(random.choice(TEST_PLAYERS)))
+        match_report.add_sub(Player(random.choice(TEST_PLAYERS)))
 
     match_report.match_type = random.choice(list(MatchType))
     match_report.venue = random.choice(list(Venue))

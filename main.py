@@ -6,33 +6,33 @@ from ui.page_manager import PageManager
 class Application:
 
     def __init__(self):
-        self.MakeDataStructure()
+        self.make_data_structure()
 
         self.club = Club("Radnor")
-        self.club.Load("data/local/" + self.club.name)
+        self.club.load_club("data/local/" + self.club.name)
         self.ui = PageManager(self)
         
         self.is_running = True
 
-    def MakeDataStructure(self):
+    def make_data_structure(self):
         if not os.path.exists("data"):
             os.mkdir("data")
         if not os.path.exists("data/local"):
             os.mkdir("data/local")   
 
-    def Activate(self):
-        self.ui.Draw()
+    def activate(self):
+        self.ui.draw()
 
-    def LoadMatchReports(self):
+    def load_match_reports(self):
         return
     
-    def Quit(self):
-        app.club.SaveClub("data/local/" + app.club.name)
-        self.ui.Shutdown()
+    def quit(self):
+        app.club.save_club("data/local/" + app.club.name)
+        self.ui.shutdown()
 
 # Refactor this, consider role of page manager vs app, same thing?
 app = Application()
-app.Activate()
+app.activate()
 
 
 

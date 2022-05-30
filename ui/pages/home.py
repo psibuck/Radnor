@@ -11,28 +11,28 @@ class HomePage(PageBase):
     def __init__(self, manager, root):
         super().__init__(manager, root)
         
-    def SetupContent(self):
-        Button(self, text="Add Player", command=self.OnAddPlayerButtonPressed).pack(side=BOTTOM)
-        self.ShowPlayerList()
+    def setup_content(self):
+        Button(self, text="Add Player", command=self.on_add_player_button_pressed).pack(side=BOTTOM)
+        self.show_player_list()
 
-    def ShowPlayerList(self):
-        self.player_list = Table(self, remove_func=self.OnRemovePlayerButtonPressed)
-        columns = [TableColumn("Name", "name"), TableColumn("Appearances", function = "GetAppearances"), TableColumn("Training", "training_attendance")]
-        self.player_list.AddColumns(columns)
+    def show_player_list(self):
+        self.player_list = Table(self, remove_func=self.on_remove_player_button_pressed)
+        columns = [TableColumn("Name", "name"), TableColumn("Appearances", function = "get_appearances"), TableColumn("Training", "training_attendance")]
+        self.player_list.add_columns(columns)
         self.player_list.pack(side=LEFT)
         
-        self.RefreshPlayerList()
+        self.refresh_player_list()
 
-    def RefreshPlayerList(self):
-        self.player_list.ClearRows()
+    def refresh_player_list(self):
+        self.player_list.clear_rows()
 
         for player in self.club.players:
-            self.player_list.AddObject(player)    
+            self.player_list.add_object(player)    
 
-    def OnAddPlayerButtonPressed(self):
+    def on_add_player_button_pressed(self):
         new_wizard = WizardInfo(AddPlayerWizard)
-        self.page_manager.OpenWizard(new_wizard)
+        self.page_manager.open_wizard(new_wizard)
 
-    def OnRemovePlayerButtonPressed(self, player):
-        self.club.RemovePlayer(player)
-        self.RefreshPlayerList()
+    def on_remove_player_button_pressed(self, player):
+        self.club.remove_player(player)
+        self.refresh_player_list()

@@ -10,11 +10,11 @@ class PageBase(Frame):
         self.root = root
         self.club = manager.app.club
 
-    def SetupContent(self):
+    def setup_content(self):
         label = Label(self, text="unimplemented page")
         label.pack()
         return 
 
-    def Shutdown(self):
+    def shutdown(self):
         for widget in self.winfo_children():
             widget.destroy()

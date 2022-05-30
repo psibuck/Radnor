@@ -1,5 +1,5 @@
 from enum import Enum
-from src.utilities.data_utilities import JsonGet, GetDateString
+from src.utilities.data_utilities import json_get
 
 class MatchType(Enum):
     LEAGUE = 1
@@ -25,13 +25,13 @@ class Fixture:
         self.venue = Venue.HOME
         self.match_type = MatchType.LEAGUE
 
-    def FromJson(self, json_data):
-        self.match_type = JsonGet(json_data, "match_type", MatchType)
-        self.venue = JsonGet(json_data, "venue", Venue)
-        self.opponent = JsonGet(json_data, "opponent")
-        self.date = JsonGet(json_data, "date")
+    def from_json(self, json_data):
+        self.match_type = json_get(json_data, "match_type", MatchType)
+        self.venue = json_get(json_data, "venue", Venue)
+        self.opponent = json_get(json_data, "opponent")
+        self.date = json_get(json_data, "date")
 
-    def ToJson(self):
+    def to_json(self):
         return {
             "match_type": self.match_type.value,
             "venue": self.venue.value,

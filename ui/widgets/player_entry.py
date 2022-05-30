@@ -9,12 +9,12 @@ class PlayerEntry(Frame):
         self.column = 0
 
         self.player = player
-        self.SetupUI()
+        self.setup_ui()
 
-    def SetupUI(self):
-        self.AddControl(Label(self, text = self.player.name))
+    def setup_ui(self):
+        self.add_control(Label(self, text = self.player.name))
 
-    def AddControl(self, control_widget):
+    def add_control(self, control_widget):
         control_widget.grid(row=self.row, column=self.column)
         self.column += 1
 

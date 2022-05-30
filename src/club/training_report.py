@@ -1,5 +1,5 @@
 from src.club.training_venue import TrainingVenue
-from src.utilities.data_utilities import GetDateString, JsonGet
+from src.utilities.data_utilities import get_date_string, json_get
 
 # A trainig report tracks who attended a training session on which date etc
 class TrainingReport:
@@ -26,20 +26,20 @@ class TrainingReport:
     def GetNumAttendees(self):
         return len(self.attendees)
 
-    def ToJson(self):
+    def to_json(self):
         return {
             "attendees": self.attendees,
-            "venue": self.venue.ToJson(),
+            "venue": self.venue.to_json(),
             "date": self.date
         }
     
-    def FromJson(self, json_data):
+    def from_json(self, json_data):
         self.attendees = json_data["attendees"]
         self.venue = TrainingVenue()
-        self.venue.FromJson(json_data["venue"])
-        self.date = JsonGet(json_data, "date")
+        self.venue.from_json(json_data["venue"])
+        self.date = json_get(json_data, "date")
 
-    def GetDate(self):
-        return GetDateString(self.date)
+    def get_date(self):
+        return get_date_string(self.date)
         
         

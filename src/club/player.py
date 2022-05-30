@@ -17,14 +17,14 @@ class Player:
     def __str__(self) -> str:
         return self.name
 
-    def FromJson(self, json_data):
+    def from_json(self, json_data):
         self.name = json_data["name"]
         return
     
-    def ToJson(self):
+    def to_json(self):
         return {
             "name": self.name
         }
 
-    def GetAppearances(self):
+    def get_appearances(self):
         return str(self.matches_started) + "(" + str(self.matches_as_sub) + ")"

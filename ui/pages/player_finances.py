@@ -6,6 +6,6 @@ class FinancesPage(PageBase):
         super().__init__(manager, root)
         self.name = "finances"
 
-    def Draw(self):
+    def draw(self):
         print("This is the finances page")
         print("Lee owes bank")

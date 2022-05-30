@@ -1,5 +1,5 @@
 from src.match.fixture import Fixture, Venue
-from src.utilities.data_utilities import JsonGet, GetDateString
+from src.utilities.data_utilities import get_date_string, json_get, get_date_string
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
@@ -14,57 +14,54 @@ class MatchReport(Fixture):
         self.club_goals = 0
         self.opponent_goals = 0
     
-    def FromFixture(self, fixture):
+    def from_fixture(self, fixture):
         self.date = fixture.date
         self.opponent = fixture.opponent
         self.venue = fixture.venue
         self.match_type = fixture.match_type
 
-    def AddStarter(self, player):
+    def add_starter(self, player):
         if len(self.starting_lineup) >= MAX_PLAYERS:
             print("ERROR: Starting lineup is full")
         else:
             self.starting_lineup.append(player.name)
     
-    def AddSub(self, player):
+    def add_sub(self, player):
         if len(self.subs) >= MAX_SUBS:
             print("ERROR: Subs bench is full")
         else:
             self.subs.append(player.name)
 
-    def RemoveStarter(self, player):
+    def remove_starter(self, player):
         self.starting_lineup.remove(player.name)
 
-    def RemoveSub(self, player):
+    def remove_sub(self, player):
         self.subs.remove(player.name)
     
-    def GetMatchType(self):
+    def get_match_type(self):
         return self.match_type.name
 
-    def GetVenue(self):
-        return self.venue.name
-    
-    def GetScoreline(self):
+    def get_scoreline(self):
         if self.venue == Venue.AWAY:
             return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"
         else:
             return "test" + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
 
-    def GetDate(self):
-        return GetDateString(self.date)
+    def get_date(self):
+        return get_date_string(self.date)
         
-    def FromJson(self, json_data):
-        self.starting_lineup = JsonGet(json_data, "starters")
-        self.subs = JsonGet(json_data, "subs")
-        self.club_goals = JsonGet(json_data, "goals", type=int)
-        self.opponent_goals = JsonGet(json_data, "opponent_goals", type=int)
-        super().FromJson(json_data["fixture"])
+    def from_json(self, json_data):
+        self.starting_lineup = json_get(json_data, "starters")
+        self.subs = json_get(json_data, "subs")
+        self.club_goals = json_get(json_data, "goals", type=int)
+        self.opponent_goals = json_get(json_data, "opponent_goals", type=int)
+        super().from_json(json_data["fixture"])
 
-    def ToJson(self):
+    def to_json(self):
         return {
             "starters" : self.starting_lineup,
             "subs": self.subs,
             "goals": self.club_goals,
             "opponent_goals": self.opponent_goals,
-            "fixture": super().ToJson()
+            "fixture": super().to_json()
         }

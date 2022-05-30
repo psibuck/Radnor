@@ -7,7 +7,7 @@ class ObjectListWidget(Frame):
         self.title = title
         self.title_label = None
 
-    def Setup(self, widgets):
+    def setup(self, widgets):
         if self.title != "" and self.title_label == None:
             self.title_label = Label(self, text = self.title)
             self.title_label.grid(column=0, row=0)
@@ -17,7 +17,7 @@ class ObjectListWidget(Frame):
             widget.grid(column=0, row=row)
             row += 1
 
-    def ClearWidgets(self):
+    def clear_widgets(self):
         for widget in self.winfo_children():
             if widget is not self.title_label:
                 widget.destroy()

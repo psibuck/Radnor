@@ -16,7 +16,7 @@ class AddPlayerWizard(WizardBase):
             if success:
                 while self.input_box.get():
                     self.input_box.delete(0)
-                self.Close()
+                self.close()
             else:
                 self.error_message.set("ERROR: " + error)
 

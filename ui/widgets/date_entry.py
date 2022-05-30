@@ -1,6 +1,6 @@
 from datetime import date
 import calendar
-from tkinter import Frame, IntVar, Label, OptionMenu, StringVar
+from tkinter import Frame, IntVar, Label, OptionMenu
 
 MONTHS = [
     ["Jan", 31],
@@ -32,10 +32,10 @@ class DateEntry(Frame):
         self.day.set(today.day)
         self.month = IntVar()
         self.month.set(today.month)
-        self.month.trace("w", self.UpdateDays)
+        self.month.trace("w", self.update_days)
         self.year = IntVar()
         self.year.set(today.year)
-        self.year.trace("w", self.UpdateDays)
+        self.year.trace("w", self.update_days)
 
         self.row = 0
         self.column = 0
@@ -53,26 +53,26 @@ class DateEntry(Frame):
         # Then month
         month_menu = OptionMenu(self, self.month, *months)
         # combination of two decides how many days 
-        self.UpdateDays()
+        self.update_days()
 
-        self.AddToGrid(Label(self, text="D:"), self.date_display)
-        self.AddToGrid(Label(self, text="M:"), month_menu)
-        self.AddToGrid(Label(self, text="Y:"), year_menu)
+        self.add_to_grid(Label(self, text="D:"), self.date_display)
+        self.add_to_grid(Label(self, text="M:"), month_menu)
+        self.add_to_grid(Label(self, text="Y:"), year_menu)
 
-    def SanitizeDate(self, date):
+    def sanitize_data(self, date):
         str_date = str(date)
         if len(str_date) == 1:
             str_date = "0" + str_date
         return str_date
 
-    def GetDate(self):
-        days = self.SanitizeDate(self.day.get())
-        months = self.SanitizeDate(self.month.get())
-        years = self.SanitizeDate(self.year.get())
+    def get_date(self):
+        days = self.sanitize_data(self.day.get())
+        months = self.sanitize_data(self.month.get())
+        years = self.sanitize_data(self.year.get())
         
         return days + months + years
 
-    def AddToGrid(self, label, widget):
+    def add_to_grid(self, label, widget):
         label.grid(column = self.column, row = self.row)
         widget.grid(column = self.column + 1, row = self.row)
 
@@ -82,15 +82,15 @@ class DateEntry(Frame):
             self.column += 2
 
     # Days is set based on the selected year and month
-    def UpdateDays(self, *args):
+    def update_days(self, *args):
         # if it's February and it's a leap year
         if self.month.get() == 2 and calendar.isleap(self.year.get()):
-            self.SetupDateDisplay(29)
+            self.setup_date_display(29)
         else:
-            self.SetupDateDisplay(MONTHS[self.month.get() - 1][1])
+            self.setup_date_display(MONTHS[self.month.get() - 1][1])
         self.date_display.grid(row=0, column=1)
     
-    def SetupDateDisplay(self, num_days):
+    def setup_date_display(self, num_days):
         if self.date_display != None:
             self.date_display.grid_forget()
 

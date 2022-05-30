@@ -1,5 +1,4 @@
 import os
-from os.path import exists
 
 from src.match.fixture import Fixture
 from src.club.player import Player
@@ -29,28 +28,28 @@ class Club:
         self.fixtures = []
         self.opponents = []
 
-    def SaveClub(self, folder):
+    def save_club(self, folder):
         if not os.path.exists(folder):
             os.mkdir(folder)
-        SaveObjectToJson(folder + CLUB_FILE, self)
-        SaveToJson(folder + PLAYER_FILE, self.players)
-        SaveToJson(folder + FIXTURES_FILE, self.fixtures)
-        SaveToJson(folder + MATCH_REPORTS_FILE, self.match_reports)
-        SaveToJson(folder + TRAINING_VENUES_FILE, self.training_venues)
-        SaveToJson(folder + TRAINING_REPORTS_FILE, self.training_reports)
+        save_object_to_json(folder + CLUB_FILE, self)
+        save_to_json(folder + PLAYER_FILE, self.players)
+        save_to_json(folder + FIXTURES_FILE, self.fixtures)
+        save_to_json(folder + MATCH_REPORTS_FILE, self.match_reports)
+        save_to_json(folder + TRAINING_VENUES_FILE, self.training_venues)
+        save_to_json(folder + TRAINING_REPORTS_FILE, self.training_reports)
 
-    def Load(self, folder):
-        LoadObjectFromJson(folder + CLUB_FILE, self)
-        LoadFromJson(folder + PLAYER_FILE, Player, self.players)
-        LoadFromJson(folder + FIXTURES_FILE, Fixture, self.fixtures)
-        LoadFromJson(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
-        LoadFromJson(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
-        LoadFromJson(folder + TRAINING_REPORTS_FILE, TrainingReport, self.training_reports)
+    def load_club(self, folder):
+        load_object_from_json(folder + CLUB_FILE, self)
+        load_from_json(folder + PLAYER_FILE, Player, self.players)
+        load_from_json(folder + FIXTURES_FILE, Fixture, self.fixtures)
+        load_from_json(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
+        load_from_json(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
+        load_from_json(folder + TRAINING_REPORTS_FILE, TrainingReport, self.training_reports)
 
-        self.ProcessMatchReports()
-        self.ProcessTrainingReports()
+        self.process_match_reports()
+        self.process_training_reports()
 
-    def AddPlayer(self, name):
+    def add_player(self, name):
         for player in self.players:
             if player.name == name:
                 return False, "Player must have distinct name"
@@ -59,33 +58,33 @@ class Club:
         self.players.sort()
         return True, None
     
-    def AddMatchReport(self, report):
+    def add_match_report(self, report):
         self.match_reports.append(report)
-        self.ProcessMatchReport(report)
+        self.process_match_report(report)
 
     def AddFixture(self, fixture):
         self.fixtures.append(fixture)
 
-    def RemoveFixture(self, fixture):
+    def remove_fixture(self, fixture):
         self.fixtures.remove(fixture)
 
-    def AddTrainingReport(self, report):
+    def add_training_report(self, report):
         self.training_reports.append(report)
-        self.ProcessTrainingReport(report)
+        self.process_training_report(report)
 
-    def RemovePlayer(self, player):
+    def remove_player(self, player):
         self.players.remove(player)
         self.players.sort()
 
-    def RemoveMatchReport(self, report):
+    def remove_match_report(self, report):
         self.match_reports.remove(report)
-        self.ProcessMatchReport(report, False)
+        self.process_match_report(report, False)
 
-    def ProcessMatchReports(self):
+    def process_match_reports(self):
         for report in self.match_reports:
-            self.ProcessMatchReport(report)
+            self.process_match_report(report)
     
-    def ProcessMatchReport(self, report, add=True):
+    def process_match_report(self, report, add=True):
         for starter in report.starting_lineup:
             for player in self.players:
                 if player.name == starter:
@@ -101,25 +100,25 @@ class Club:
                     else:
                         player.matches_as_sub -= 1
 
-    def ProcessTrainingReport(self, report):
+    def process_training_report(self, report):
         for attendee in report.attendees:
             for player in self.players:
                 if player.name == attendee:
                     player.training_attendance += 1
 
-    def ProcessTrainingReports(self):
+    def process_training_reports(self):
         for report in self.training_reports:
-            self.ProcessTrainingReport(report)
+            self.process_training_report(report)
 
-    def AddOpponent(self, opponent):
+    def add_opponent(self, opponent):
         self.opponents.append(opponent)
         self.opponents.sort()
     
-    def FromJson(self, json_data):
-        self.name = JsonGet(json_data, "name")
-        self.opponents = JsonGet(json_data, "opponents")
+    def from_json(self, json_data):
+        self.name = json_get(json_data, "name")
+        self.opponents = json_get(json_data, "opponents")
 
-    def ToJson(self):
+    def to_json(self):
         return {
             "name": self.name,
             "opponents": self.opponents
