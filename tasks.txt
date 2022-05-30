@@ -9,7 +9,6 @@ FEATURES
 
 UI
 - value of ObjectListWidget?
-- convert all existing spaces to use wizards
 
 MATCHES
 - visual display of match reports

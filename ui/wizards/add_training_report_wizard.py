@@ -13,7 +13,7 @@ class AddTrainingReportWizard(WizardBase):
         self.trained_players = []
         self.selected_venue = StringVar()
 
-        training_table = Table(self)
+        training_table = Table(self.content_container)
         columns = [TableColumn("Date"), TableColumn("Players"), TableColumn("Venue")]
         training_table.add_columns(columns)
         training_table.grid(row=0, column=0)

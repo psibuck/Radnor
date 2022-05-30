@@ -18,8 +18,8 @@ class NumericEntry(Entry):
     def __init__(self, parent):
         Entry.__init__(self, parent, width=2)
 
-# CreateMatchReportWizard allows users to create a match report
-class CreateMatchReportWizard(WizardBase):
+# AddMatchReportWizard allows users to create a match report
+class AddMatchReportWizard(WizardBase):
     scoreline_row = 0
     opponent_row = 1
     match_type_row = 2
@@ -33,10 +33,10 @@ class CreateMatchReportWizard(WizardBase):
         self.first_XI = []
         self.subs = []
 
-        self.option_area = Frame(self)
+        self.option_area = Frame(self.content_container)
         self.option_area.pack(side=TOP)
 
-        player_area = Frame(self)
+        player_area = Frame(self.content_container)
         player_area.pack(side=BOTTOM)
 
         TableHeader(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)

@@ -8,15 +8,15 @@ class AddVenueWizard(WizardBase):
     def __init__(self, manager, root):
         super().__init__(manager, root)
 
-        Label(self, text="Venue Name").grid(row=0, column=0)
+        Label(self.content_container, text="Venue Name").grid(row=0, column=0)
 
-        self.name_input = Entry(self)
+        self.name_input = Entry(self.content_container)
         self.name_input.grid(row=1,column=0)
 
-        cost_label = Label(self, text="Cost")
+        cost_label = Label(self.content_container, text="Cost")
         cost_label.grid(row=0, column=1)
 
-        self.cost_input = Entry(self)
+        self.cost_input = Entry(self.content_container)
         self.cost_input.grid(row=1, column=1)
 
     def handle_add_pressed(self):
