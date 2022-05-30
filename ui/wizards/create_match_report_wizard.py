@@ -1,10 +1,11 @@
 from tkinter import *
-from src.match.match_report import MatchReport, MatchType, Venue
+from src.match.fixture import MatchType, Venue
+from src.match.match_report import MatchReport
 from ui.widgets.object_list import ObjectListWidget
-
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
 from ui.widgets.table import TableHeader
+from ui.wizards.wizard_base import WizardBase
 
 class ButtonInfo:
 
@@ -15,25 +16,22 @@ class ButtonInfo:
 class NumericEntry(Entry):
 
     def __init__(self, parent):
-        Entry.__init__(self, parent)
+        Entry.__init__(self, parent, width=2)
 
-# SelectTeamWidget allows the user to select a first XI and subs bench from the signed on players
-class CreateMatchReportWidget(Frame):
+# CreateMatchReportWizard allows users to create a match report
+class CreateMatchReportWizard(WizardBase):
     scoreline_row = 0
     opponent_row = 1
     match_type_row = 2
     venue_row = 3
     date_row = 4
 
-    def __init__(self, club, parent, match_report_created_command=None):
-        Frame.__init__(self, parent)
-        self.club = club
+    def __init__(self, manager, root):
+        super().__init__(manager, root)
         self.pack()
-        self.available_players = club.players[:]
+        self.available_players = self.club.players[:]
         self.first_XI = []
         self.subs = []
-
-        self.on_create = match_report_created_command
 
         self.option_area = Frame(self)
         self.option_area.pack(side=TOP)
@@ -51,8 +49,8 @@ class CreateMatchReportWidget(Frame):
         TableHeader(self.option_area, "Opposition").grid(row=self.opponent_row, column=0)
         self.selected_opponent = StringVar()
         self.opposition_list = None
-        if len(club.opponents) > 0:
-            self.selected_opponent.set(club.opponents[0])
+        if len(self.club.opponents) > 0:
+            self.selected_opponent.set(self.club.opponents[0])
             self.AddOppositionList()
 
         self.oppo_entry = Entry(self.option_area, text="New Opponent")
@@ -139,7 +137,7 @@ class CreateMatchReportWidget(Frame):
             widgets.append(entry_widget)
         list.Setup(widgets)
 
-    def CreateMatchReport(self):
+    def handle_add_pressed(self):
         new_match_report = MatchReport()
         for player in self.first_XI:
             new_match_report.AddStarter(player)
@@ -151,5 +149,5 @@ class CreateMatchReportWidget(Frame):
         new_match_report.venue = Venue[self.selected_venue.get()]
         new_match_report.opponent = self.selected_opponent.get()
         new_match_report.date = self.date_entry.GetDate()
-        return new_match_report
-        
+        self.club.AddMatchReport(new_match_report)
+        self.Close()        

@@ -4,9 +4,11 @@ from tkinter import Frame
 class PageBase(Frame):
     name = "No name provided"
     
-    def __init__(self, root, app):
+    def __init__(self, manager, root):
         Frame.__init__(self, root)
-        self.club = app.club
+        self.page_manager = manager
+        self.root = root
+        self.club = manager.app.club
 
     def SetupContent(self):
         label = Label(self, text="unimplemented page")

@@ -1,5 +1,6 @@
 Project
 - fix the continous integration to actually run the tests
+- make all functions lower_case
 
 FEATURES
 - add multiple club select on boot
@@ -7,7 +8,6 @@ FEATURES
 
 UI
 - value of ObjectListWidget?
-- create concept of wizard classes where we create objects
 - convert all existing spaces to use wizards
 
 MATCHES

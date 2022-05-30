@@ -1,10 +1,10 @@
 from ui.pages.page_base import PageBase
-from ui.widgets.create_match_report_widget import CreateMatchReportWidget
+from ui.wizards.create_match_report_wizard import CreateMatchReportWidget
 
 class StatsPage(PageBase):
     
-    def __init__(self, root, app):
-        super().__init__(root, app)
+    def __init__(self, manager, root):
+        super().__init__(manager, root)
         self.name = "stats"
 
     def SetupContent(self):

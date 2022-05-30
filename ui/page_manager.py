@@ -13,6 +13,7 @@ class PageManager:
         self.root = tk.Tk()
         self.app = app
 
+        self.current_index = 0
         self.current_page = None
         self.pages = []
         self.pages.append(HomePage)
@@ -39,16 +40,28 @@ class PageManager:
 
     def SwitchPage(self, page_index):
         if page_index < len(self.pages):
-        
+            
+            self.current_index = page_index
             if self.current_page != None:
                 self.current_page.Shutdown()
 
             for widget in self.content_area.winfo_children():
                 widget.destroy()
  
-            self.current_page = self.pages[page_index](self.content_area, self.app)
+            self.current_page = self.pages[page_index](self, self.content_area)
             self.current_page.SetupContent()
             self.current_page.pack(fill=BOTH)
+
+    def OpenWizard(self, wizard_info):
+        for widget in self.content_area.winfo_children():
+            widget.destroy()
+        self.current_page = None
+        
+        new_page = wizard_info.wizard_class(self, self.content_area)
+        new_page.pack(fill=BOTH)
+
+    def OnWizardClosed(self):
+        self.SwitchPage(self.current_index)
 
     def Draw(self):
         self.root.mainloop()

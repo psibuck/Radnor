@@ -11,8 +11,8 @@ import random
 class TrainingReports(PageBase):
     name = "Training"
 
-    def __init__(self, root, app):
-        super().__init__(root, app)
+    def __init__(self, manager, root):
+        super().__init__(manager, root)
         self.venue_frame = None
         self.training_list_frame = None
         self.creator_space = None

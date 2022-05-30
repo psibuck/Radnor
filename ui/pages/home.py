@@ -1,18 +1,18 @@
+from select import select
 from tkinter import *
 from ui.pages.page_base import PageBase
 from ui.widgets.table import Table, TableColumn
+from ui.wizards.wizard_base import WizardInfo
+from ui.wizards.add_player_wizard import AddPlayerWizard
 
 class HomePage(PageBase):
     name = "Club"
     
-    def __init__(self, root, app):
-        super().__init__(root, app)
-
-        self.input_box = None
-        self.player_list = None
+    def __init__(self, manager, root):
+        super().__init__(manager, root)
         
     def SetupContent(self):
-        self.ShowPlayerButtonArea()
+        Button(self, text="Add Player", command=self.OnAddPlayerButtonPressed).pack(side=BOTTOM)
         self.ShowPlayerList()
 
     def ShowPlayerList(self):
@@ -27,30 +27,11 @@ class HomePage(PageBase):
         self.player_list.ClearRows()
 
         for player in self.club.players:
-            self.player_list.AddObject(player)
-        
-    def ShowPlayerButtonArea(self):
-        add_player_frame = Frame(self, height = 50)
-        self.input_box = Entry(add_player_frame)
-        self.input_box.grid(row=0, column=0)
-        add_player_button = Button(add_player_frame, text="Add Player", command=self.OnAddPlayerButtonPressed)
-        add_player_button.grid(row=0,column=1)
-        self.error_message = StringVar() 
-        Label(add_player_frame, textvariable=self.error_message).grid(row=0, column=2)
-        add_player_frame.pack(side = TOP)
+            self.player_list.AddObject(player)    
 
     def OnAddPlayerButtonPressed(self):
-        player_name = self.input_box.get()
-        if len(player_name) > 0:
-            success, error = self.club.AddPlayer(player_name)
-            if success:
-                while self.input_box.get():
-                    self.input_box.delete(0)
-                self.RefreshPlayerList()
-                self.error_message.set("Player Added!")
-            else:
-                self.error_message.set("ERROR: " + error)
-
+        new_wizard = WizardInfo(AddPlayerWizard)
+        self.page_manager.OpenWizard(new_wizard)
 
     def OnRemovePlayerButtonPressed(self, player):
         self.club.RemovePlayer(player)
