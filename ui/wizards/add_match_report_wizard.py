@@ -15,8 +15,24 @@ class ButtonInfo:
 
 class NumericEntry(Entry):
 
-    def __init__(self, parent):
-        Entry.__init__(self, parent, width=2)
+    def __init__(self, parent, variable = None):
+        Entry.__init__(self, parent, width=2, textvariable = variable)
+
+class GoalDisplay(Frame):
+
+    def __init__(self, root, page_manager):
+        super().__init__(root)
+
+        self.root = page_manager.root
+        TableHeader(self, text="Goals").pack(side=TOP)
+
+    def handle_goals_update(self, var, index, mode):
+        test = self.root.globalgetvar(var)
+        if test != "":
+            for i in range(int(test)):
+                string = "Goal " + str(i)
+                Label(self, text=string).pack(side=TOP)
+
 
 # AddMatchReportWizard allows users to create a match report
 class AddMatchReportWizard(WizardBase):
@@ -28,7 +44,7 @@ class AddMatchReportWizard(WizardBase):
 
     def __init__(self, manager, root):
         super().__init__(manager, root)
-        self.pack()
+        
         self.available_players = self.club.players[:]
         self.first_XI = []
         self.subs = []
@@ -37,11 +53,17 @@ class AddMatchReportWizard(WizardBase):
         self.option_area.pack(side=TOP)
 
         player_area = Frame(self.content_container)
-        player_area.pack(side=BOTTOM)
+        player_area.pack(side=TOP)
+
+        self.goal_area = GoalDisplay(self.content_container, manager)
+        self.goal_area.pack(side=TOP)
+
+        self.our_goals = IntVar(manager.root)
+        self.our_goals.set(0)
+        self.our_goals.trace("w", self.goal_area.handle_goals_update)
 
         TableHeader(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
-        self.our_scoreline = NumericEntry(self.option_area)
-        self.our_scoreline.grid(row=self.scoreline_row, column = 1)
+        NumericEntry(self.option_area, self.our_goals).grid(row=self.scoreline_row, column = 1)
         TableHeader(self.option_area, text="Opposition").grid(row=self.scoreline_row, column=2)
         self.oppo_scoreline = NumericEntry(self.option_area)
         self.oppo_scoreline.grid(row=self.scoreline_row, column = 3)
@@ -82,6 +104,7 @@ class AddMatchReportWizard(WizardBase):
         self.substitute_players_list.grid(row=1, column=2, sticky=N)
 
         self.setup_objects_list()
+
 
     def add_opposition_list(self):
         if self.opposition_list is not None:
