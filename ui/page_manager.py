@@ -64,7 +64,9 @@ class PageManager:
         new_page.pack(fill=BOTH)
 
     def on_wizard_closed(self):
-        self.switch_page(self.current_index)
+        index_to_switch_to = self.current_index
+        self.current_index = -1
+        self.switch_page(index_to_switch_to)
 
     def draw(self):
         self.root.mainloop()
