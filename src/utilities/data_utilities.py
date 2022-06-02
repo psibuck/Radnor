@@ -57,8 +57,3 @@ def json_get(blob, variable_name, class_name=None, type=str):
         elif type == float:
             return 0.0
         return ""
-
-def get_date_string(raw_data):
-    if len(raw_data) != 8:
-        print("ERROR: date incorrectly formatted")
-    return raw_data[:2] + "/" + raw_data[2:4] + "/" + raw_data[4:]

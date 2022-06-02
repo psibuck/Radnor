@@ -69,8 +69,7 @@ class DateEntry(Frame):
         days = self.sanitize_data(self.day.get())
         months = self.sanitize_data(self.month.get())
         years = self.sanitize_data(self.year.get())
-        
-        return days + months + years
+        return date.fromisoformat(years + "-" + months + "-" + days)
 
     def add_to_grid(self, label, widget):
         label.grid(column = self.column, row = self.row)

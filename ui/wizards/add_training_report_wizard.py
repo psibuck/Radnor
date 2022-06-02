@@ -1,4 +1,5 @@
-from tkinter import Button, Checkbutton, OptionMenu, Label, StringVar, W
+from datetime import date
+from tkinter import Checkbutton, OptionMenu, Label, StringVar, W
 
 from src.club.training_report import TrainingReport
 from ui.widgets.date_entry import DateEntry
@@ -43,13 +44,20 @@ class AddTrainingReportWizard(WizardBase):
     def handle_add_pressed(self):
         new_report = TrainingReport()
         new_report.attendees = self.trained_players
+        if new_report.attendees == 0:
+            return False, "No trainees added to training report"
+        
         new_report.date = self.training_date.get_date()
+        if new_report.date > date.today():
+            return False, "Date cannot be in the future"
+
         for venue in self.club.training_venues:
             if venue.name == self.selected_venue.get():
                 new_report.venue = venue
                 break
         self.club.add_training_report(new_report)
         self.close()
+        return True, ""
 
     def select_player(self, player_name):
         if player_name in self.trained_players:

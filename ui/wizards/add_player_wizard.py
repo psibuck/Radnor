@@ -13,10 +13,6 @@ class AddPlayerWizard(WizardBase):
         player_name = self.input_box.get()
         if len(player_name) > 0:
             success, error = self.club.add_player(player_name)
-            if success:
-                while self.input_box.get():
-                    self.input_box.delete(0)
-                self.close()
-            else:
-                self.error_message.set("ERROR: " + error)
+            return success, error
+        return "No Player Name Entered", False
 

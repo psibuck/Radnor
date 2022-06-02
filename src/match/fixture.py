@@ -1,5 +1,6 @@
+from datetime import date
 from enum import Enum
-from src.utilities.data_utilities import json_get, get_date_string
+from src.utilities.data_utilities import json_get
 
 class MatchType(Enum):
     LEAGUE = 1
@@ -29,18 +30,20 @@ class Fixture:
         self.match_type = json_get(json_data, "match_type", MatchType)
         self.venue = json_get(json_data, "venue", Venue)
         self.opponent = json_get(json_data, "opponent")
-        self.date = json_get(json_data, "date")
+        self.date = date.fromisoformat(json_get(json_data, "date"))
 
     def to_json(self):
         return {
             "match_type": self.match_type.value,
             "venue": self.venue.value,
             "opponent": self.opponent,
-            "date": self.date
+            "date": self.date.isoformat()
         }
     
     def get_match_type(self):
         return self.match_type.name
 
     def get_date(self):
-        return get_date_string(self.date)
+        if self.date != None:
+            return self.date.isoformat()
+        return "No date set"

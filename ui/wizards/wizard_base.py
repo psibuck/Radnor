@@ -1,4 +1,4 @@
-from tkinter import Button, BOTTOM, Frame, LEFT, RIGHT, TOP
+from tkinter import Button, BOTTOM, Frame, Label, LEFT, RIGHT, StringVar, TOP
 from ui.pages.page_base import PageBase
 
 class WizardBase(PageBase):
@@ -10,11 +10,22 @@ class WizardBase(PageBase):
         self.content_container.pack(side=TOP)
         button_container = Frame(self)
         button_container.pack(side=BOTTOM)
-        Button(button_container, text="Add", command=self.handle_add_pressed).pack(side=LEFT)
+        Button(button_container, text="Add", command=self.on_add_pressed).pack(side=LEFT)
+
+        self.error_message = StringVar()
+        Label(button_container, textvariable=self.error_message).pack(side=RIGHT)
+
         Button(button_container, text="Cancel", command=self.close).pack(side=RIGHT)
-        
+
     def close(self):
         self.page_manager.on_wizard_closed()
         
+    def on_add_pressed(self):
+        success, error = self.handle_add_pressed()
+        if success:
+            self.close()
+        else:
+            self.error_message.set(error)
+            
     def handle_add_pressed(self):
         print("ERROR: handle_add_pressed not implemented!")

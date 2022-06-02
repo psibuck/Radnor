@@ -5,7 +5,11 @@ Project
 FEATURES
 - add multiple club select on boot
 - add confirmation dialog to all remove club objects
-- error handling on wizards
+- error handling on wizards and add this validation to all wizards:
+    - add player, check if player already exists
+    - add fixtures
+    - add match report
+    - add training report
 
 UI
 - value of ObjectListWidget?
@@ -13,7 +17,6 @@ UI
 MATCHES
 - visual display of match reports
 - sort match reports by date
-- remove goals if number drops
 
 TRAINING
 - visual display of training reports

@@ -1,6 +1,6 @@
 from src.match.fixture import Fixture, Venue
 from src.match.goal import Goal
-from src.utilities.data_utilities import get_date_string, json_get, get_date_string
+from src.utilities.data_utilities import json_get
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
