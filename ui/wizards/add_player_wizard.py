@@ -12,7 +12,7 @@ class AddPlayerWizard(WizardBase):
     def handle_add_pressed(self):
         player_name = self.input_box.get()
         if len(player_name) > 0:
-            success, error = self.club.AddPlayer(player_name)
+            success, error = self.club.add_player(player_name)
             if success:
                 while self.input_box.get():
                     self.input_box.delete(0)
