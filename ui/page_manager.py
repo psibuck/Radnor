@@ -13,7 +13,7 @@ class PageManager:
         self.root = tk.Tk()
         self.app = app
 
-        self.current_index = 0
+        self.current_index = -1
         self.current_page = None
         self.pages = []
         self.pages.append(HomePage)
@@ -41,6 +41,9 @@ class PageManager:
     def switch_page(self, page_index):
         if page_index < len(self.pages):
             
+            if self.current_index == page_index:
+                return
+
             self.current_index = page_index
             if self.current_page != None:
                 self.current_page.shutdown()

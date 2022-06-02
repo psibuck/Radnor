@@ -18,15 +18,16 @@ TRAINING
 BUG
 - logo is still feather
 - fix formatting on error messages pushing buttons across the screen
-- if you click a tab you are already on it refreshes
 
 PLAYER
 - add date of birth to players
 - add surname to players
 - add is signed on bool
 - add ability to edit players
+- add goals and assists to players
 
 UX
 - enter should work on entry boxes
 - focus on entry boxes when opening pages(e.g add player)
 - save data more regularly e.g when adding an object to club in case of crashes, bad shutdown etc
+- add a different state to the selected page tab
