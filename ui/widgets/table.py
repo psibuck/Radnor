@@ -1,4 +1,5 @@
 from tkinter import Button, Frame, Label
+from tkinter.messagebox import askyesno
 from ui.widgets.labels import TableHeader
 
 class TableColumn:
@@ -49,6 +50,12 @@ class Table(Frame):
                     new_entry.grid(row = self.row, column = col)
             col += 1
         if self.remove_func is not None:
-            remove_button = Button(self, text="X", command= lambda object=object : self.remove_func(object))
+            remove_button = Button(self, text="X", command= lambda object=object : self.show_confirmation_dialog(object))
             remove_button.grid(row=self.row, column=col)
         self.row += 1
+
+    def show_confirmation_dialog(self, object):
+        message = "Are you sure you want to permanently delete {object_name}".format(object_name=object)
+        answer = askyesno("Delete Object", message)
+        if answer:
+            self.remove_func(object)

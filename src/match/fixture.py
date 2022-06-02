@@ -26,6 +26,9 @@ class Fixture:
         self.venue = Venue.HOME
         self.match_type = MatchType.LEAGUE
 
+    def __str__(self):
+        return self.opponent + "(" + str(self.venue) + ") - " + self.date.isoformat()
+
     def __lt__(self, o):
         return self.date < o.date
     
