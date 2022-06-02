@@ -1,3 +1,4 @@
+from datetime import date
 from tkinter import Button, Entry, OptionMenu, StringVar
 
 from src.match.fixture import Fixture, MatchType, Venue
@@ -57,6 +58,14 @@ class AddFixtureWizard(WizardBase):
         new_fixture.venue = Venue[self.selected_venue.get()]
         new_fixture.match_type = MatchType[self.selected_match_type.get()]
         new_fixture.date = self.date.get_date()
+        if new_fixture.date < date.today():
+            return False, "Fixture date cannot be in the past"
+
         new_fixture.opponent = self.selected_opponent.get()
+        if new_fixture.opponent == "":
+            return False, "No opponent set"
+
         self.club.add_fixture(new_fixture)
         self.close()
+
+        return True, ""
