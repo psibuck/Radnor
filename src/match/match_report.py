@@ -1,4 +1,5 @@
 from src.match.fixture import Fixture, Venue
+from src.match.goal import Goal
 from src.utilities.data_utilities import get_date_string, json_get, get_date_string
 
 MAX_PLAYERS = 11
@@ -54,7 +55,12 @@ class MatchReport(Fixture):
         self.club_goals = json_get(json_data, "num_goals", type=int)
         self.opponent_goals = json_get(json_data, "opponent_goals", type=int)
         super().from_json(json_data["fixture"])
-        self.goals = json_get(json_data, "goals")
+
+        goals_raw = json_get(json_data, "goals")
+        for goal in goals_raw:
+            new_goal = Goal()
+            new_goal.from_json(goal)
+            self.goals.append(new_goal)
 
     def to_json(self):
         goals_json = []

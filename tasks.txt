@@ -1,11 +1,11 @@
 Project
 - fix the continous integration to actually run the tests
-- make all functions lower_case
 - delete test folder after tests finish
 
 FEATURES
 - add multiple club select on boot
 - add confirmation dialog to all remove club objects
+- error handling on wizards
 
 UI
 - value of ObjectListWidget?
@@ -13,6 +13,7 @@ UI
 MATCHES
 - visual display of match reports
 - sort match reports by date
+- remove goals if number drops
 
 TRAINING
 - visual display of training reports

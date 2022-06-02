@@ -2,7 +2,7 @@ from src.utilities.data_utilities import json_get
 
 class Goal:
 
-    def __init__(self, scorer, assister, description=""):
+    def __init__(self, scorer="None", assister="None", description=""):
         self.scorer = scorer
         self.assister = assister
         self.description = description
