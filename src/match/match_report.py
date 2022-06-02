@@ -13,6 +13,7 @@ class MatchReport(Fixture):
         self.subs = []
         self.club_goals = 0
         self.opponent_goals = 0
+        self.goals = []
     
     def from_fixture(self, fixture):
         self.date = fixture.date
@@ -32,6 +33,9 @@ class MatchReport(Fixture):
         else:
             self.subs.append(player.name)
 
+    def add_goal(self, goal):
+        self.goals.append(goal)
+
     def remove_starter(self, player):
         self.starting_lineup.remove(player.name)
 
@@ -47,15 +51,21 @@ class MatchReport(Fixture):
     def from_json(self, json_data):
         self.starting_lineup = json_get(json_data, "starters")
         self.subs = json_get(json_data, "subs")
-        self.club_goals = json_get(json_data, "goals", type=int)
+        self.club_goals = json_get(json_data, "num_goals", type=int)
         self.opponent_goals = json_get(json_data, "opponent_goals", type=int)
         super().from_json(json_data["fixture"])
+        self.goals = json_get(json_data, "goals")
 
     def to_json(self):
+        goals_json = []
+        for goal in self.goals:
+            goals_json.append(goal.to_json())
+
         return {
             "starters" : self.starting_lineup,
             "subs": self.subs,
-            "goals": self.club_goals,
+            "num_goals": self.club_goals,
             "opponent_goals": self.opponent_goals,
-            "fixture": super().to_json()
+            "fixture": super().to_json(),
+            "goals": goals_json
         }

@@ -1,5 +1,6 @@
 from tkinter import *
 from src.match.fixture import MatchType, Venue
+from src.match.goal import Goal
 from src.match.match_report import MatchReport
 from ui.widgets.object_list import ObjectListWidget
 from ui.widgets.date_entry import DateEntry
@@ -83,6 +84,8 @@ class GoalDisplay(Frame):
         self.root = page_manager.root
         TableHeader(self, text="Goals").grid(row=0, column=0)
 
+        self.goal_entries = []
+
     def update_player_list(self, list):
         self.player_list = list
 
@@ -90,7 +93,9 @@ class GoalDisplay(Frame):
         test = self.root.globalgetvar(var)
         if test != "":
             for i in range(1, int(test) + 1):
-                GoalEntry(self, i, self.player_list).grid(row=i, column=0)
+                new_entry = GoalEntry(self, i, self.player_list)
+                new_entry.grid(row=i, column=0)
+                self.goal_entries.append(new_entry)
 
 
 # AddMatchReportWizard allows users to create a match report
@@ -226,11 +231,16 @@ class AddMatchReportWizard(WizardBase):
             new_match_report.add_starter(player)
         for sub in self.subs:
             new_match_report.add_sub(sub)
-        new_match_report.club_goals = self.our_scoreline.get()
+        new_match_report.club_goals = self.our_goals.get()
         new_match_report.opponent_goals = self.oppo_scoreline.get()
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
         new_match_report.venue = Venue[self.selected_venue.get()]
         new_match_report.opponent = self.selected_opponent.get()
         new_match_report.date = self.date_entry.get_date()
+
+        for goal in self.goal_area.goal_entries:
+            new_goal = Goal(goal.goalscorer, goal.assister, "test goal description")
+            new_match_report.add_goal(new_goal)
+
         self.club.add_match_report(new_match_report)
         self.close()        
