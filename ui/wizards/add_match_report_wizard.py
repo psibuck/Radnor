@@ -18,20 +18,79 @@ class NumericEntry(Entry):
     def __init__(self, parent, variable = None):
         Entry.__init__(self, parent, width=2, textvariable = variable)
 
+class GoalEntry(Frame):
+
+    def __init__(self, root, index, player_list):
+        super().__init__(root)
+        self.scorer_options = None
+        self.assister_options = None
+        self.player_list = []
+        for player in player_list:
+            self.player_list.append(player.name)
+
+        Label(self, text="Goal " + str(index)).pack(side=LEFT)
+
+        self.goalscorer = "None"
+        self.assister = "None"
+        self.goalscorer_var = StringVar()
+        self.goalscorer_var.set("None")
+        self.assister_var = StringVar() 
+        self.assister_var.set("None")
+        self.update_option_lists()
+
+    def update_option_lists(self):
+        lists = [self.scorer_options, self.assister_options]
+        for i in range(len(lists)):
+            list = lists[i]
+            if list is not None:
+                list.pack_forget()
+            callback_function = None
+
+            players = self.player_list[:] 
+            if i == 1:
+                if self.assister != "None":
+                    players.append("None")
+
+                callback_function = lambda variable: (self.handle_player_selected(variable, self.assister), self.set_assister(variable), self.update_option_lists())
+                self.assister_options = OptionMenu(self, self.assister_var, *players, command=callback_function)
+                self.assister_options.pack(side=LEFT)
+            else:
+                if self.goalscorer != "None":
+                    players.append("None")
+                callback_function = lambda variable: (self.handle_player_selected(variable, self.goalscorer), self.set_goalscorer(variable), self.update_option_lists())
+                self.scorer_options = OptionMenu(self, self.goalscorer_var, *players, command=callback_function)
+                self.scorer_options.pack(side=LEFT)
+
+    def set_goalscorer(self, name):
+        self.goalscorer = name
+
+    def set_assister(self, name):
+        self.assister = name
+
+    def handle_player_selected(self, selected_player, current_player):
+        if current_player != "None":
+            self.player_list.append(current_player)
+            self.player_list.sort()
+
+        if selected_player != "None":
+            self.player_list.remove(selected_player)
+
 class GoalDisplay(Frame):
 
     def __init__(self, root, page_manager):
         super().__init__(root)
 
         self.root = page_manager.root
-        TableHeader(self, text="Goals").pack(side=TOP)
+        TableHeader(self, text="Goals").grid(row=0, column=0)
+
+    def update_player_list(self, list):
+        self.player_list = list
 
     def handle_goals_update(self, var, index, mode):
         test = self.root.globalgetvar(var)
         if test != "":
-            for i in range(int(test)):
-                string = "Goal " + str(i)
-                Label(self, text=string).pack(side=TOP)
+            for i in range(1, int(test) + 1):
+                GoalEntry(self, i, self.player_list).grid(row=i, column=0)
 
 
 # AddMatchReportWizard allows users to create a match report
@@ -57,6 +116,7 @@ class AddMatchReportWizard(WizardBase):
 
         self.goal_area = GoalDisplay(self.content_container, manager)
         self.goal_area.pack(side=TOP)
+        self.goal_area.update_player_list(self.available_players)
 
         self.our_goals = IntVar(manager.root)
         self.our_goals.set(0)
