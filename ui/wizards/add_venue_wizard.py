@@ -20,5 +20,24 @@ class AddVenueWizard(WizardBase):
         self.cost_input.grid(row=1, column=1)
 
     def handle_add_pressed(self):
-        self.club.training_venues.append(TrainingVenue(self.name_input.get(), self.cost_input.get()))
+        name = self.name_input.get()
+        if len(name) == 0:
+            return False, "No venue name set"
+
+        for venue in self.club.training_venues:
+            if venue.name == name:
+                return False, "Venue name already in use"
+
+        cost = self.cost_input.get()
+        if len(cost) == 0:
+            return False, "No cost set"
+        
+        try:
+            float(cost)
+        except ValueError:
+            return False, "Cost is not a valid integer"
+
+        self.club.training_venues.append(TrainingVenue(name, cost))
         self.close()
+
+        return True, ""
