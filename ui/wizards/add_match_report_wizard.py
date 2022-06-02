@@ -90,12 +90,21 @@ class GoalDisplay(Frame):
         self.player_list = list
 
     def handle_goals_update(self, var, index, mode):
-        test = self.root.globalgetvar(var)
-        if test != "":
-            for i in range(1, int(test) + 1):
-                new_entry = GoalEntry(self, i, self.player_list)
-                new_entry.grid(row=i, column=0)
-                self.goal_entries.append(new_entry)
+        raw_goals = self.root.globalgetvar(var)
+        if raw_goals != "":
+            num_goals = int(raw_goals)
+            current_goals = len(self.goal_entries)
+            entry_discrepancy = current_goals - num_goals
+            if entry_discrepancy > 0:
+                for _ in range(entry_discrepancy):
+                    entry = self.goal_entries[-1]
+                    entry.grid_forget()
+                    self.goal_entries.remove(entry)
+            elif entry_discrepancy < 0:
+                for i in range(current_goals, num_goals):
+                    new_entry = GoalEntry(self, i + 1, self.player_list)
+                    new_entry.grid(row=i, column=0)
+                    self.goal_entries.append(new_entry)
 
 
 # AddMatchReportWizard allows users to create a match report
