@@ -7,6 +7,8 @@ class TrainingVenue:
         self.cost = cost
 
     def __eq__(self, other):
+        if other == None:
+            return False
         return self.name == other.name and self.cost == other.cost
 
     def __str__(self):

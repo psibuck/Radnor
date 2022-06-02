@@ -24,3 +24,4 @@ TRAINING
 
 BUG
 - logo is still feather
+- fix formatting on error messages pushing buttons across the screen

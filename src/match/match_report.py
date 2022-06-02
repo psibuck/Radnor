@@ -15,7 +15,7 @@ class MatchReport(Fixture):
         self.club_goals = 0
         self.opponent_goals = 0
         self.goals = []
-    
+
     def from_fixture(self, fixture):
         self.date = fixture.date
         self.opponent = fixture.opponent

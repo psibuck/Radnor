@@ -26,6 +26,12 @@ class Fixture:
         self.venue = Venue.HOME
         self.match_type = MatchType.LEAGUE
 
+    def __lt__(self, o):
+        return self.date < o.date
+    
+    def __gt__(self, o):
+        return self.date > o.date
+
     def from_json(self, json_data):
         self.match_type = json_get(json_data, "match_type", MatchType)
         self.venue = json_get(json_data, "venue", Venue)

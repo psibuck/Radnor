@@ -25,6 +25,12 @@ class TrainingReport:
 
         return True
 
+    def __lt__(self, o):
+        return self.date < o.date
+    
+    def __gt__(self, o):
+        return self.date > o.date
+        
     def GetNumAttendees(self):
         return len(self.attendees)
 

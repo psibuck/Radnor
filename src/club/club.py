@@ -61,9 +61,11 @@ class Club:
     def add_match_report(self, report):
         self.match_reports.append(report)
         self.process_match_report(report)
+        self.match_reports.sort()
 
     def add_fixture(self, fixture):
         self.fixtures.append(fixture)
+        self.fixtures.sort()
 
     def remove_fixture(self, fixture):
         self.fixtures.remove(fixture)
@@ -71,6 +73,7 @@ class Club:
     def add_training_report(self, report):
         self.training_reports.append(report)
         self.process_training_report(report)
+        self.training_reports.sort()
 
     def remove_player(self, player):
         self.players.remove(player)
