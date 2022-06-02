@@ -55,6 +55,10 @@ class AddTrainingReportWizard(WizardBase):
             if venue.name == self.selected_venue.get():
                 new_report.venue = venue
                 break
+
+        if new_report.venue == None:
+            return False, "No venue set, if you need to add some cancel and come back"
+            
         self.club.add_training_report(new_report)
         self.close()
         return True, ""
