@@ -4,7 +4,6 @@ Project
 
 FEATURES
 - add multiple club select on boot
-- add confirmation dialog to all remove club objects
 
 UI
 - value of ObjectListWidget?
@@ -18,4 +17,4 @@ TRAINING
 BUG
 - logo is still feather
 - fix formatting on error messages pushing buttons across the screen
-- cannot delete fixtures
+- if you click a tab you are already on it refreshes

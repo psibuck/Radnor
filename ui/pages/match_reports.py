@@ -56,7 +56,8 @@ class MatchReports(PageBase):
         self.show_match_report_list()
 
     def handle_remove_fixture(self, fixture):
-        return
+        self.club.remove_fixture(fixture)
+        self.show_fixture_list()
     
     def handle_create_result_pressed(self):  
         self.page_manager.open_wizard(AddMatchReportWizard)
