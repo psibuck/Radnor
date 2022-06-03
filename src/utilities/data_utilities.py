@@ -1,4 +1,5 @@
 import os, json
+from datetime import date
 
 def __get_json_data(file):
     if os.path.exists(file):
@@ -46,8 +47,10 @@ def json_get(blob, variable_name, class_name=None, type=str):
         variable = blob[variable_name]
         if class_name is not None:
             return class_name(variable)
-        else:
-            return variable
+        elif type is not None:
+            if type == date:
+                return date.fromisoformat(variable)
+        return variable
     except KeyError:
         if class_name is not None:
             return None
@@ -56,4 +59,6 @@ def json_get(blob, variable_name, class_name=None, type=str):
             return 0
         elif type == float:
             return 0.0
+        elif type == date:
+            return date.today()
         return ""

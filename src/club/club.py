@@ -49,11 +49,10 @@ class Club:
         self.process_match_reports()
         self.process_training_reports()
 
-    def add_player(self, name):
+    def add_player(self, new_player):
         for player in self.players:
-            if player.name == name:
+            if player.name == new_player.name:
                 return False, "Player must have distinct name"
-        new_player = Player(name)
         self.players.append(new_player)
         self.players.sort()
         return True, None

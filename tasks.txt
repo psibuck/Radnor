@@ -7,6 +7,8 @@ FEATURES
 
 UI
 - value of ObjectListWidget?
+- move Players to it's own tab
+- make a Home page which is a summary of all the things
 
 MATCHES
 - visual display of match reports

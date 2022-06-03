@@ -1,3 +1,4 @@
+from datetime import date
 from tkinter import *
 from src.match.fixture import MatchType, Venue
 from src.match.goal import Goal
@@ -165,7 +166,7 @@ class AddMatchReportWizard(WizardBase):
         venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
         venue_selector.grid(row=self.venue_row, column=1)
 
-        self.date_entry = DateEntry(self.option_area)
+        self.date_entry = DateEntry(self.option_area, default_year = date.today().year, years_to_show=2)
         self.date_entry.grid(row=self.date_row, column=0, columnspan=5)
 
         self.available_players_list = ObjectListWidget(player_area, "Available Players")

@@ -18,7 +18,7 @@ MONTHS = [
 ]
 class DateEntry(Frame):
 
-    def __init__(self, parent, vertical = False):
+    def __init__(self, parent, vertical = False, default_year = -1, years_to_show = 1, end_year = -1, start_year = -1):
         Frame.__init__(self, parent)
         self.date_display = None
         self.vertical = vertical
@@ -34,18 +34,29 @@ class DateEntry(Frame):
         self.month.set(today.month)
         self.month.trace("w", self.update_days)
         self.year = IntVar()
-        self.year.set(today.year)
         self.year.trace("w", self.update_days)
 
         self.row = 0
         self.column = 0
-
+        
         # Year first
-        year_buffer = 2
-        year = today.year
+        if end_year == -1:
+            year = today.year
+        else:
+            year = end_year
+
         years = []
-        start_year = year
-        end_year = year + year_buffer
+        if start_year == -1:
+            start_year = year - int(0.5 * years_to_show)
+
+        if end_year == -1:
+            end_year = year + int(0.5 * years_to_show)
+        
+        if default_year != -1:
+            self.year.set(default_year)
+        else:
+            self.year.set(start_year)
+
         while start_year <= end_year:
             years.append(start_year)
             start_year += 1

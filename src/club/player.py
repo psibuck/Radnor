@@ -1,9 +1,11 @@
-
+from datetime import date
+from src.utilities.data_utilities import json_get
 
 class Player:
 
     def __init__(self, name=""):
         self.name = name
+        self.dob = date.today()
         self.is_signed_on = False
 
         self.matches_started = 0
@@ -18,12 +20,14 @@ class Player:
         return self.name
 
     def from_json(self, json_data):
-        self.name = json_data["name"]
+        self.name = json_get(json_data, "name")
+        self.dob = json_get(json_data, "dob", type=date)
         return
     
     def to_json(self):
         return {
-            "name": self.name
+            "name": self.name,
+            "dob": self.dob.isoformat()
         }
 
     def get_appearances(self):
