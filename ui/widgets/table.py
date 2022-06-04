@@ -1,3 +1,4 @@
+from email import header
 from tkinter import Button, Frame, Label
 from tkinter.messagebox import askyesno
 from ui.widgets.labels import TableHeader
@@ -13,9 +14,26 @@ class Table(Frame):
 
     def __init__(self, parent, remove_func=None, header_text=""):
         Frame.__init__(self, parent)
-        self.row = 1
-        self.columns = list[TableColumn]
+        self.row = 0
+        self.columns = []
         self.remove_func = remove_func
+        self.header_text = header_text
+        self.header = None
+
+        self.add_header()
+    
+    def add_header(self):
+        if self.header is not None:
+            self.header.grid_forget()
+        elif self.header_text != "":
+            self.row += 1
+
+        if self.header_text != "":
+            span = 1
+            if len(self.columns) > 0:
+                span = len(self.columns)
+            self.header = TableHeader(self, text=self.header_text)
+            self.header.grid(row=0, column=0, columnspan=span)
 
     def add_columns(self, columns: list[TableColumn]):
         self.columns = columns
@@ -23,8 +41,11 @@ class Table(Frame):
         col = 0
         for column in self.columns:
             header = TableHeader(self, text=column.name)
-            header.grid(row=0, column = col)
+            header.grid(row=self.row, column = col)
             col += 1
+        
+        self.row += 1
+        self.add_header()
         
     def clear_rows(self):
         for widget in self.winfo_children():

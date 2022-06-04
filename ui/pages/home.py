@@ -10,7 +10,7 @@ class Home(PageBase):
         super().__init__(manager, root)
 
     def setup_content(self):
-        fixture_table = Table(self)
+        fixture_table = Table(self, header_text="Upcoming Fixtures")
         fixture_table.pack(side = LEFT)  
 
         columns = [TableColumn("Date", function="get_date"), TableColumn("Vs", "opponent"), TableColumn("Type", function="get_match_type")]
@@ -18,7 +18,7 @@ class Home(PageBase):
         for fixture in self.club.fixtures:
             fixture_table.add_object(fixture)
 
-        results_table = Table(self)
+        results_table = Table(self, header_text="Recent Results")
         results_table.pack(side = LEFT)
         columns = [TableColumn("Date", function="get_date"), TableColumn("Scoreline", function="get_scoreline"), TableColumn("Type", function="get_match_type")]
         results_table.add_columns(columns)
