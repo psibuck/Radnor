@@ -11,7 +11,7 @@ class TableColumn:
 
 class Table(Frame):
 
-    def __init__(self, parent, remove_func=None):
+    def __init__(self, parent, remove_func=None, header_text=""):
         Frame.__init__(self, parent)
         self.row = 1
         self.columns = list[TableColumn]

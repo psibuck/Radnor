@@ -1,6 +1,7 @@
 from re import I
-from ui.pages.home import *
+from ui.pages.home import Home
 from ui.pages.match_reports import MatchReports
+from ui.pages.players import Players
 from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
@@ -16,7 +17,8 @@ class PageManager:
         self.current_index = -1
         self.current_page = None
         self.pages = []
-        self.pages.append(HomePage)
+        self.pages.append(Home)
+        self.pages.append(Players)
         self.pages.append(MatchReports)
         self.pages.append(TrainingReports)
         self.root.geometry("800x600")

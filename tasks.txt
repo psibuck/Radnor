@@ -9,6 +9,7 @@ UI
 - value of ObjectListWidget?
 - move Players to it's own tab
 - make a Home page which is a summary of all the things
+- add a header to tables
 
 MATCHES
 - visual display of match reports
@@ -22,7 +23,6 @@ BUG
 - fix formatting on error messages pushing buttons across the screen
 
 PLAYER
-- add date of birth to players
 - add surname to players
 - add is signed on bool
 - add ability to edit players
