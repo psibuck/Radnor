@@ -51,7 +51,7 @@ class Club:
 
     def add_player(self, new_player):
         for player in self.players:
-            if player.name == new_player.name:
+            if player.get_name() == new_player.get_name():
                 return False, "Player must have distinct name"
         self.players.append(new_player)
         self.players.sort()

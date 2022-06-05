@@ -16,7 +16,7 @@ class Players(PageBase):
 
     def show_player_list(self):
         self.player_list = Table(self, remove_func=self.on_remove_player_button_pressed)
-        columns = [TableColumn("Name", "name"), TableColumn("DOB", "dob"), TableColumn("Appearances", function = "get_appearances"), TableColumn("Training", "training_attendance")]
+        columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"), TableColumn("Appearances", function = "get_appearances"), TableColumn("Training", "training_attendance")]
         self.player_list.add_columns(columns)
         self.player_list.pack(side=LEFT)
         
