@@ -1,11 +1,10 @@
-from re import I
 from ui.pages.home import Home
 from ui.pages.match_reports import MatchReports
 from ui.pages.players import Players
 from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk, BOTH, YES, Button, LEFT, FLAT, SUNKEN
 
 
 class PageManager:
@@ -36,7 +35,7 @@ class PageManager:
 
         index = 0
         for page in self.pages:
-            button = Button(frame, text = page.name, command = lambda index = index: self.switch_page(index))
+            button = ttk.Button(frame, text = page.name, command = lambda index = index: self.switch_page(index))
             button.pack(side = LEFT)
             index += 1
         Button(frame, text="Clear Local Data", command=self.app.clear_local_data).pack(side=LEFT)
@@ -46,14 +45,14 @@ class PageManager:
             
             if self.current_index == page_index:
                 return
-
+            
             self.current_index = page_index
             if self.current_page != None:
                 self.current_page.shutdown()
 
             for widget in self.content_area.winfo_children():
                 widget.destroy()
- 
+
             self.current_page = self.pages[page_index](self, self.content_area)
             self.current_page.setup_content()
             self.current_page.pack(fill=BOTH)
