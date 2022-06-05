@@ -21,7 +21,6 @@ BUG
 - logo is still feather
 
 PLAYER
-- add is signed on bool
 - add ability to edit players
 - add goals and assists to players
 
