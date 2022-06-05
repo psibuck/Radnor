@@ -26,4 +26,3 @@ PLAYER
 
 UX
 - focus on entry boxes when opening pages(e.g add player)
-- add a different state to the selected page tab
