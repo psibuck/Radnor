@@ -13,7 +13,7 @@ class WizardBase(PageBase):
         Button(button_container, text="Add", command=self.on_add_pressed).pack(side=LEFT)
 
         self.error_message = StringVar()
-        Label(button_container, textvariable=self.error_message).pack(side=RIGHT)
+        Label(self, fg="red", textvariable=self.error_message).pack(side=BOTTOM)
 
         Button(button_container, text="Cancel", command=self.close).pack(side=RIGHT)
 
