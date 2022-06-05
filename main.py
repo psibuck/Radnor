@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from src.club.club import Club
 from src.club.player import Player
@@ -60,6 +61,12 @@ class Application:
         load_from_json(folder + TRAINING_VENUES_FILE, TrainingVenue, self.club.training_venues)
         load_from_json(folder + TRAINING_REPORTS_FILE, TrainingReport, self.club.training_reports)
     
+    def clear_local_data(self):
+        if os.path.exists(DATA_FOLDER + self.club.name):
+            shutil.rmtree(DATA_FOLDER + self.club.name)
+        
+        self.club.clear_club_data()
+
     def quit(self):
         self.save_club()
         self.ui.shutdown()

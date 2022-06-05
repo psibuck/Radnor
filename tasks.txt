@@ -1,6 +1,7 @@
 Project
 - fix the continous integration to actually run the tests
 - delete test folder after tests finish
+- add tests for clearing club data
 
 FEATURES
 - add multiple club select on boot
@@ -27,5 +28,4 @@ PLAYER
 
 UX
 - focus on entry boxes when opening pages(e.g add player)
-- save data more regularly e.g when adding an object to club in case of crashes, bad shutdown etc
 - add a different state to the selected page tab

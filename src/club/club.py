@@ -6,6 +6,9 @@ class Club:
         self.name = name
         self.update_callback = update_callback
 
+        self.clear_club_data()
+
+    def clear_club_data(self):
         # Before these were explicit to avoid adding incorrect objects
         # investigate why this fails in load from json
         self.players = []
@@ -15,7 +18,7 @@ class Club:
         self.fixtures = []
         self.opponents = []
 
-    def SetupClub(self):
+    def setup_club(self):
         self.process_match_reports()
         self.process_training_reports()
 

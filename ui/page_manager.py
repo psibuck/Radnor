@@ -39,6 +39,7 @@ class PageManager:
             button = Button(frame, text = page.name, command = lambda index = index: self.switch_page(index))
             button.pack(side = LEFT)
             index += 1
+        Button(frame, text="Clear Local Data", command=self.app.clear_local_data).pack(side=LEFT)
 
     def switch_page(self, page_index):
         if page_index < len(self.pages):
