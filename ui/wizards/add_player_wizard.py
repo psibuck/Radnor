@@ -15,7 +15,7 @@ class AddPlayerWizard(WizardBase):
 
         Entry(root, textvariable=self.first_name).pack(side = TOP)
         Entry(root, textvariable=self.surname).pack(side = TOP)
-        
+
         self.date_entry = DateEntry(root, end_year = date.today().year - 16, years_to_show=50)
         self.date_entry.pack(side = TOP)
 
@@ -25,9 +25,9 @@ class AddPlayerWizard(WizardBase):
         new_player.surname = self.surname.get()
         new_player.dob = self.date_entry.get_date()
         if len(new_player.first_name) == 0:
-            return "No first name entered", False
+            return False, "No first name entered"
         elif len(new_player.surname) == 0:
-            return "No surname entered", False
+            return False, "No surname entered"
 
         return self.club.add_player(new_player)
 

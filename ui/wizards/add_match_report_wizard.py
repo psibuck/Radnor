@@ -8,6 +8,7 @@ from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
 from ui.widgets.table import TableHeader
 from ui.wizards.wizard_base import WizardBase
+from src.utilities.constants import MAX_SUBS, NUM_STARTERS
 
 class ButtonInfo:
 
@@ -237,10 +238,17 @@ class AddMatchReportWizard(WizardBase):
 
     def handle_add_pressed(self):
         new_match_report = MatchReport()
+
+        if len(self.first_XI) != NUM_STARTERS:
+            return False, "Not enough starters added to match report"
+        if len(self.subs) > MAX_SUBS:
+            return False, "Too many players on subs bench"
+
         for player in self.first_XI:
             new_match_report.add_starter(player)
         for sub in self.subs:
             new_match_report.add_sub(sub)
+            
         new_match_report.club_goals = self.our_goals.get()
         new_match_report.opponent_goals = self.oppo_scoreline.get()
         new_match_report.match_type = MatchType[self.selected_match_type.get()]
@@ -253,4 +261,5 @@ class AddMatchReportWizard(WizardBase):
             new_match_report.add_goal(new_goal)
 
         self.club.add_match_report(new_match_report)
-        self.close()        
+        self.close()    
+        return True, ""    

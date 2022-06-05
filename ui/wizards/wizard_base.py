@@ -17,10 +17,12 @@ class WizardBase(PageBase):
 
         Button(button_container, text="Cancel", command=self.close).pack(side=RIGHT)
 
+        manager.root.bind('<Return>', self.on_add_pressed)
+
     def close(self):
         self.page_manager.on_wizard_closed()
         
-    def on_add_pressed(self):
+    def on_add_pressed(self, _=None):
         success, error = self.handle_add_pressed()
         if success:
             self.close()
