@@ -5,7 +5,6 @@ Project
 
 FEATURES
 - add multiple club select on boot
-- add debug menu to clear all data
 
 UI
 - value of ObjectListWidget?
