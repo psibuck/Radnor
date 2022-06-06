@@ -1,10 +1,10 @@
 Project
 - fix the continous integration to actually run the tests
 - delete test folder after tests finish
+- add tests for clearing club data
 
 FEATURES
 - add multiple club select on boot
-- add debug menu to clear all data
 
 UI
 - value of ObjectListWidget?
@@ -21,11 +21,8 @@ BUG
 - logo is still feather
 
 PLAYER
-- add is signed on bool
 - add ability to edit players
 - add goals and assists to players
 
 UX
 - focus on entry boxes when opening pages(e.g add player)
-- save data more regularly e.g when adding an object to club in case of crashes, bad shutdown etc
-- add a different state to the selected page tab

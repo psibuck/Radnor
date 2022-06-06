@@ -1,24 +1,14 @@
-import os
-
-from src.match.fixture import Fixture
-from src.club.player import Player
-from src.match.match_report import MatchReport
-from src.club.training_report import TrainingReport
-from src.club.training_venue import TrainingVenue
-from src.utilities.data_utilities import *
-
-CLUB_FILE = "/club.json"
-FIXTURES_FILE = "/fixtures.json"
-PLAYER_FILE = "/players.json"
-MATCH_REPORTS_FILE = "/match_reports.json"
-TRAINING_REPORTS_FILE = "/training_reports.json"
-TRAINING_VENUES_FILE = "/training_venues.json"
+from src.utilities.data_utilities import json_get
 
 class Club:
 
-    def __init__(self, name):
+    def __init__(self, name, update_callback):
         self.name = name
+        self.update_callback = update_callback
 
+        self.clear_club_data()
+
+    def clear_club_data(self):
         # Before these were explicit to avoid adding incorrect objects
         # investigate why this fails in load from json
         self.players = []
@@ -28,24 +18,7 @@ class Club:
         self.fixtures = []
         self.opponents = []
 
-    def save_club(self, folder):
-        if not os.path.exists(folder):
-            os.mkdir(folder)
-        save_object_to_json(folder + CLUB_FILE, self)
-        save_to_json(folder + PLAYER_FILE, self.players)
-        save_to_json(folder + FIXTURES_FILE, self.fixtures)
-        save_to_json(folder + MATCH_REPORTS_FILE, self.match_reports)
-        save_to_json(folder + TRAINING_VENUES_FILE, self.training_venues)
-        save_to_json(folder + TRAINING_REPORTS_FILE, self.training_reports)
-
-    def load_club(self, folder):
-        load_object_from_json(folder + CLUB_FILE, self)
-        load_from_json(folder + PLAYER_FILE, Player, self.players)
-        load_from_json(folder + FIXTURES_FILE, Fixture, self.fixtures)
-        load_from_json(folder + MATCH_REPORTS_FILE, MatchReport, self.match_reports)
-        load_from_json(folder + TRAINING_VENUES_FILE, TrainingVenue, self.training_venues)
-        load_from_json(folder + TRAINING_REPORTS_FILE, TrainingReport, self.training_reports)
-
+    def setup_club(self):
         self.process_match_reports()
         self.process_training_reports()
 
@@ -55,16 +28,19 @@ class Club:
                 return False, "Player must have distinct name"
         self.players.append(new_player)
         self.players.sort()
+        self.update_callback()
         return True, None
     
     def add_match_report(self, report):
         self.match_reports.append(report)
         self.process_match_report(report)
         self.match_reports.sort()
+        self.update_callback()
 
     def add_fixture(self, fixture):
         self.fixtures.append(fixture)
         self.fixtures.sort()
+        self.update_callback()
 
     def remove_fixture(self, fixture):
         self.fixtures.remove(fixture)
@@ -73,6 +49,7 @@ class Club:
         self.training_reports.append(report)
         self.process_training_report(report)
         self.training_reports.sort()
+        self.update_callback()
 
     def remove_player(self, player):
         self.players.remove(player)
@@ -115,6 +92,7 @@ class Club:
     def add_opponent(self, opponent):
         self.opponents.append(opponent)
         self.opponents.sort()
+        self.update_callback()
     
     def from_json(self, json_data):
         self.name = json_get(json_data, "name")
