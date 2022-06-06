@@ -9,6 +9,7 @@ FEATURES
 UI
 - value of ObjectListWidget?
 - make a Home page which is a summary of all the things
+- visual display of all screens to fill the space
 
 MATCHES
 - visual display of match reports
@@ -21,7 +22,6 @@ BUG
 - logo is still feather
 
 PLAYER
-- add ability to edit players
 - add goals and assists to players
 
 UX
