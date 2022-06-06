@@ -5,23 +5,24 @@ from ui.widgets.labels import TableHeader
 
 class TableColumn:
 
-    def __init__(self, name, property_name = None, function = None):
+    def __init__(self, name, property_name=None, function=None):
         self.name = name
         self.property = property_name
         self.function = function
 
 class Table(Frame):
 
-    def __init__(self, parent, remove_func=None, header_text=""):
+    def __init__(self, parent, remove_func=None, select_func=None, header_text=""):
         Frame.__init__(self, parent)
         self.row = 0
         self.columns = []
         self.remove_func = remove_func
+        self.select_func = select_func
         self.header_text = header_text
         self.header = None
 
         self.add_header()
-    
+        
     def add_header(self):
         if self.header is not None:
             self.header.grid_forget()
@@ -54,6 +55,11 @@ class Table(Frame):
         
     def add_object(self, object):
         col = 0
+        
+        if self.select_func != None:
+            select_button = Button(self, text="",command=lambda object=object : self.handle_row_select(object))
+            select_button.grid(row=self.row, columnspan=len(self.columns), sticky="news")
+
         for column in self.columns:
             if column.property is not None:
                 property_name = column.property
@@ -71,7 +77,7 @@ class Table(Frame):
                     new_entry.grid(row = self.row, column = col)
             col += 1
         if self.remove_func is not None:
-            remove_button = Button(self, text="X", command= lambda object=object : self.show_confirmation_dialog(object))
+            remove_button = Button(self, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
             remove_button.grid(row=self.row, column=col)
         self.row += 1
 
@@ -80,3 +86,9 @@ class Table(Frame):
         answer = askyesno("Delete Object", message)
         if answer:
             self.remove_func(object)
+
+    def handle_row_select(self, object):
+        if self.select_func != None:
+            self.select_func(object)
+        else:
+            print("ERROR: row selected but no select function provided")
