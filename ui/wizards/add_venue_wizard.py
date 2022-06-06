@@ -5,7 +5,7 @@ from ui.wizards.wizard_base import WizardBase
 
 class AddVenueWizard(WizardBase):
 
-    def __init__(self, manager, root):
+    def __init__(self, manager, root, object=None):
         super().__init__(manager, root)
 
         Label(self.content_container, text="Venue Name").grid(row=0, column=0)

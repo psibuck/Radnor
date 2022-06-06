@@ -8,7 +8,7 @@ from ui.wizards.wizard_base import WizardBase
 
 class AddTrainingReportWizard(WizardBase):
 
-    def __init__(self, manager, root):
+    def __init__(self, manager, root, object=None):
         super().__init__(manager, root)
 
         self.trained_players = []

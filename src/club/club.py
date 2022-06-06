@@ -31,6 +31,15 @@ class Club:
         self.update_callback()
         return True, None
     
+    def update_player(self, old_player, new_player):
+        if old_player not in self.players:
+            return False, "ERROR: attempting to edit a player who doesn't exist"
+        
+        old_player_index = self.players.index(old_player)
+        self.players[old_player_index] = new_player
+        self.players.sort()
+        return True, ""
+
     def add_match_report(self, report):
         self.match_reports.append(report)
         self.process_match_report(report)
@@ -54,6 +63,7 @@ class Club:
     def remove_player(self, player):
         self.players.remove(player)
         self.players.sort()
+        return True, ""
 
     def remove_match_report(self, report):
         self.match_reports.remove(report)

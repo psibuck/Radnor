@@ -15,10 +15,10 @@ class Players(PageBase):
         self.show_player_list()
 
     def show_player_list(self):
-        self.player_list = Table(self, remove_func=self.on_remove_player_button_pressed)
+        self.player_list = Table(self, select_func=self.on_edit_player_selected)
         columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"), TableColumn("Appearances", function = "get_appearances"), TableColumn("Training", "training_attendance"), TableColumn("Signed On", function="get_is_signed_on")]
         self.player_list.add_columns(columns)
-        self.player_list.pack(side=LEFT)
+        self.player_list.pack(side=TOP)
         
         self.refresh_player_list()
 
@@ -31,6 +31,5 @@ class Players(PageBase):
     def on_add_player_button_pressed(self):
         self.page_manager.open_wizard(AddPlayerWizard)
 
-    def on_remove_player_button_pressed(self, player):
-        self.club.remove_player(player)
-        self.refresh_player_list()
+    def on_edit_player_selected(self, player):
+        self.page_manager.open_wizard(AddPlayerWizard, player)

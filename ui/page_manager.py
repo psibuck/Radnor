@@ -57,12 +57,12 @@ class PageManager:
             self.current_page.setup_content()
             self.current_page.pack(fill=BOTH)
 
-    def open_wizard(self, wizard_class):
+    def open_wizard(self, wizard_class, object=None):
         for widget in self.content_area.winfo_children():
             widget.destroy()
         self.current_page = None
         
-        new_page = wizard_class(self, self.content_area)
+        new_page = wizard_class(self, self.content_area, object)
         new_page.pack(fill=BOTH)
 
     def on_wizard_closed(self):

@@ -117,7 +117,7 @@ class AddMatchReportWizard(WizardBase):
     venue_row = 3
     date_row = 4
 
-    def __init__(self, manager, root):
+    def __init__(self, manager, root, object=None):
         super().__init__(manager, root)
         
         self.available_players = self.club.players[:]

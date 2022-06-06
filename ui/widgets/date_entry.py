@@ -76,6 +76,11 @@ class DateEntry(Frame):
             str_date = "0" + str_date
         return str_date
 
+    def set_date(self, date):
+        self.day.set(date.day)
+        self.month.set(date.month)
+        self.year.set(date.year)
+
     def get_date(self):
         days = self.sanitize_data(self.day.get())
         months = self.sanitize_data(self.month.get())
