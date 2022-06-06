@@ -21,7 +21,7 @@ class Venue(Enum):
 # A fixture is a match that has yet to be played
 class Fixture:
     def __init__(self):
-        self.date = ""
+        self.date = date.today()
         self.opponent = ""
         self.venue = Venue.HOME
         self.match_type = MatchType.LEAGUE

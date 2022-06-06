@@ -2,7 +2,7 @@ from src.utilities.data_utilities import json_get
 
 class Club:
 
-    def __init__(self, name, update_callback):
+    def __init__(self, name, update_callback=None):
         self.name = name
         self.update_callback = update_callback
 
@@ -14,7 +14,7 @@ class Club:
         self.players = []
         self.match_reports = []
         self.training_reports = []
-        self.training_venues = []
+        self.training_venues = [] 
         self.fixtures = []
         self.opponents = []
 
@@ -28,7 +28,8 @@ class Club:
                 return False, "Player must have distinct name"
         self.players.append(new_player)
         self.players.sort()
-        self.update_callback()
+        if self.update_callback != None:
+            self.update_callback()
         return True, None
     
     def update_player(self, old_player, new_player):
@@ -44,7 +45,8 @@ class Club:
         self.match_reports.append(report)
         self.process_match_report(report)
         self.match_reports.sort()
-        self.update_callback()
+        if self.update_callback != None:
+            self.update_callback()
 
     def add_fixture(self, fixture):
         self.fixtures.append(fixture)

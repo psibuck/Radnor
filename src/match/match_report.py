@@ -26,22 +26,22 @@ class MatchReport(Fixture):
         if len(self.starting_lineup) >= MAX_PLAYERS:
             print("ERROR: Starting lineup is full")
         else:
-            self.starting_lineup.append(player.name)
+            self.starting_lineup.append(player.get_name())
     
     def add_sub(self, player):
         if len(self.subs) >= MAX_SUBS:
             print("ERROR: Subs bench is full")
         else:
-            self.subs.append(player.name)
+            self.subs.append(player.get_name())
 
     def add_goal(self, goal):
         self.goals.append(goal)
 
     def remove_starter(self, player):
-        self.starting_lineup.remove(player.name)
+        self.starting_lineup.remove(player.get_name())
 
     def remove_sub(self, player):
-        self.subs.remove(player.name)
+        self.subs.remove(player.get_name())
     
     def get_scoreline(self):
         if self.venue == Venue.AWAY:

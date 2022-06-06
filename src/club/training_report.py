@@ -9,7 +9,7 @@ class TrainingReport:
     def __init__(self):
         self.attendees = []
         self.venue = None
-        self.date = None
+        self.date = date.today()
 
     def __eq__(self, other):
         if len(self.attendees) != len(other.attendees):

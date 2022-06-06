@@ -4,6 +4,8 @@ from src.utilities.data_utilities import json_get
 class Player:
 
     def __init__(self, first_name="", surname=""):
+        self.first_name = first_name
+        self.surname = surname
         self.dob = date.today()
         self.is_signed_on = False
 
@@ -12,6 +14,9 @@ class Player:
 
         self.training_attendance = 0
 
+    def __eq__(self, o: object) -> bool:
+        return self.first_name == o.first_name and self.surname == o.surname and self.dob == o.dob
+        
     def __lt__(self, other):
         return self.get_name().lower() < other.get_name().lower()
 
