@@ -1,5 +1,6 @@
 Project
 - add tests for clearing club data
+- set up branching model that requires tests to pass to submit
 
 FEATURES
 - add multiple club select on boot
@@ -23,4 +24,3 @@ PLAYER
 - add goals and assists to players
 
 UX
-- focus on entry boxes when opening pages(e.g add player)

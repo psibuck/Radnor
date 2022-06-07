@@ -13,7 +13,10 @@ class AddPlayerWizard(WizardBase):
         self.signed_on = BooleanVar()
         self.signed_on.set(False)
 
-        Entry(root, textvariable=self.first_name).pack(side = TOP)
+        entry = Entry(root, textvariable=self.first_name)
+        entry.pack(side = TOP)
+        entry.focus()
+        
         Entry(root, textvariable=self.surname).pack(side = TOP)
         Checkbutton(root, text="Signed On", variable=self.signed_on).pack(side=TOP)
 
