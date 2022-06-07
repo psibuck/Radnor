@@ -1,6 +1,4 @@
 Project
-- fix the continous integration to actually run the tests
-- delete test folder after tests finish
 - add tests for clearing club data
 
 FEATURES
