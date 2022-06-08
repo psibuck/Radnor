@@ -8,24 +8,22 @@ FEATURES
 UI
 - value of ObjectListWidget?
 - make a Home page which is a summary of all the things
-- visual display of all screens to fill the space
 - scrolling boxes on tables
 - Fix club page layout
 - Fix training page layout
 - fix matches page layout
+- fix add venue wizard
+- fix add player wizard
+- fix add match report wizard
+- fix add training report wizard
 
 MATCHES
-- visual display of match reports
 - create match reports from fixtures
-
-TRAINING
-- visual display of training reports
+- scoreline should default to 0-0
+- can enter anything for goals
 
 BUG
 - logo is still feather
-
-PLAYER
-- add goals and assists to players
 
 UX
 - add confirm to clear local data button
