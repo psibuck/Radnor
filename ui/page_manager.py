@@ -63,7 +63,7 @@ class PageManager:
         self.current_page = None
         
         new_page = wizard_class(self, self.content_area, object)
-        new_page.pack(fill=BOTH)
+        new_page.pack(fill=BOTH, expand=YES)
 
     def on_wizard_closed(self):
         index_to_switch_to = self.current_index

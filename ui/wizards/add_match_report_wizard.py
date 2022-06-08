@@ -125,13 +125,16 @@ class AddMatchReportWizard(WizardBase):
         self.subs = []
 
         self.option_area = Frame(self.content_container)
-        self.option_area.pack(side=TOP)
+        self.option_area.pack(fill=BOTH, expand=YES)
+        
+        list_area = LabelFrame(self.content_container)
+        list_area.pack(side=BOTTOM, fill=BOTH, expand=YES)
 
-        player_area = Frame(self.content_container)
-        player_area.pack(side=TOP)
+        player_area = Frame(list_area)
+        player_area.pack(side=LEFT)
 
-        self.goal_area = GoalDisplay(self.content_container, manager)
-        self.goal_area.pack(side=TOP)
+        self.goal_area = GoalDisplay(list_area, manager)
+        self.goal_area.pack(side=RIGHT)
         self.goal_area.update_player_list(self.available_players)
 
         self.our_goals = IntVar(manager.root)

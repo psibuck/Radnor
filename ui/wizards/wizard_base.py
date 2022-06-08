@@ -1,4 +1,4 @@
-from tkinter import Button, BOTTOM, Frame, Label, LEFT, RIGHT, StringVar, TOP
+from tkinter import Button, BOTH, YES, BOTTOM, Frame, Label, LEFT, RIGHT, StringVar, TOP
 from ui.pages.page_base import PageBase
 
 class WizardBase(PageBase):
@@ -8,7 +8,7 @@ class WizardBase(PageBase):
 
         self.root_object = object
         self.content_container = Frame(self)
-        self.content_container.pack(side=TOP)
+        self.content_container.pack(side=TOP, fill=BOTH, expand=YES)
         button_container = Frame(self)
         button_container.pack(side=BOTTOM)
 
