@@ -76,26 +76,38 @@ class Club:
             self.process_match_report(report)
     
     def process_match_report(self, report, add=True):
+        increment = 1
+        if not add:
+            increment = -1
+
         for starter in report.starting_lineup:
-            for player in self.players:
-                if player.name == starter:
-                    if add:
-                        player.matches_started += 1
-                    else:
-                        player.matches_started -= 1
+            player = self.get_player_by_name(starter)
+            if player != None:
+                player.matches_started += increment
+
         for sub in report.subs:
-            for player in self.players:
-                if player.name == sub:
-                    if add:
-                        player.matches_as_sub += 1
-                    else:
-                        player.matches_as_sub -= 1
+            player = self.get_player_by_name(sub)
+            if player != None:
+                player.matches_as_sub += increment
+
+        for goal in report.goals:
+            scorer = self.get_player_by_name(goal.scorer)
+            if scorer != None:
+                scorer.goals += increment
+            assister = self.get_player_by_name(goal.assister)
+            if assister != None:
+                assister.assists += increment
+
+    def get_player_by_name(self, name):
+        for player in self.players:
+            if player.get_name() == name:
+                return player
 
     def process_training_report(self, report):
         for attendee in report.attendees:
-            for player in self.players:
-                if player.name == attendee:
-                    player.training_attendance += 1
+            player = self.get_player_by_name(attendee)
+            if player != None:
+                player.training_attendance += 1
 
     def process_training_reports(self):
         for report in self.training_reports:

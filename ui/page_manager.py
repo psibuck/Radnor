@@ -55,7 +55,7 @@ class PageManager:
 
             self.current_page = self.pages[page_index](self, self.content_area)
             self.current_page.setup_content()
-            self.current_page.pack(fill=BOTH)
+            self.current_page.pack(fill=BOTH, expand=YES)
 
     def open_wizard(self, wizard_class, object=None):
         for widget in self.content_area.winfo_children():

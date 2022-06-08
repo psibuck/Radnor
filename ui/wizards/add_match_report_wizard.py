@@ -29,7 +29,7 @@ class GoalEntry(Frame):
         self.assister_options = None
         self.player_list = []
         for player in player_list:
-            self.player_list.append(player.name)
+            self.player_list.append(player.get_name())
 
         Label(self, text="Goal " + str(index)).pack(side=LEFT)
 

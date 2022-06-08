@@ -14,7 +14,12 @@ class Player:
 
         self.training_attendance = 0
 
+        self.goals = 0
+        self.assists = 0
+        
     def __eq__(self, o: object) -> bool:
+        if o == None:
+            return False
         return self.first_name == o.first_name and self.surname == o.surname and self.dob == o.dob
         
     def __lt__(self, other):

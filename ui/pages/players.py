@@ -15,10 +15,14 @@ class Players(PageBase):
         self.show_player_list()
 
     def show_player_list(self):
-        self.player_list = Table(self, select_func=self.on_edit_player_selected)
-        columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"), TableColumn("Appearances", function = "get_appearances"), TableColumn("Training", "training_attendance"), TableColumn("Signed On", function="get_is_signed_on")]
+        self.player_list = Table(self, select_func=self.on_edit_player_selected, show_scroll=True)
+        columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"),\
+                   TableColumn("Appearances", function = "get_appearances"), \
+                   TableColumn("Training", "training_attendance"), \
+                   TableColumn("Signed On", function="get_is_signed_on"), TableColumn("Goals", "goals"), \
+                   TableColumn("Assists", "assists")]
         self.player_list.add_columns(columns)
-        self.player_list.pack(side=TOP)
+        self.player_list.pack(fill=BOTH, expand=YES, padx=5, pady=5)
         
         self.refresh_player_list()
 

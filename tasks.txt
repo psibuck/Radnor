@@ -9,6 +9,10 @@ UI
 - value of ObjectListWidget?
 - make a Home page which is a summary of all the things
 - visual display of all screens to fill the space
+- scrolling boxes on tables
+- Fix club page layout
+- Fix training page layout
+- fix matches page layout
 
 MATCHES
 - visual display of match reports
@@ -24,3 +28,4 @@ PLAYER
 - add goals and assists to players
 
 UX
+- add confirm to clear local data button
