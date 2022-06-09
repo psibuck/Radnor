@@ -2,4 +2,4 @@ Radnor is an application I developed to help me manage stats and finances for my
 
 It takes advantage of another little application I developed, Starling, which takes retrieves raw Starling bank data and collates it in an easy to process format.
 
-Currently it is a desktop application, written on Python. The UI is written in Tkinter. 
+Currently it is a desktop application, written in Python. The UI is written in Tkinter.
