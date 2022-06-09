@@ -8,8 +8,6 @@ FEATURES
 UI
 - value of ObjectListWidget?
 - make a Home page which is a summary of all the things
-- scrolling boxes on tables
-- Fix club page layout
 - Fix training page layout
 - fix matches page layout
 - fix add venue wizard
@@ -24,6 +22,7 @@ MATCHES
 
 BUG
 - logo is still feather
+- players don't load goal and assist data after shutdown
 
 UX
 - add confirm to clear local data button
