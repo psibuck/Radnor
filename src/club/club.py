@@ -128,4 +128,11 @@ class Club:
             "opponents": self.opponents
         }
 
+    def get_top_scorers(self, num):
+        players = self.players[:]
+        players = sorted(players, key=lambda player: player.goals)
+        return players[:num]
+
+        
+
         
