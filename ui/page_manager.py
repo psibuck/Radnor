@@ -4,8 +4,11 @@ from ui.pages.players import Players
 from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
-from tkinter import ttk, BOTH, YES, Button, LEFT, FLAT, SUNKEN
+from tkinter import ttk, BOTH, YES, Button, LEFT, LabelFrame,TOP
 
+WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 800
+WINDOW_MARGIN = 10
 
 class PageManager:
 
@@ -20,17 +23,27 @@ class PageManager:
         self.pages.append(Players)
         self.pages.append(MatchReports)
         self.pages.append(TrainingReports)
-        self.root.geometry("800x600")
+        self.root.geometry(str(WINDOW_WIDTH) + "x" + str(WINDOW_HEIGHT))
         self.root.title(self.app.club.name)
+        self.root.resizable(width=False, height=False)
         self.root.protocol("WM_DELETE_WINDOW", self.close_requested)
 
+        self.app_frame = LabelFrame(self.root, height=WINDOW_HEIGHT - WINDOW_MARGIN, width=WINDOW_WIDTH - WINDOW_MARGIN)
+        self.app_frame.pack(fill=BOTH, expand=YES)
+
         self.setup_tabs()  
-        self.content_area = tk.Frame(self.root)
-        self.content_area.pack(fill=BOTH, expand=YES)      
+        self.content_area = LabelFrame(self.app_frame)
+        self.content_area.pack(side=TOP, fill=BOTH, expand=YES)      
         self.switch_page(0)
 
+    def get_screen_width(self):
+        return WINDOW_WIDTH - 2 * WINDOW_MARGIN
+
+    def get_screen_height(self):
+        return WINDOW_HEIGHT - 2 * WINDOW_MARGIN
+        
     def setup_tabs(self):
-        frame = tk.Frame(self.root, height=50)
+        frame = LabelFrame(self.app_frame, height=50)
         frame.pack()
 
         index = 0
