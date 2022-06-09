@@ -1,6 +1,7 @@
 from select import select
 from tkinter import *
 from ui.pages.page_base import PageBase
+from ui.widgets.scrollframe import ScrollFrame
 from ui.widgets.table import Table, TableColumn
 from ui.wizards.add_player_wizard import AddPlayerWizard
 
@@ -15,7 +16,9 @@ class Players(PageBase):
         self.show_player_list()
 
     def show_player_list(self):
-        self.player_list = Table(self, select_func=self.on_edit_player_selected, show_scroll=True)
+        scroll_box = ScrollFrame(self)
+        scroll_box.pack(fill=BOTH, expand=YES)
+        self.player_list = Table(scroll_box.content_area, select_func=self.on_edit_player_selected)
         columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"),\
                    TableColumn("Appearances", function = "get_appearances"), \
                    TableColumn("Training", "training_attendance"), \
