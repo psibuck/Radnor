@@ -56,10 +56,6 @@ class Table(Frame):
         
     def add_object(self, object):
         col = 0
-        
-        if self.select_func != None:
-            select_button = Button(self, text="",command=lambda object=object : self.handle_row_select(object))
-            select_button.grid(row=self.row, columnspan=len(self.columns), sticky="news")
 
         for column in self.columns:
             if column.property is not None:
@@ -77,9 +73,16 @@ class Table(Frame):
                     new_entry = Label(self, text=str(getattr(object, function)()))
                     new_entry.grid(row = self.row, column = col)
             col += 1
+
+        button_container = Frame(self)
+        button_container.grid(row=self.row, column=col)
+
+        if self.select_func != None:
+            select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_select(object))
+            select_button.pack(side=LEFT)
         if self.remove_func is not None:
             remove_button = Button(self, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
-            remove_button.grid(row=self.row, column=col)
+            remove_button.pack(side=LEFT)
         self.row += 1
 
     def show_confirmation_dialog(self, object):

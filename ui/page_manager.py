@@ -14,6 +14,7 @@ class PageManager:
 
     def __init__(self, app):
         self.root = tk.Tk()
+
         self.app = app
 
         self.current_index = -1
