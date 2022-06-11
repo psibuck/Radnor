@@ -118,11 +118,24 @@ class AddMatchReportWizard(WizardBase):
     date_row = 4
 
     def __init__(self, manager, root, object=None):
-        super().__init__(manager, root)
-        
-        self.available_players = self.club.players[:]
+        self.our_goals = IntVar(manager.root)
+        self.our_goals.set(0)
+
+        self.opponent_goals = IntVar(manager.root)
+        self.opponent_goals.set(0)
+
+        self.available_players = manager.app.club.players
         self.first_XI = []
         self.subs = []
+
+        self.selected_opponent = StringVar()
+        self.selected_venue = StringVar()
+        self.selected_venue.set(str(Venue(1)))
+
+        if len(manager.app.club.opponents) > 0:
+            self.selected_opponent.set(manager.app.club.opponents[0])
+
+        super().__init__(manager, root, object)
 
         self.option_area = Frame(self.content_container)
         self.option_area.pack(fill=BOTH, expand=YES)
@@ -137,22 +150,17 @@ class AddMatchReportWizard(WizardBase):
         self.goal_area.pack(side=RIGHT)
         self.goal_area.update_player_list(self.available_players)
 
-        self.our_goals = IntVar(manager.root)
-        self.our_goals.set(0)
         self.our_goals.trace("w", self.goal_area.handle_goals_update)
 
         TableHeader(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
         NumericEntry(self.option_area, self.our_goals).grid(row=self.scoreline_row, column = 1)
         TableHeader(self.option_area, text="Opposition").grid(row=self.scoreline_row, column=2)
-        self.oppo_scoreline = NumericEntry(self.option_area)
+        self.oppo_scoreline = NumericEntry(self.option_area, self.opponent_goals)
         self.oppo_scoreline.grid(row=self.scoreline_row, column = 3)
 
         TableHeader(self.option_area, "Opposition").grid(row=self.opponent_row, column=0)
-        self.selected_opponent = StringVar()
         self.opposition_list = None
-        if len(self.club.opponents) > 0:
-            self.selected_opponent.set(self.club.opponents[0])
-            self.add_opposition_list()
+        self.add_opposition_list()
 
         self.oppo_entry = Entry(self.option_area, text="New Opponent")
         self.oppo_entry.grid(row=self.opponent_row, column=2)
@@ -165,8 +173,6 @@ class AddMatchReportWizard(WizardBase):
         match_type_selector.grid(row=self.match_type_row, column=1)
 
         TableHeader(self.option_area, "Venue").grid(row=self.venue_row, column=0)
-        self.selected_venue = StringVar()
-        self.selected_venue.set(str(Venue(1)))
         venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
         venue_selector.grid(row=self.venue_row, column=1)
 
@@ -181,15 +187,32 @@ class AddMatchReportWizard(WizardBase):
 
         self.substitute_players_list = ObjectListWidget(player_area, "Substitutes")
         self.substitute_players_list.grid(row=1, column=2, sticky=N)
-
+                
         self.setup_objects_list()
 
+    def populate_player_list(self, initial_list, additive_list, player_list):
+        for player_name in initial_list:
+            player = self.club.get_player_by_name(player_name)
+            if player != None:
+                additive_list.append(player)
+                player_list.remove(player)
 
+    def setup_from_object(self, object):
+        players = self.club.players[:]
+
+        self.populate_player_list(object.starting_lineup, self.first_XI, players)
+        self.populate_player_list(object.subs, self.subs, players)
+        self.available_players = players
+        
+        self.our_goals.set(object.club_goals)
+        self.opponent_goals.set(object.opponent_goals)
+        
     def add_opposition_list(self):
-        if self.opposition_list is not None:
-            self.opposition_list.grid_forget()
-        self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(self.club.opponents))
-        self.opposition_list.grid(row=self.opponent_row, column=1)
+        if len(self.club.opponents) > 0:
+            if self.opposition_list is not None:
+                self.opposition_list.grid_forget()
+            self.opposition_list = OptionMenu(self.option_area, self.selected_opponent, *list(self.club.opponents))
+            self.opposition_list.grid(row=self.opponent_row, column=1)
 
     def add_opponent(self):
         opponent_name = self.oppo_entry.get()
@@ -240,29 +263,27 @@ class AddMatchReportWizard(WizardBase):
         list.setup(widgets)
 
     def handle_add_pressed(self):
-        new_match_report = MatchReport()
-
         if len(self.first_XI) != NUM_STARTERS:
             return False, "Not enough starters added to match report"
         if len(self.subs) > MAX_SUBS:
             return False, "Too many players on subs bench"
 
         for player in self.first_XI:
-            new_match_report.add_starter(player)
+            self.report.add_starter(player)
         for sub in self.subs:
-            new_match_report.add_sub(sub)
+            self.report.add_sub(sub)
             
-        new_match_report.club_goals = self.our_goals.get()
-        new_match_report.opponent_goals = self.oppo_scoreline.get()
-        new_match_report.match_type = MatchType[self.selected_match_type.get()]
-        new_match_report.venue = Venue[self.selected_venue.get()]
-        new_match_report.opponent = self.selected_opponent.get()
-        new_match_report.date = self.date_entry.get_date()
+        self.report.club_goals = self.our_goals.get()
+        self.report.opponent_goals = self.opponent_goals.get()
+        self.report.match_type = MatchType[self.selected_match_type.get()]
+        self.report.venue = Venue[self.selected_venue.get()]
+        self.report.opponent = self.selected_opponent.get()
+        self.report.date = self.date_entry.get_date()
 
         for goal in self.goal_area.goal_entries:
             new_goal = Goal(goal.goalscorer, goal.assister, "test goal description")
-            new_match_report.add_goal(new_goal)
+            self.report.add_goal(new_goal)
 
-        self.club.add_match_report(new_match_report)
+        self.club.add_match_report(self.report)
         self.close()    
         return True, ""    

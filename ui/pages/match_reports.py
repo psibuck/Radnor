@@ -43,13 +43,16 @@ class MatchReports(PageBase):
             widget.destroy()
 
         Title(self.match_report_space, "Results").pack(side = TOP)
-        report_table = Table(self.match_report_space, remove_func=self.handle_remove_match_report)
+        report_table = Table(self.match_report_space, remove_func=self.handle_remove_match_report, select_func=self.edit_match_report)
         report_table.pack(side = TOP)
 
         columns = [TableColumn("Date", function="get_date"), TableColumn("Scoreline", function="get_scoreline"), TableColumn("Type", function="get_match_type")]
         report_table.add_columns(columns)
         for match_report in self.club.match_reports:
             report_table.add_object(match_report)
+
+    def edit_match_report(self, report):
+        self.page_manager.open_wizard(AddMatchReportWizard, report)
 
     def handle_remove_match_report(self, report):
         self.club.remove_match_report(report)

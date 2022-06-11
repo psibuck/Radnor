@@ -81,7 +81,7 @@ class Table(Frame):
             select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_select(object))
             select_button.pack(side=LEFT)
         if self.remove_func is not None:
-            remove_button = Button(self, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
+            remove_button = Button(button_container, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
             remove_button.pack(side=LEFT)
         self.row += 1
 
