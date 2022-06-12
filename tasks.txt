@@ -8,7 +8,6 @@ FEATURES
 UI
 - value of ObjectListWidget?
 - make a Home page which is a summary of all the things
-- Fix training page layout
 - fix add venue wizard
 - fix add player wizard
 - fix add match report wizard
