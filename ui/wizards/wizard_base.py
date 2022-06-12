@@ -5,15 +5,17 @@ class WizardBase(PageBase):
 
     def __init__(self, manager, root, object=None):
         super().__init__(manager, root)
-
+        
         self.root_object = object
         self.content_container = Frame(self)
         self.content_container.pack(side=TOP, fill=BOTH, expand=YES)
         button_container = Frame(self)
         button_container.pack(side=BOTTOM)
 
+        self.setup_variables()
+
         if self.root_object != None:
-            Button(button_container, text="Save", command=self.on_edit_pressed).pack(side=LEFT)
+            Button(button_container, text="Save", command=self.on_save_pressed).pack(side=LEFT)
             Button(button_container, text="Revert", command=self.on_revert_pressed).pack(side=LEFT)
             Button(button_container, text="Delete", command=self.on_delete_pressed).pack(side=LEFT)
 
@@ -28,8 +30,11 @@ class WizardBase(PageBase):
 
         manager.root.bind('<Return>', self.on_add_pressed)
 
+    def setup_variables(self):
+        print("ERROR: WizardBase::setup_variables not implemented")
+
     def setup_from_object(self, _):
-        print("ERROR: setup_from_object not implemented")
+        print("ERROR: WizardBase::setup_from_object not implemented")
 
     def on_delete_pressed(self):
         success, error = self.handle_delete_pressed()
@@ -38,8 +43,8 @@ class WizardBase(PageBase):
         else:
             self.error_message.set(error)
     
-    def on_edit_pressed(self):
-        success, error = self.handle_edit_pressed()
+    def on_save_pressed(self):
+        success, error = self.handle_save_pressed()
         if success:
             self.close()
         else:
@@ -67,5 +72,5 @@ class WizardBase(PageBase):
     def handle_delete_pressed(self):
         print("ERROR: on_delete_pressed not implemented!")
     
-    def handle_edit_pressed(self):
+    def handle_save_pressed(self):
         print("ERROR: on_edit_pressed not implemented!")

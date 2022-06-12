@@ -51,7 +51,7 @@ class AddPlayerWizard(WizardBase):
 
         return self.club.add_player(new_player)
 
-    def handle_edit_pressed(self):
+    def handle_save_pressed(self):
         success, new_player = self.construct_player_from_data()
         if not success:
             return success, new_player
