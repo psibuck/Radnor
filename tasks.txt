@@ -22,7 +22,6 @@ MATCHES
 
 EDITING
 - edit training report
-- edit venue
 - edit fixture
 
 BUG
