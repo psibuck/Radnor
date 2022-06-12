@@ -40,7 +40,7 @@ class TrainingReports(PageBase):
         venue_label = Title(self.venue_frame, "Venues")
         venue_label.pack(side = TOP)
 
-        venue_table = Table(self.venue_frame, self.remove_venue)
+        venue_table = Table(self.venue_frame, self.remove_venue, select_func=self.edit_venue)
         venue_table.pack(side = TOP)
         columns = [TableColumn("Name", "name"), TableColumn("Cost", "cost")]
         venue_table.add_columns(columns)
@@ -51,6 +51,9 @@ class TrainingReports(PageBase):
         add_venue_button = Button(self.venue_frame, text="+", command=self.add_venue_button_pressed)
         add_venue_button.pack(side = TOP)
 
+    def edit_venue(self, venue):
+        self.page_manager.open_wizard(AddVenueWizard, venue)
+        
     def remove_venue(self, venue):
         self.club.training_venues.remove(venue)
         self.setup_venue_space()

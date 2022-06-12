@@ -73,4 +73,4 @@ class WizardBase(PageBase):
         print("ERROR: on_delete_pressed not implemented!")
     
     def handle_save_pressed(self):
-        print("ERROR: on_edit_pressed not implemented!")
+        print("ERROR: on_save_pressed not implemented!")
