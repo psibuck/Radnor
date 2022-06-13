@@ -25,7 +25,7 @@ class AddTrainingReportWizard(WizardBase):
         self.training_checkboxes = []
         row = 1
         for player in self.club.players:
-            select_button = Checkbutton(training_table, text=player.get_name(), command= lambda name = player.name : self.select_player(name))
+            select_button = Checkbutton(training_table, text=player.get_name(), command= lambda name = player.get_name() : self.select_player(name))
             select_button.grid(row=row, column=1, sticky=W)
             self.training_checkboxes.append(select_button)        
             row += 1
