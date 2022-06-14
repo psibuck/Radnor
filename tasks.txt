@@ -20,7 +20,6 @@ MATCHES
 - add goals to options in edit match report
 
 EDITING
-- edit training report
 - edit fixture
 
 BUG
@@ -29,3 +28,7 @@ BUG
 
 UX
 - add confirm to clear local data button
+
+TRAINING REPORT
+- support editing attendees
+- support date changing
