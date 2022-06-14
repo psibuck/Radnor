@@ -9,10 +9,7 @@ from ui.wizards.wizard_base import WizardBase
 class AddTrainingReportWizard(WizardBase):
 
     def __init__(self, manager, root, object=None):
-        super().__init__(manager, root)
-
-        self.trained_players = []
-        self.selected_venue = StringVar()
+        super().__init__(manager, root, object)
 
         training_table = Table(self.content_container)
         columns = [TableColumn("Date"), TableColumn("Players"), TableColumn("Venue")]
@@ -22,7 +19,6 @@ class AddTrainingReportWizard(WizardBase):
         self.training_date = DateEntry(training_table, True)
         self.training_date.grid(row=1, column=0)
 
-        self.training_checkboxes = []
         row = 1
         for player in self.club.players:
             select_button = Checkbutton(training_table, text=player.get_name(), command= lambda name = player.get_name() : self.select_player(name))
@@ -40,8 +36,18 @@ class AddTrainingReportWizard(WizardBase):
         else:
             self.selected_venue.set("None")
             Label(training_table, text="No Venues Added").grid(row=1, column=2)
+    
+    def setup_variables(self):
+        self.trained_players = []
+        self.selected_venue = StringVar()
 
-    def handle_add_pressed(self):
+        self.training_checkboxes = []
+
+    def setup_from_object(self, training_report):
+        self.trained_players = training_report.attendees
+        self.selected_venue.set(training_report.venue)
+
+    def generate_report(self):
         new_report = TrainingReport()
         new_report.attendees = self.trained_players
         if new_report.attendees == 0:
@@ -58,9 +64,14 @@ class AddTrainingReportWizard(WizardBase):
 
         if new_report.venue == None:
             return False, "No venue set, if you need to add some cancel and come back"
-            
+        return True, new_report
+    
+    def handle_add_pressed(self):
+        success, new_report = self.generate_report()
+        if not success:
+            return False, new_report
+
         self.club.add_training_report(new_report)
-        self.close()
         return True, ""
 
     def select_player(self, player_name):
@@ -68,3 +79,12 @@ class AddTrainingReportWizard(WizardBase):
             self.trained_players.remove(player_name)
         else:
             self.trained_players.append(player_name)
+
+    def handle_save_pressed(self):
+        success, new_report = self.generate_report()
+        if not success:
+            return False, new_report
+        self.club.training_reports.remove(self.root_object)
+        self.club.add_training_report(new_report)
+
+        return True, ""

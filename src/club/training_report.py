@@ -12,6 +12,8 @@ class TrainingReport:
         self.date = date.today()
 
     def __eq__(self, other):
+        if other == None:
+            return False
         if len(self.attendees) != len(other.attendees):
             return False
         

@@ -1,6 +1,4 @@
 from tkinter import *
-from src.club.training_report import TrainingReport
-from src.club.training_venue import TrainingVenue
 from ui.pages.page_base import PageBase
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.table import Table, TableColumn
@@ -53,6 +51,9 @@ class TrainingReports(PageBase):
 
     def edit_venue(self, venue):
         self.page_manager.open_wizard(AddVenueWizard, venue)
+
+    def edit_training_report(self, report):
+        self.page_manager.open_wizard(AddTrainingReportWizard, report)
         
     def remove_venue(self, venue):
         self.club.training_venues.remove(venue)
@@ -71,7 +72,7 @@ class TrainingReports(PageBase):
         training_list_label = Title(self.training_list_frame, text="Sessions")
         training_list_label.pack(side = TOP)
 
-        training_table = Table(self.training_list_frame, remove_func = self.remove_training_report)
+        training_table = Table(self.training_list_frame, remove_func = self.remove_training_report, select_func=self.edit_training_report)
         columns = [TableColumn("Date", function="get_date" ), TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
         training_table.add_columns(columns)
         for report in self.club.training_reports:
