@@ -18,12 +18,12 @@ class AddTrainingReportWizard(WizardBase):
 
         self.training_date = DateEntry(training_table, True)
         self.training_date.grid(row=1, column=0)
-        if self.root_object != None:
-            self.training_date.set_date(self.root_object.date)
 
         stored_players = []
+
         if self.root_object != None:
             stored_players = self.root_object.attendees[:]
+            self.training_date.set_date(self.root_object.date)
 
         row = 1
         for player in self.club.players:
@@ -52,7 +52,7 @@ class AddTrainingReportWizard(WizardBase):
         else:
             self.selected_venue.set("None")
             Label(training_table, text="No Venues Added").grid(row=1, column=2)
-    
+
     def setup_variables(self):
         self.trained_players = []
         self.selected_venue = StringVar()

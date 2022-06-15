@@ -28,7 +28,3 @@ BUG
 
 UX
 - add confirm to clear local data button
-
-TRAINING REPORT
-- support editing attendees
-- support date changing
