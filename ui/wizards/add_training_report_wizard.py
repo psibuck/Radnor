@@ -1,9 +1,9 @@
 from datetime import date
-from tkinter import Checkbutton, OptionMenu, Label, StringVar, W
+from tkinter import Checkbutton, Frame, Label, LEFT, OptionMenu, StringVar, TOP, W
 
 from src.club.training_report import TrainingReport
 from ui.widgets.date_entry import DateEntry
-from ui.widgets.table import Table, TableColumn
+from ui.widgets.table import Table, TableHeader
 from ui.wizards.wizard_base import WizardBase
 
 class AddTrainingReportWizard(WizardBase):
@@ -11,34 +11,17 @@ class AddTrainingReportWizard(WizardBase):
     def __init__(self, manager, root, object=None):
         super().__init__(manager, root, object)
 
-        training_table = Table(self.content_container)
-        columns = [TableColumn("Date"), TableColumn("Players"), TableColumn("Venue")]
-        training_table.add_columns(columns)
-        training_table.grid(row=0, column=0)
-
-        self.training_date = DateEntry(training_table, True)
-        self.training_date.grid(row=1, column=0)
-
-        stored_players = []
-
-        if self.root_object != None:
-            stored_players = self.root_object.attendees[:]
-            self.training_date.set_date(self.root_object.date)
-
-        row = 1
-        for player in self.club.players:
-            select_button = Checkbutton(training_table, text=player.get_name(), command= lambda name = player.get_name() : self.select_player(name))
-            select_button.grid(row=row, column=1, sticky=W)
-            select_button.deselect()
-    
-            for trainer in stored_players:
-                if player.get_name() == trainer:
-                    stored_players.remove(trainer)
-                    select_button.select()
-
-            self.training_checkboxes.append(select_button)        
-            row += 1
+        date_frame = Frame(self.content_container)
+        date_frame.pack(side=TOP)
         
+        TableHeader(date_frame, "Date").pack(side=TOP)
+        self.training_date = DateEntry(date_frame)
+        self.training_date.pack(side=TOP)
+
+        venue_frame = Frame(self.content_container)
+        venue_frame.pack(side=TOP)
+
+        TableHeader(venue_frame, "Venue").pack(side=TOP)     
         if len(self.club.training_venues) > 0:
             venue_names = []
             for venue in self.club.training_venues:
@@ -46,12 +29,45 @@ class AddTrainingReportWizard(WizardBase):
             if self.root_object == None:
                 self.selected_venue.set(venue_names[0])
 
-            venue_dropdown = OptionMenu(training_table, self.selected_venue, *venue_names)
-            venue_dropdown.grid(row=1, column=2)
-
+            venue_dropdown = OptionMenu(venue_frame, self.selected_venue, *venue_names)
+            venue_dropdown.pack(side=TOP)
         else:
             self.selected_venue.set("None")
-            Label(training_table, text="No Venues Added").grid(row=1, column=2)
+            Label(venue_frame, text="No Venues Added").grid(row=1, column=2)
+
+        if self.root_object != None:
+            stored_players = self.root_object.attendees[:]
+            self.training_date.set_date(self.root_object.date)
+
+        training_frame = Frame(self.content_container)
+        training_frame.pack(side=TOP)
+
+        TableHeader(training_frame, "Players").pack(side=LEFT)   
+        stored_players = []
+
+        num_per_column = int(len(self.club.players) / 3)
+        player_grid = Frame(training_frame)
+        player_grid.pack(side=TOP)
+
+        row = 0
+        column = 0
+        for player in self.club.players:
+            select_button = Checkbutton(player_grid, anchor=W, width=10, text=player.get_name(), command= lambda name = player.get_name() : self.select_player(name))
+            select_button.grid(row=row, column=column)
+            select_button.deselect()
+    
+            for trainer in stored_players:
+                if player.get_name() == trainer:
+                    stored_players.remove(trainer)
+                    select_button.select()
+
+            self.training_checkboxes.append(select_button) 
+
+            if row == num_per_column:
+                row = 0
+                column += 1
+            else:
+                row += 1   
 
     def setup_variables(self):
         self.trained_players = []
