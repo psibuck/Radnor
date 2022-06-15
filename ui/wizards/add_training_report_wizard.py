@@ -19,10 +19,20 @@ class AddTrainingReportWizard(WizardBase):
         self.training_date = DateEntry(training_table, True)
         self.training_date.grid(row=1, column=0)
 
+        stored_players = []
+        if self.root_object != None:
+            stored_players = self.root_object.attendees[:]
+
         row = 1
         for player in self.club.players:
             select_button = Checkbutton(training_table, text=player.get_name(), command= lambda name = player.get_name() : self.select_player(name))
             select_button.grid(row=row, column=1, sticky=W)
+    
+            for trainer in stored_players:
+                if player.get_name() == trainer:
+                    stored_players.remove(trainer)
+                    select_button.select()
+
             self.training_checkboxes.append(select_button)        
             row += 1
         
@@ -30,9 +40,12 @@ class AddTrainingReportWizard(WizardBase):
             venue_names = []
             for venue in self.club.training_venues:
                 venue_names.append(venue.name)
-            self.selected_venue.set(venue_names[0])
+            if self.root_object == None:
+                self.selected_venue.set(venue_names[0])
+
             venue_dropdown = OptionMenu(training_table, self.selected_venue, *venue_names)
             venue_dropdown.grid(row=1, column=2)
+
         else:
             self.selected_venue.set("None")
             Label(training_table, text="No Venues Added").grid(row=1, column=2)
