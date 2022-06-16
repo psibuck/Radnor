@@ -4,6 +4,7 @@ Project
 
 FEATURES
 - add multiple club select on boot
+- add dummy clubs
 
 UI
 - value of ObjectListWidget?

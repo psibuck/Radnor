@@ -1,14 +1,30 @@
+from enum import Enum
+
 from ui.pages.home import Home
 from ui.pages.match_reports import MatchReports
 from ui.pages.players import Players
 from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
-from tkinter import ttk, BOTH, YES, Button, LEFT, LabelFrame,TOP
+from tkinter import ttk, BOTH, YES, IntVar, LEFT, LabelFrame, OptionMenu, TOP
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 800
 WINDOW_MARGIN = 10
+
+class ClubControls(Enum):
+    CLUB_CONTROLS = 0
+    SELECT_CLUB = 1
+    DELETE_CLUB = 2
+    
+    def __str__(self):
+        if self == ClubControls.CLUB_CONTROLS:
+            return "Manage Club"
+        elif self == ClubControls.DELETE_CLUB:
+            return "Delete Club"
+        elif self == ClubControls.SELECT_CLUB:
+            return "Select Club"
+        return self.name
 
 class PageManager:
 
@@ -52,7 +68,24 @@ class PageManager:
             button = ttk.Button(frame, text = page.name, command = lambda index = index: self.switch_page(index))
             button.pack(side = LEFT)
             index += 1
-        Button(frame, text="Clear Local Data", command=self.app.clear_local_data).pack(side=LEFT)
+        
+        self.control = IntVar()
+        self.control.set(ClubControls.CLUB_CONTROLS)
+        OptionMenu(frame, self.control, *list(ClubControls), command=self.handle_control_selected).pack(side=LEFT)
+
+    def handle_control_selected(self, value):
+        if value == ClubControls.SELECT_CLUB:
+            print("Select Club")
+            self.open_club_selector()
+        elif value == ClubControls.DELETE_CLUB:
+            print("Delete Club")
+            self.open_club_selector()
+
+        if value != ClubControls.CLUB_CONTROLS:
+            self.control.set(ClubControls.CLUB_CONTROLS)
+
+    def open_club_selector(self):
+        print("open club selector")
 
     def switch_page(self, page_index):
         if page_index < len(self.pages):
