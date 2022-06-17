@@ -9,12 +9,20 @@ class Application:
 
     def __init__(self):
         self.make_data_structure()
+        self.populate_clubs()
 
         self.club = Club("Radnor", self.handle_club_data_changed)
         load_club(self.club)
         self.ui = PageManager(self)
         
         self.is_running = True
+
+    def populate_clubs(self):
+        self.clubs = []
+        if os.path.exists("data/local"):
+            for subdirs, dirs, files in os.walk("data/local"):
+                for dir in dirs:
+                    self.clubs.append(dir)
 
     def make_data_structure(self):
         if not os.path.exists("data"):
