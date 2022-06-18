@@ -20,9 +20,14 @@ class Application:
     def populate_clubs(self):
         self.clubs = []
         if os.path.exists("data/local"):
-            for subdirs, dirs, files in os.walk("data/local"):
+            for _, dirs, _ in os.walk("data/local"):
                 for dir in dirs:
                     self.clubs.append(dir)
+
+    def add_club(self, club_name):
+        os.mkdir("data/local/" + club_name)
+        self.clubs.append(club_name)
+        self.clubs.sort()
 
     def make_data_structure(self):
         if not os.path.exists("data"):
