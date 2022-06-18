@@ -5,6 +5,8 @@ from src.club.club import Club
 from src.utilities.save_utilities import save_club, load_club
 from ui.page_manager import PageManager
 
+CLUB_DATA_PATH = "data/local/"
+
 class Application:
 
     def __init__(self):
@@ -19,28 +21,28 @@ class Application:
 
     def populate_clubs(self):
         self.clubs = []
-        if os.path.exists("data/local"):
-            for _, dirs, _ in os.walk("data/local"):
+        if os.path.exists(CLUB_DATA_PATH):
+            for _, dirs, _ in os.walk(CLUB_DATA_PATH):
                 for dir in dirs:
                     self.clubs.append(dir)
 
     def add_club(self, club_name):
-        os.mkdir("data/local/" + club_name)
+        os.mkdir(CLUB_DATA_PATH + club_name)
         self.clubs.append(club_name)
         self.clubs.sort()
 
     def make_data_structure(self):
         if not os.path.exists("data"):
             os.mkdir("data")
-        if not os.path.exists("data/local"):
-            os.mkdir("data/local")   
+        if not os.path.exists(CLUB_DATA_PATH):
+            os.mkdir(CLUB_DATA_PATH)   
 
     def activate(self):
         self.ui.draw()
 
     def clear_local_data(self):
-        if os.path.exists(DATA_FOLDER + self.club.name):
-            shutil.rmtree(DATA_FOLDER + self.club.name)
+        if os.path.exists(CLUB_DATA_PATH + self.club.name):
+            shutil.rmtree(CLUB_DATA_PATH + self.club.name)
     
         self.club.clear_club_data()
 
