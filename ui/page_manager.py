@@ -49,6 +49,8 @@ class PageManager:
 
         self.content_area = LabelFrame(self.app_frame)
         self.content_area.pack(side=TOP, fill=BOTH, expand=YES) 
+        
+        self.tab_frame = LabelFrame(self.app_frame, height=50)
 
         self.pages = [ClubSelector]
         self.switch_page(0)
@@ -78,18 +80,20 @@ class PageManager:
         return WINDOW_HEIGHT - 2 * WINDOW_MARGIN
         
     def setup_tabs(self):
-        frame = LabelFrame(self.app_frame, height=50)
-        frame.pack(side=TOP)
+        for widget in self.tab_frame.winfo_children():
+            widget.destroy()
+
+        self.tab_frame.pack(side=TOP)
 
         index = 0
         for page in self.pages:
-            button = ttk.Button(frame, text = page.name, command = lambda index = index: self.switch_page(index))
+            button = ttk.Button(self.tab_frame, text = page.name, command = lambda index = index: self.switch_page(index))
             button.pack(side = LEFT)
             index += 1
         
         self.control = IntVar()
         self.control.set(ClubControls.CLUB_CONTROLS)
-        OptionMenu(frame, self.control, *list(ClubControls), command=self.handle_control_selected).pack(side=LEFT)
+        OptionMenu(self.tab_frame, self.control, *list(ClubControls), command=self.handle_control_selected).pack(side=LEFT)
 
     def handle_control_selected(self, value):
         if value == ClubControls.SELECT_CLUB:
@@ -103,7 +107,16 @@ class PageManager:
             self.control.set(ClubControls.CLUB_CONTROLS)
 
     def open_club_selector(self):
-        print("open club selector")
+        self.tab_frame.pack_forget()
+        self.current_index = -1
+        self.close_current_page()
+        self.open_page(ClubSelector)
+        
+    def close_current_page(self):
+        if self.current_page != None:
+            self.current_page.shutdown()
+        for widget in self.content_area.winfo_children():
+            widget.destroy()
 
     def switch_page(self, page_index):
         if page_index < len(self.pages):
@@ -112,11 +125,8 @@ class PageManager:
                 return
             
             self.current_index = page_index
-            if self.current_page != None:
-                self.current_page.shutdown()
 
-            for widget in self.content_area.winfo_children():
-                widget.destroy()
+            self.close_current_page()
 
             self.open_page(self.pages[page_index])
 
