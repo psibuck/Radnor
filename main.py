@@ -12,9 +12,7 @@ class Application:
     def __init__(self):
         self.make_data_structure()
         self.populate_clubs()
-
-        self.club = Club("Radnor", self.handle_club_data_changed)
-        load_club(self.club)
+        self.club = None
         self.ui = PageManager(self)
         
         self.is_running = True
@@ -52,6 +50,11 @@ class Application:
     def quit(self):
         save_club(self.club)
         self.ui.shutdown()
+
+    def select_club(self, club):
+        self.club = Club(club, self.handle_club_data_changed)
+        load_club(self.club)
+        self.ui.handle_club_loaded()
 
 # Refactor this, consider role of page manager vs app, same thing?
 app = Application()

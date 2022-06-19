@@ -53,15 +53,23 @@ class PageManager:
         self.pages = [ClubSelector]
         self.switch_page(0)
 
+        self.root.title("Select Club")
+
     def handle_club_loaded(self):
         self.pages = []
         self.pages.append(Home)
         self.pages.append(Players)
         self.pages.append(MatchReports)
         self.pages.append(TrainingReports)
-        self.root.title(self.app.club.name)
-        self.setup_tabs()    
+
+        self.content_area.pack_forget()
+        self.setup_tabs() 
+        self.content_area.pack(side=TOP, fill=BOTH, expand=YES) 
+
+        self.current_index = -1   
         self.switch_page(0)
+
+        self.root.title(self.app.club.name)
 
     def get_screen_width(self):
         return WINDOW_WIDTH - 2 * WINDOW_MARGIN
