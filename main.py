@@ -30,10 +30,13 @@ class Application:
         self.clubs.sort()
 
     def make_data_structure(self):
-        if not os.path.exists("data"):
-            os.mkdir("data")
-        if not os.path.exists(CLUB_DATA_PATH):
-            os.mkdir(CLUB_DATA_PATH)   
+        path_string = ""
+        components = CLUB_DATA_PATH.split("/")
+        for component in components:
+            path_string += component
+            if not os.path.exists(path_string):
+                os.mkdir(path_string) 
+            path_string += "/"
 
     def activate(self):
         self.ui.draw()

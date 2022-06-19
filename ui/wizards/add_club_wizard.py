@@ -10,7 +10,9 @@ class AddClubWizard(WizardBase):
         super().__init__(manager, root, object)
 
         self.club_name = StringVar()
-        Entry(self, textvariable=self.club_name).pack()
+        entry = Entry(self, textvariable=self.club_name)
+        entry.pack()
+        entry.focus()
 
     def setup_variables(self):
         self.club_name = StringVar()
