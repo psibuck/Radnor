@@ -3,8 +3,9 @@ Project
 - set up branching model that requires tests to pass to submit
 
 FEATURES
-- add multiple club select on boot
 - add dummy clubs
+- add remove club functionality
+- add club image selector
 
 UI
 - value of ObjectListWidget?
@@ -25,6 +26,7 @@ EDITING
 BUG
 - logo is still feather
 - players don't load goal and assist data after shutdown
+- moving players in match reports removes them from game
 
 UX
 - add confirm to clear local data button

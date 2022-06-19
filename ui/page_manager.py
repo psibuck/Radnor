@@ -97,16 +97,16 @@ class PageManager:
 
     def handle_control_selected(self, value):
         if value == ClubControls.SELECT_CLUB:
-            print("Select Club")
             self.open_club_selector()
         elif value == ClubControls.DELETE_CLUB:
-            print("Delete Club")
+            self.remove_club()
             self.open_club_selector()
 
         if value != ClubControls.CLUB_CONTROLS:
             self.control.set(ClubControls.CLUB_CONTROLS)
 
     def open_club_selector(self):
+        self.root.title("")
         self.tab_frame.pack_forget()
         self.current_index = -1
         self.close_current_page()

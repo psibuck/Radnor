@@ -42,8 +42,8 @@ class Application:
         self.ui.draw()
 
     def clear_local_data(self):
-        if os.path.exists(CLUB_DATA_PATH + self.club.name):
-            shutil.rmtree(CLUB_DATA_PATH + self.club.name)
+        if os.path.exists(CLUB_DATA_PATH):
+            shutil.rmtree(CLUB_DATA_PATH)
     
         self.club.clear_club_data()
 
@@ -58,6 +58,20 @@ class Application:
         self.club = Club(club, self.handle_club_data_changed)
         load_club(self.club)
         self.ui.handle_club_loaded()
+
+    def remove_club(self, club_name=""):
+        if club_name == "":
+            club_name = self.club.name
+        self._delete_club(club_name)
+        self.populate_clubs()
+        return
+
+    def _delete_club(self, club):
+        path = CLUB_DATA_PATH + self.club.name
+        if os.path.exists(path):
+            shutil.rmtree(path)
+
+
 
 # Refactor this, consider role of page manager vs app, same thing?
 app = Application()
