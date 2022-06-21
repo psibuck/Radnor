@@ -51,11 +51,7 @@ class PageManager:
         self.content_area.pack(side=TOP, fill=BOTH, expand=YES) 
         
         self.tab_frame = LabelFrame(self.app_frame, height=50)
-
-        self.pages = [ClubSelector]
-        self.switch_page(0)
-
-        self.root.title("Select Club")
+        self.open_club_selector()
 
     def handle_club_loaded(self):
         self.pages = []
@@ -106,11 +102,11 @@ class PageManager:
             self.control.set(ClubControls.CLUB_CONTROLS)
 
     def open_club_selector(self):
-        self.root.title("")
+        self.root.title("Select Club")
+        self.pages = [ClubSelector]
         self.tab_frame.pack_forget()
         self.current_index = -1
-        self.close_current_page()
-        self.open_page(ClubSelector)
+        self.switch_page(0)
         
     def close_current_page(self):
         if self.current_page != None:
