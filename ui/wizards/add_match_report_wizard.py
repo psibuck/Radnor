@@ -124,7 +124,7 @@ class AddMatchReportWizard(WizardBase):
         self.opponent_goals = IntVar(manager.root)
         self.opponent_goals.set(0)
 
-        self.available_players = manager.app.club.players
+        self.available_players = manager.app.club.players[:]
         self.first_XI = []
         self.subs = []
 
@@ -268,22 +268,23 @@ class AddMatchReportWizard(WizardBase):
         if len(self.subs) > MAX_SUBS:
             return False, "Too many players on subs bench"
 
+        new_report = MatchReport()
         for player in self.first_XI:
-            self.report.add_starter(player)
+            new_report.add_starter(player)
         for sub in self.subs:
-            self.report.add_sub(sub)
+            new_report.add_sub(sub)
             
-        self.report.club_goals = self.our_goals.get()
-        self.report.opponent_goals = self.opponent_goals.get()
-        self.report.match_type = MatchType[self.selected_match_type.get()]
-        self.report.venue = Venue[self.selected_venue.get()]
-        self.report.opponent = self.selected_opponent.get()
-        self.report.date = self.date_entry.get_date()
+        new_report.club_goals = self.our_goals.get()
+        new_report.opponent_goals = self.opponent_goals.get()
+        new_report.match_type = MatchType[self.selected_match_type.get()]
+        new_report.venue = Venue[self.selected_venue.get()]
+        new_report.opponent = self.selected_opponent.get()
+        new_report.date = self.date_entry.get_date()
 
         for goal in self.goal_area.goal_entries:
             new_goal = Goal(goal.goalscorer, goal.assister, "test goal description")
-            self.report.add_goal(new_goal)
+            new_report.add_goal(new_goal)
 
-        self.club.add_match_report(self.report)
+        self.club.add_match_report(new_report)
         self.close()    
         return True, ""    
