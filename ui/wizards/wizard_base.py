@@ -67,10 +67,10 @@ class WizardBase(PageBase):
             self.setup_from_object(self.root_object)
             
     def handle_add_pressed(self):
-        print("ERROR: handle_add_pressed not implemented!")
+        return False, "handle_add_pressed not implemented!"
 
     def handle_delete_pressed(self):
-        print("ERROR: on_delete_pressed not implemented!")
+        return False, "handle_delete_pressed not implemented!"
     
     def handle_save_pressed(self):
-        print("ERROR: on_save_pressed not implemented!")
+        return False, "handle_save_pressed not implemented!"
