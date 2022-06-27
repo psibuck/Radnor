@@ -3,6 +3,7 @@ from tkinter import *
 from src.match.fixture import MatchType, Venue
 from src.match.goal import Goal
 from src.match.match_report import MatchReport
+from ui.widgets.goal_display import GoalDisplay
 from ui.widgets.object_list import ObjectListWidget
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
@@ -20,94 +21,6 @@ class NumericEntry(Entry):
 
     def __init__(self, parent, variable = None):
         Entry.__init__(self, parent, width=2, textvariable = variable)
-
-class GoalEntry(Frame):
-
-    def __init__(self, root, index, player_list):
-        super().__init__(root)
-        self.scorer_options = None
-        self.assister_options = None
-        self.player_list = []
-        for player in player_list:
-            self.player_list.append(player.get_name())
-
-        Label(self, text="Goal " + str(index)).pack(side=LEFT)
-
-        self.goalscorer = "None"
-        self.assister = "None"
-        self.goalscorer_var = StringVar()
-        self.goalscorer_var.set("None")
-        self.assister_var = StringVar() 
-        self.assister_var.set("None")
-        self.update_option_lists()
-
-    def update_option_lists(self):
-        lists = [self.scorer_options, self.assister_options]
-        for i in range(len(lists)):
-            list = lists[i]
-            if list is not None:
-                list.pack_forget()
-            callback_function = None
-
-            players = self.player_list[:] 
-            if i == 1:
-                if self.assister != "None":
-                    players.append("None")
-
-                callback_function = lambda variable: (self.handle_player_selected(variable, self.assister), self.set_assister(variable), self.update_option_lists())
-                self.assister_options = OptionMenu(self, self.assister_var, *players, command=callback_function)
-                self.assister_options.pack(side=LEFT)
-            else:
-                if self.goalscorer != "None":
-                    players.append("None")
-                callback_function = lambda variable: (self.handle_player_selected(variable, self.goalscorer), self.set_goalscorer(variable), self.update_option_lists())
-                self.scorer_options = OptionMenu(self, self.goalscorer_var, *players, command=callback_function)
-                self.scorer_options.pack(side=LEFT)
-
-    def set_goalscorer(self, name):
-        self.goalscorer = name
-
-    def set_assister(self, name):
-        self.assister = name
-
-    def handle_player_selected(self, selected_player, current_player):
-        if current_player != "None":
-            self.player_list.append(current_player)
-            self.player_list.sort()
-
-        if selected_player != "None":
-            self.player_list.remove(selected_player)
-
-class GoalDisplay(Frame):
-
-    def __init__(self, root, page_manager):
-        super().__init__(root)
-
-        self.root = page_manager.root
-        TableHeader(self, text="Goals").grid(row=0, column=0)
-
-        self.goal_entries = []
-
-    def update_player_list(self, list):
-        self.player_list = list
-
-    def handle_goals_update(self, var, index, mode):
-        raw_goals = self.root.globalgetvar(var)
-        if raw_goals != "":
-            num_goals = int(raw_goals)
-            current_goals = len(self.goal_entries)
-            entry_discrepancy = current_goals - num_goals
-            if entry_discrepancy > 0:
-                for _ in range(entry_discrepancy):
-                    entry = self.goal_entries[-1]
-                    entry.grid_forget()
-                    self.goal_entries.remove(entry)
-            elif entry_discrepancy < 0:
-                for i in range(current_goals, num_goals):
-                    new_entry = GoalEntry(self, i + 1, self.player_list)
-                    new_entry.grid(row=i, column=0)
-                    self.goal_entries.append(new_entry)
-
 
 # AddMatchReportWizard allows users to create a match report
 class AddMatchReportWizard(WizardBase):
@@ -148,7 +61,6 @@ class AddMatchReportWizard(WizardBase):
 
         self.goal_area = GoalDisplay(list_area, manager)
         self.goal_area.pack(side=RIGHT)
-        self.goal_area.update_player_list(self.available_players)
 
         self.our_goals.trace("w", self.goal_area.handle_goals_update)
 
@@ -248,7 +160,11 @@ class AddMatchReportWizard(WizardBase):
         self.setup_list(self.available_players_list, self.available_players, [ButtonInfo(self.select_sub, "SUB"), ButtonInfo(self.select_starter, "XI")]) 
         self.setup_list(self.selected_players_list, self.first_XI, [ButtonInfo(self.deselect_sub, "-")])
         self.setup_list(self.substitute_players_list, self.subs, [ButtonInfo(self.deselect_sub, "-")])
+        self.goal_area.update_player_list(self.get_selected_players())
     
+    def get_selected_players(self):
+        return self.first_XI[:] + self.subs[:]
+
     def setup_list(self, list, objects, button_info_list):
         list.clear_widgets()
 

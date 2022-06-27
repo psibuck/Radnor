@@ -9,10 +9,9 @@ FEATURES
 
 UI
 - value of ObjectListWidget?
-- make a Home page which is a summary of all the things
 - fix add venue wizard
-- fix add player wizard
 - fix add match report wizard
+- edit match reports needs implementing
 
 MATCHES
 - create match reports from fixtures
@@ -26,7 +25,6 @@ EDITING
 BUG
 - logo is still feather
 - players don't load goal and assist data after shutdown
-- moving players in match reports removes them from game
 
 UX
 - add confirm to clear local data button
