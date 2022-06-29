@@ -37,7 +37,7 @@ class Table(Frame):
             self.header = TableHeader(self, text=self.header_text)
             self.header.grid(row=0, column=0, columnspan=span)
 
-    def add_columns(self, columns: list[TableColumn]):
+    def add_columns(self, columns):
         self.columns = columns
         
         col = 0
