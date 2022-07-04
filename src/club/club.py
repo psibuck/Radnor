@@ -132,3 +132,9 @@ class Club:
         players = self.players[:]
         players = sorted(players, key=lambda player: player.goals, reverse=True)
         return players[:num]
+
+    def get_player_names(self):
+        players_out = []
+        for player in self.players:
+            players_out.append(player.get_name())
+        return players_out
