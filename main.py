@@ -51,7 +51,8 @@ class Application:
         save_club(self.club)
 
     def quit(self):
-        save_club(self.club)
+        if self.club != None:
+            save_club(self.club)
         self.ui.shutdown()
 
     def select_club(self, club):
