@@ -6,6 +6,7 @@ FEATURES
 - add dummy clubs
 - add remove club functionality
 - add club image selector
+- we need to ask where to store data using filedialog.askdirectory(). Currently if we get a new distribution we lose old data
 
 UI
 - value of ObjectListWidget?
