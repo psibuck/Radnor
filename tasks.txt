@@ -19,6 +19,7 @@ MATCHES
 - scoreline should default to 0-0
 - can enter anything for goals
 - add goals to options in edit match report
+- remove friendly sub limits
 
 EDITING
 - edit fixture
@@ -29,3 +30,17 @@ BUG
 
 UX
 - add confirm to clear local data button
+
+PLAYERS
+- need PlayerProfile
+    - stats
+    - finances
+    - player info
+- training credits
+- match credits
+
+FINANCES
+- add transactions
+- edit transactions
+- remove transactions
+- financial summary for players on PlayerProfile, show transactions in, actions(e.g fines, matches played, training sessions)
