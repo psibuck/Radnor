@@ -5,7 +5,12 @@ from src.club.training_venue import TrainingVenue
 from src.match.fixture import Fixture
 from src.match.match_report import MatchReport
 
-DATA_FOLDER = "data/local/"
+DEBUG = 1
+
+DATA_FOLDER = "C:/Users/psibu/Documents/Radnor/"
+if DEBUG:
+    DATA_FOLDER = "data/local/"
+
 CLUB_FILE = "/club.json"
 FIXTURES_FILE = "/fixtures.json"
 PLAYER_FILE = "/players.json"

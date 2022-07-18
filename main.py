@@ -2,10 +2,8 @@ import os
 import shutil
 
 from src.club.club import Club
-from src.utilities.save_utilities import save_club, load_club
+from src.utilities.save_utilities import DATA_FOLDER, save_club, load_club
 from ui.page_manager import PageManager
-
-CLUB_DATA_PATH = "data/local/"
 
 class Application:
 
@@ -19,19 +17,19 @@ class Application:
 
     def populate_clubs(self):
         self.clubs = []
-        if os.path.exists(CLUB_DATA_PATH):
-            for _, dirs, _ in os.walk(CLUB_DATA_PATH):
+        if os.path.exists(DATA_FOLDER):
+            for _, dirs, _ in os.walk(DATA_FOLDER):
                 for dir in dirs:
                     self.clubs.append(dir)
 
     def add_club(self, club_name):
-        os.mkdir(CLUB_DATA_PATH + club_name)
+        os.mkdir(DATA_FOLDER + club_name)
         self.clubs.append(club_name)
         self.clubs.sort()
 
     def make_data_structure(self):
         path_string = ""
-        components = CLUB_DATA_PATH.split("/")
+        components = DATA_FOLDER.split("/")
         for component in components:
             path_string += component
             if not os.path.exists(path_string):
@@ -42,8 +40,8 @@ class Application:
         self.ui.draw()
 
     def clear_local_data(self):
-        if os.path.exists(CLUB_DATA_PATH):
-            shutil.rmtree(CLUB_DATA_PATH)
+        if os.path.exists(DATA_FOLDER):
+            shutil.rmtree(DATA_FOLDER)
     
         self.club.clear_club_data()
 
@@ -68,10 +66,9 @@ class Application:
         return
 
     def _delete_club(self, club):
-        path = CLUB_DATA_PATH + self.club.name
+        path = DATA_FOLDER + self.club.name
         if os.path.exists(path):
             shutil.rmtree(path)
-
 
 
 # Refactor this, consider role of page manager vs app, same thing?
