@@ -141,7 +141,7 @@ class AddMatchReportWizard(WizardBase):
             self.swap_object(self.available_players, self.first_XI, object)
 
     def select_sub(self, object):
-        if len(self.subs) < 5:
+        if len(self.subs) < MAX_SUBS or MatchType[self.selected_match_type.get()] == MatchType.FRIENDLY:
             self.swap_object(self.available_players, self.subs, object)
     
     def deselect_sub(self, object):
@@ -179,12 +179,14 @@ class AddMatchReportWizard(WizardBase):
         list.setup(widgets)
 
     def handle_add_pressed(self):
+        new_report = MatchReport()
+
+        new_report.match_type = MatchType[self.selected_match_type.get()]
         if len(self.first_XI) != NUM_STARTERS:
             return False, "Not enough starters added to match report"
-        if len(self.subs) > MAX_SUBS:
+        if len(self.subs) > MAX_SUBS and new_report.match_type != MatchType.FRIENDLY:
             return False, "Too many players on subs bench"
 
-        new_report = MatchReport()
         for player in self.first_XI:
             new_report.add_starter(player)
         for sub in self.subs:
@@ -192,7 +194,6 @@ class AddMatchReportWizard(WizardBase):
             
         new_report.club_goals = self.our_goals.get()
         new_report.opponent_goals = self.opponent_goals.get()
-        new_report.match_type = MatchType[self.selected_match_type.get()]
         new_report.venue = Venue[self.selected_venue.get()]
         new_report.opponent = self.selected_opponent.get()
         new_report.date = self.date_entry.get_date()

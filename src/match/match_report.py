@@ -1,4 +1,4 @@
-from src.match.fixture import Fixture, Venue
+from src.match.fixture import Fixture, MatchType, Venue
 from src.match.goal import Goal
 from src.utilities.data_utilities import json_get
 
@@ -29,7 +29,7 @@ class MatchReport(Fixture):
             self.starting_lineup.append(player.get_name())
     
     def add_sub(self, player):
-        if len(self.subs) >= MAX_SUBS:
+        if len(self.subs) >= MAX_SUBS and self.match_type != MatchType.FRIENDLY:
             print("ERROR: Subs bench is full")
         else:
             self.subs.append(player.get_name())
