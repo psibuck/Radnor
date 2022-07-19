@@ -19,7 +19,6 @@ MATCHES
 - scoreline should default to 0-0
 - can enter anything for goals
 - add goals to options in edit match report
-- remove friendly sub limits
 
 EDITING
 - edit fixture

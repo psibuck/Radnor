@@ -178,9 +178,31 @@ class AddMatchReportWizard(WizardBase):
             widgets.append(entry_widget)
         list.setup(widgets)
 
-    def handle_add_pressed(self):
-        new_report = MatchReport()
+    def setup_variables(self):
+        return super().setup_variables()
 
+    def handle_save_pressed(self):
+        success, report = self.construct_report()
+        if not success:
+            return False, report
+
+        self.club.remove_match_report(self.root_object)
+        self.club.add_match_report(report)
+        return True, ""
+
+    def handle_delete_pressed(self):
+        return super().handle_delete_pressed()
+
+    def handle_add_pressed(self):
+        success, report = self.construct_report()
+        if not success:
+            return False, report
+
+        self.club.add_match_report(report)
+        return True
+
+    def construct_report(self):
+        new_report = MatchReport()
         new_report.match_type = MatchType[self.selected_match_type.get()]
         if len(self.first_XI) != NUM_STARTERS:
             return False, "Not enough starters added to match report"
@@ -202,6 +224,4 @@ class AddMatchReportWizard(WizardBase):
             new_goal = Goal(goal.goalscorer, goal.assister, "test goal description")
             new_report.add_goal(new_goal)
 
-        self.club.add_match_report(new_report)
-        self.close()    
-        return True, ""    
+        return True, new_report
