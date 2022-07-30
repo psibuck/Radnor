@@ -36,7 +36,7 @@ class Players(PageBase):
             self.player_list.add_object(player)    
 
     def on_add_player_button_pressed(self):
-        self.page_manager.open_wizard(AddPlayerWizard)
+        self.page_manager.open_page(AddPlayerWizard)
 
     def on_edit_player_selected(self, player):
-        self.page_manager.open_wizard(AddPlayerWizard, player)
+        self.page_manager.open_page(AddPlayerWizard, player)

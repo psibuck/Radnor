@@ -131,15 +131,15 @@ class PageManager:
         self.current_page.setup_content()
         self.current_page.pack(fill=BOTH, expand=YES)
 
-    def open_wizard(self, wizard_class, object=None):
+    def open_page(self, page_class, object=None):
         for widget in self.content_area.winfo_children():
             widget.destroy()
         self.current_page = None
         
-        new_page = wizard_class(self, self.content_area, object)
+        new_page = page_class(self, self.content_area, object)
         new_page.pack(fill=BOTH, expand=YES)
 
-    def on_wizard_closed(self):
+    def on_page_closed(self):
         index_to_switch_to = self.current_index
         self.current_index = -1
         self.switch_page(index_to_switch_to)

@@ -51,7 +51,7 @@ class WizardBase(PageBase):
             self.error_message.set(error)
 
     def close(self):
-        self.page_manager.on_wizard_closed()
+        self.page_manager.on_page_closed()
         
     def on_add_pressed(self, _=None):
         success, error = self.handle_add_pressed()
