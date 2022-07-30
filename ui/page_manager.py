@@ -131,7 +131,7 @@ class PageManager:
         self.current_page.setup_content()
         self.current_page.pack(fill=BOTH, expand=YES)
 
-    def open_page(self, page_class, object=None):
+    def open_subpage(self, page_class, object=None):
         for widget in self.content_area.winfo_children():
             widget.destroy()
         self.current_page = None

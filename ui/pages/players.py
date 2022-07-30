@@ -18,7 +18,7 @@ class Players(PageBase):
     def show_player_list(self):
         scroll_box = ScrollFrame(self)
         scroll_box.pack(fill=BOTH, expand=YES)
-        self.player_list = Table(scroll_box.content_area, select_func=self.on_edit_player_selected)
+        self.player_list = Table(scroll_box.content_area, select_func=self.on_edit_player_selected, view_func=self.on_view_player_selected)
         columns = [TableColumn("Name", function="get_name"), TableColumn("DOB", "dob"),\
                    TableColumn("Appearances", function = "get_appearances"), \
                    TableColumn("Training", "training_attendance"), \
@@ -36,10 +36,10 @@ class Players(PageBase):
             self.player_list.add_object(player)    
 
     def on_add_player_button_pressed(self):
-        self.page_manager.open_page(AddPlayerWizard)
+        self.page_manager.open_subpage(AddPlayerWizard)
 
     def on_edit_player_selected(self, player):
-        self.page_manager.open_page(AddPlayerWizard, player)
+        self.page_manager.open_subpage(AddPlayerWizard, player)
 
     def on_view_player_selected(self, player):
-        self.page_manager.open_page(PlayerView, player)
+        self.page_manager.open_subpage(PlayerView, player)

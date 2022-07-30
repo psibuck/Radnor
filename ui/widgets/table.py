@@ -79,10 +79,10 @@ class Table(Frame):
         button_container.grid(row=self.row, column=col)
 
         if self.view_func != None:
-            view_button = Button(button_container, text="View", command=lambda object=object : self.show_confirmation_dialog(object))
+            view_button = Button(button_container, text="View", command=lambda object=object : self.handle_row_view(object))
             view_button.pack(side=LEFT)
         if self.select_func != None:
-            select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_select(object))
+            select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_edit(object))
             select_button.pack(side=LEFT)
         if self.remove_func is not None:
             remove_button = Button(button_container, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
