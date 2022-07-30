@@ -1,6 +1,6 @@
-from select import select
 from tkinter import *
 from ui.pages.page_base import PageBase
+from ui.pages.player_view import PlayerView
 from ui.widgets.scrollframe import ScrollFrame
 from ui.widgets.table import Table, TableColumn
 from ui.wizards.add_player_wizard import AddPlayerWizard
@@ -40,3 +40,6 @@ class Players(PageBase):
 
     def on_edit_player_selected(self, player):
         self.page_manager.open_page(AddPlayerWizard, player)
+
+    def on_view_player_selected(self, player):
+        self.page_manager.open_page(PlayerView, player)
