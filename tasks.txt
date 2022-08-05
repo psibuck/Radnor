@@ -12,7 +12,6 @@ UI
 - value of ObjectListWidget?
 - fix add venue wizard
 - fix add match report wizard
-- edit match reports needs implementing
 
 MATCHES
 - create match reports from fixtures
@@ -43,3 +42,7 @@ FINANCES
 - edit transactions
 - remove transactions
 - financial summary for players on PlayerProfile, show transactions in, actions(e.g fines, matches played, training sessions)
+
+MATCH REPORTS
+- add match report wizard ui should be fully data driven from a base match report object that we edit
+- subs limit should change depending on match type
