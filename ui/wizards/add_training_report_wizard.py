@@ -1,3 +1,4 @@
+from cmath import inf
 from datetime import date
 from distutils.sysconfig import customize_compiler
 from tkinter import *
@@ -48,7 +49,14 @@ class AddTrainingReportWizard(WizardBase):
         training_frame = Frame(self.content_container)
         training_frame.pack(side=TOP)
 
-        TableHeader(training_frame, "Player Pool").pack(side=TOP)   
+        info_frame = Frame(training_frame)
+        info_frame.pack(side=TOP)
+        TableHeader(info_frame, "Player Pool").pack(side=LEFT)   
+
+    
+        self.players_training_count = IntVar()
+        self.players_training_count.set(0)
+        Label(info_frame, textvariable=self.players_training_count, font=("Arial", 35)).pack(side=LEFT)
 
         self.player_grid = Frame(training_frame)
         self.player_grid.pack(side=TOP)
@@ -157,12 +165,16 @@ class AddTrainingReportWizard(WizardBase):
         self.setup_pool_selector()
         self.setup_selected_player_area()
 
+        self.players_training_count.set(self.players_training_count.get() + 1)
+
     def remove_player(self, player_name):
         if player_name in self.selected_players:
             self.selected_players.remove(player_name)
 
             self.setup_pool_selector()
             self.setup_selected_player_area()
+
+            self.players_training_count.set(self.players_training_count.get() - 1)
 
     def handle_save_pressed(self):
         success, new_report = self.generate_report()
