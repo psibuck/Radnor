@@ -3,7 +3,7 @@ from enum import Enum
 from ui.pages.club_selector import ClubSelector
 from ui.pages.home import Home
 from ui.pages.match_reports import MatchReports
-from ui.pages.players import Players
+from ui.pages.players_page import Players
 from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
