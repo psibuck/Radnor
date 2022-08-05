@@ -50,20 +50,20 @@ class TrainingReports(PageBase):
         add_venue_button.pack(side = TOP)
 
     def edit_venue(self, venue):
-        self.page_manager.open_wizard(AddVenueWizard, venue)
+        self.page_manager.open_subpage(AddVenueWizard, venue)
 
     def edit_training_report(self, report):
-        self.page_manager.open_wizard(AddTrainingReportWizard, report)
+        self.page_manager.open_subpage(AddTrainingReportWizard, report)
         
     def remove_venue(self, venue):
         self.club.training_venues.remove(venue)
         self.setup_venue_space()
 
     def add_venue_button_pressed(self):
-        self.page_manager.open_wizard(AddVenueWizard)
+        self.page_manager.open_subpage(AddVenueWizard)
 
     def add_training_button_pressed(self):
-        self.page_manager.open_wizard(AddTrainingReportWizard)
+        self.page_manager.open_subpage(AddTrainingReportWizard)
 
     def setup_training_space(self):
         for widget in self.training_list_frame.winfo_children():

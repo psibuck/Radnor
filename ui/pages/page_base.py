@@ -18,3 +18,6 @@ class PageBase(Frame):
     def shutdown(self):
         for widget in self.winfo_children():
             widget.destroy()
+
+    def close(self):
+        self.page_manager.on_page_closed()
