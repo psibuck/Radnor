@@ -13,6 +13,7 @@ UI
 - fix add venue wizard
 - fix add match report wizard
 
+
 MATCHES
 - create match reports from fixtures
 - scoreline should default to 0-0
@@ -25,6 +26,7 @@ EDITING
 BUG
 - logo is still feather
 - players don't load goal and assist data after shutdown
+- training counts aren't displayed on player page
 
 UX
 - add confirm to clear local data button

@@ -1,6 +1,6 @@
 from tkinter import *
 from ui.pages.page_base import PageBase
-from ui.pages.player_view import PlayerView
+from ui.pages.player_info_page import PlayerView
 from ui.widgets.scrollframe import ScrollFrame
 from ui.widgets.table import Table, TableColumn
 from ui.wizards.add_player_wizard import AddPlayerWizard
