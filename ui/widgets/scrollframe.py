@@ -24,4 +24,8 @@ class ScrollFrame(tk.Frame):
         scroll_canvas.configure(yscrollcommand=scrollbar.set)
         self.content_area.bind("<Configure>", func = lambda e: scroll_canvas.configure(scrollregion = scroll_canvas.bbox('all')))
         scroll_canvas.create_window((0,0), window=self.content_area, anchor="nw")
+
+    def clear_children(self):
+        for child in self.content_area.winfo_children():
+            child.destroy()
         
