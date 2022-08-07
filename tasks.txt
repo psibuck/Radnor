@@ -1,6 +1,7 @@
 Project
 - add tests for clearing club data
 - set up branching model that requires tests to pass to submit
+- strongly type all lists on club
 
 FEATURES
 - add dummy clubs

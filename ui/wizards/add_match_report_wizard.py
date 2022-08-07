@@ -250,7 +250,7 @@ class AddMatchReportWizard(WizardBase):
             return False, report
 
         self.club.add_match_report(report)
-        return True
+        return True, report
 
     def construct_report(self):
         new_report = MatchReport()

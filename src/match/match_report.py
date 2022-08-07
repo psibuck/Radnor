@@ -1,9 +1,16 @@
+from enum import Enum
 from src.match.fixture import Fixture, MatchType, Venue
 from src.match.goal import Goal
 from src.utilities.data_utilities import json_get
 
+class MatchRole(Enum):
+    STARTER = 1
+    SUB = 2
+    UNUSED_SUB = 3 
+
 MAX_PLAYERS = 11
 MAX_SUBS = 5
+
 
 # A match report tracks all the data that we know occurred for a given match
 class MatchReport(Fixture):
