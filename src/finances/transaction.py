@@ -7,6 +7,7 @@ class TransactionType(Enum):
     TRAINING = 2
     PAYMENT = 3 
     SIGN_ON = 4
+    FINE = 5
 
     def __str__(self):
         return self.name
