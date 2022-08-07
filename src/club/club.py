@@ -1,3 +1,5 @@
+from src.finances.financial_utilities import *
+from src.finances.transaction import *
 from src.utilities.data_utilities import json_get
 
 class Club:
@@ -138,3 +140,16 @@ class Club:
         for player in self.players:
             players_out.append(player.get_name())
         return players_out
+
+    def get_player_transaction_list(self, player) -> list[Transaction]:
+        transactions: list[Transaction] = []
+        for match in self.match_reports:
+            if player.get_name() in match.starting_lineup:
+                transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.STARTER)))
+            elif player.get_name() in match.subs:
+                transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.SUB)))
+
+        for training_session in self.training_reports:
+            transactions.append(Transaction(training_session.date, TransactionType.TRAINING, training_session.venue.cost))
+            
+        return transactions

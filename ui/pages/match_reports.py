@@ -63,7 +63,7 @@ class MatchReports(PageBase):
             report_table.add_object(match_report)
 
     def edit_match_report(self, report):
-        self.page_manager.open_wizard(AddMatchReportWizard, report)
+        self.page_manager.open_subpage(AddMatchReportWizard, report)
 
     def handle_remove_match_report(self, report):
         self.club.remove_match_report(report)
@@ -74,10 +74,10 @@ class MatchReports(PageBase):
         self.show_fixture_list()
     
     def handle_create_result_pressed(self):  
-        self.page_manager.open_wizard(AddMatchReportWizard)
+        self.page_manager.open_subpage(AddMatchReportWizard)
 
     def handle_create_fixture_pressed(self):
-        self.page_manager.open_wizard(AddFixtureWizard)
+        self.page_manager.open_subpage(AddFixtureWizard)
 
     def shutdown(self):
         self.pending_report = None

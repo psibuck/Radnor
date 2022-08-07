@@ -13,10 +13,11 @@ class TableColumn:
 
 class Table(Frame):
 
-    def __init__(self, parent, remove_func=None, select_func=None, header_text=""):
+    def __init__(self, parent, remove_func=None, select_func=None, view_func=None, header_text=""):
         Frame.__init__(self, parent)
         self.row = 0
         self.columns = []
+        self.view_func = view_func
         self.remove_func = remove_func
         self.select_func = select_func
         self.header_text = header_text
@@ -77,8 +78,11 @@ class Table(Frame):
         button_container = Frame(self)
         button_container.grid(row=self.row, column=col)
 
+        if self.view_func != None:
+            view_button = Button(button_container, text="View", command=lambda object=object : self.handle_row_view(object))
+            view_button.pack(side=LEFT)
         if self.select_func != None:
-            select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_select(object))
+            select_button = Button(button_container, text="Edit",command=lambda object=object : self.handle_row_edit(object))
             select_button.pack(side=LEFT)
         if self.remove_func is not None:
             remove_button = Button(button_container, text="X", command=lambda object=object : self.show_confirmation_dialog(object))
@@ -91,8 +95,14 @@ class Table(Frame):
         if answer:
             self.remove_func(object)
 
-    def handle_row_select(self, object):
+    def handle_row_edit(self, object):
         if self.select_func != None:
             self.select_func(object)
         else:
-            print("ERROR: row selected but no select function provided")
+            print("ERROR: row edit selected but no edit function provided")
+
+    def handle_row_view(self, object):
+        if self.view_func != None:
+            self.view_func(object)
+        else:
+            print("ERROR: row view clicked but no view function provided")

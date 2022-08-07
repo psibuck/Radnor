@@ -72,6 +72,7 @@ class Application:
             load_club(self.club, "data/local/")
         else:
             load_club(self.club)
+        self.club.setup_club()
         self.ui.handle_club_loaded()
 
     def remove_club(self, club_name=""):

@@ -1,6 +1,7 @@
 Project
 - add tests for clearing club data
 - set up branching model that requires tests to pass to submit
+- strongly type all lists on club
 
 FEATURES
 - add dummy clubs
@@ -12,7 +13,7 @@ UI
 - value of ObjectListWidget?
 - fix add venue wizard
 - fix add match report wizard
-- edit match reports needs implementing
+
 
 MATCHES
 - create match reports from fixtures
@@ -26,6 +27,7 @@ EDITING
 BUG
 - logo is still feather
 - players don't load goal and assist data after shutdown
+- training counts aren't displayed on player page
 
 UX
 - add confirm to clear local data button
@@ -42,4 +44,7 @@ FINANCES
 - add transactions
 - edit transactions
 - remove transactions
-- financial summary for players on PlayerProfile, show transactions in, actions(e.g fines, matches played, training sessions)
+
+MATCH REPORTS
+- add match report wizard ui should be fully data driven from a base match report object that we edit
+- subs limit should change depending on match type

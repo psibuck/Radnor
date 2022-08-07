@@ -3,10 +3,12 @@ from tkinter import *
 from src.match.fixture import MatchType, Venue
 from src.match.goal import Goal
 from src.match.match_report import MatchReport
+from ui import widget_utilities
 from ui.widgets.goal_display import GoalDisplay
 from ui.widgets.object_list import ObjectListWidget
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
+from ui.widgets.scrollframe import ScrollFrame
 from ui.widgets.table import TableHeader
 from ui.wizards.wizard_base import WizardBase
 from src.utilities.constants import MAX_SUBS, NUM_STARTERS
@@ -31,6 +33,7 @@ class AddMatchReportWizard(WizardBase):
     date_row = 4
 
     def __init__(self, manager, root, object=None):
+
         self.our_goals = IntVar(manager.root)
         self.our_goals.set(0)
 
@@ -38,7 +41,7 @@ class AddMatchReportWizard(WizardBase):
         self.opponent_goals.set(0)
 
         self.available_players = manager.app.club.players[:]
-        self.first_XI = []
+        self.starters = []
         self.subs = []
 
         self.selected_opponent = StringVar()
@@ -91,16 +94,45 @@ class AddMatchReportWizard(WizardBase):
         self.date_entry = DateEntry(self.option_area, default_year = date.today().year, years_to_show=2)
         self.date_entry.grid(row=self.date_row, column=0, columnspan=5)
 
-        self.available_players_list = ObjectListWidget(player_area, "Available Players")
-        self.available_players_list.grid(row=1, column=0, sticky=N)
+        self.squad_display = ScrollFrame(player_area, width=150)
+        self.squad_display.grid(row=1, column=0, sticky=NW)
 
-        self.selected_players_list = ObjectListWidget(player_area, "First XI")
-        self.selected_players_list.grid(row=1, column=1, sticky=N)
+        self.starter_display = Frame(player_area)
+        self.starter_display.grid(row=1, column=1, sticky=N)
 
-        self.substitute_players_list = ObjectListWidget(player_area, "Substitutes")
-        self.substitute_players_list.grid(row=1, column=2, sticky=N)
-                
-        self.setup_objects_list()
+        self.sub_display = Frame(player_area)
+        self.sub_display.grid(row=1, column=2, sticky=N)
+
+        self.setup_player_lists()
+
+    def add_list(self, container, name, list):
+        name_frame = Frame(container)
+        name_frame.pack(side=TOP)
+
+        TableHeader(name_frame, text=name).pack(side=LEFT)
+        Label(name_frame, text=len(list)).pack(side=LEFT)
+
+        for player in list:
+            player_frame = Frame(container)
+            player_frame.pack(side=TOP)
+            Label(player_frame, text=player).pack(side=LEFT, expand=YES)
+            Button(player_frame, text="-", command= lambda player = player : self.remove_player(player)).pack(side=RIGHT)
+
+    def setup_player_lists(self):
+        self.squad_display.clear_children()
+        widget_utilities.clear_all_children(self.starter_display)
+        widget_utilities.clear_all_children(self.sub_display)
+
+        for player in self.available_players:
+            player_frame = Frame(self.squad_display.content_area)
+            player_frame.pack(side=TOP)
+
+            Label(player_frame, text=player).pack(side=LEFT, expand=YES)
+            Button(player_frame, text="SUB", command=lambda player = player : self.add_player_to_subs(player) ).pack(side=RIGHT)
+            Button(player_frame, text="XI", command=lambda player = player : self.add_player_to_starters(player)).pack(side=RIGHT)
+
+        self.add_list(self.starter_display, "FIRST XI", self.starters)
+        self.add_list(self.sub_display, "SUBS", self.subs)
 
     def populate_player_list(self, initial_list, additive_list, player_list):
         for player_name in initial_list:
@@ -109,10 +141,29 @@ class AddMatchReportWizard(WizardBase):
                 additive_list.append(player)
                 player_list.remove(player)
 
+    def add_player_to_subs(self, player):
+        self.subs.append(player)
+        self.available_players.remove(player)
+        self.setup_player_lists()
+
+    def add_player_to_starters(self, player):
+        if len(self.starters) < 11:
+            self.starters.append(player)
+            self.available_players.remove(player)
+            self.setup_player_lists()
+
+    def remove_player(self, player):
+        if player in self.starters:
+            self.starters.remove(player)
+        else:
+            self.subs.remove(player)
+        self.available_players.append(player)
+        self.setup_player_lists()
+
     def setup_from_object(self, object):
         players = self.club.players[:]
 
-        self.populate_player_list(object.starting_lineup, self.first_XI, players)
+        self.populate_player_list(object.starting_lineup, self.starters, players)
         self.populate_player_list(object.subs, self.subs, players)
         self.available_players = players
         
@@ -137,15 +188,15 @@ class AddMatchReportWizard(WizardBase):
                 self.oppo_entry.delete(0)
 
     def select_starter(self, object):
-        if len(self.first_XI) < 11:
-            self.swap_object(self.available_players, self.first_XI, object)
+        if len(self.starters) < 11:
+            self.swap_object(self.available_players, self.starters, object)
 
     def select_sub(self, object):
         if len(self.subs) < MAX_SUBS or MatchType[self.selected_match_type.get()] == MatchType.FRIENDLY:
             self.swap_object(self.available_players, self.subs, object)
     
     def deselect_sub(self, object):
-        self.swap_object(self.first_XI, self.available_players, object)
+        self.swap_object(self.starters, self.available_players, object)
         self.swap_object(self.subs, self.available_players, object)
     
     def swap_object(self, current_list, new_list, object):
@@ -158,12 +209,12 @@ class AddMatchReportWizard(WizardBase):
 
     def setup_objects_list(self):
         self.setup_list(self.available_players_list, self.available_players, [ButtonInfo(self.select_sub, "SUB"), ButtonInfo(self.select_starter, "XI")]) 
-        self.setup_list(self.selected_players_list, self.first_XI, [ButtonInfo(self.deselect_sub, "-")])
+        self.setup_list(self.selected_players_list, self.starters, [ButtonInfo(self.deselect_sub, "-")])
         self.setup_list(self.substitute_players_list, self.subs, [ButtonInfo(self.deselect_sub, "-")])
         self.goal_area.update_player_list(self.get_selected_players())
     
     def get_selected_players(self):
-        return self.first_XI[:] + self.subs[:]
+        return self.starters[:] + self.subs[:]
 
     def setup_list(self, list, objects, button_info_list):
         list.clear_widgets()
@@ -199,17 +250,17 @@ class AddMatchReportWizard(WizardBase):
             return False, report
 
         self.club.add_match_report(report)
-        return True
+        return True, report
 
     def construct_report(self):
         new_report = MatchReport()
         new_report.match_type = MatchType[self.selected_match_type.get()]
-        if len(self.first_XI) != NUM_STARTERS:
+        if len(self.starters) != NUM_STARTERS:
             return False, "Not enough starters added to match report"
         if len(self.subs) > MAX_SUBS and new_report.match_type != MatchType.FRIENDLY:
             return False, "Too many players on subs bench"
 
-        for player in self.first_XI:
+        for player in self.starters:
             new_report.add_starter(player)
         for sub in self.subs:
             new_report.add_sub(sub)

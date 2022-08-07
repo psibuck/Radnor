@@ -14,7 +14,7 @@ class ClubSelector(PageBase):
         Button(self, text="Add", command=self.handle_add_club).pack(side=BOTTOM)
     
     def handle_add_club(self):
-        self.page_manager.open_wizard(AddClubWizard)
+        self.page_manager.open_subpage(AddClubWizard)
     
     def select_club(self, club):
         self.page_manager.app.select_club(club)
