@@ -148,4 +148,8 @@ class Club:
                 transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.STARTER)))
             elif player.get_name() in match.subs:
                 transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.SUB)))
+
+        for training_session in self.training_reports:
+            transactions.append(Transaction(training_session.date, TransactionType.TRAINING, training_session.venue.cost))
+            
         return transactions

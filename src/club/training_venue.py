@@ -2,9 +2,9 @@
 # A training venue is a location that hosts training. It has an associated cost 
 class TrainingVenue:
     
-    def __init__(self, name = "", cost = 0.0):
+    def __init__(self, name = "", cost: float = 0.0):
         self.name = name
-        self.cost = cost
+        self.cost: float = cost
 
     def __eq__(self, other):
         if other == None:
@@ -22,7 +22,7 @@ class TrainingVenue:
     
     def from_json(self, json_data):
         self.name = json_data["name"]
-        self.cost = json_data["cost"]
+        self.cost = float(json_data["cost"])
 
 
 
