@@ -1,6 +1,8 @@
+from difflib import Match
 from src.finances.financial_utilities import *
 from src.finances.transaction import *
 from src.utilities.data_utilities import json_get
+from src.club.player import Player
 
 class Club:
 
@@ -13,7 +15,7 @@ class Club:
     def clear_club_data(self):
         # Before these were explicit to avoid adding incorrect objects
         # investigate why this fails in load from json
-        self.players = []
+        self.players: list[Player] = []
         self.match_reports = []
         self.training_reports = []
         self.training_venues = [] 
@@ -24,7 +26,7 @@ class Club:
         self.process_match_reports()
         self.process_training_reports()
 
-    def add_player(self, new_player):
+    def add_player(self, new_player: Player):
         for player in self.players:
             if player.get_name() == new_player.get_name():
                 return False, "Player must have distinct name"
@@ -34,7 +36,7 @@ class Club:
             self.update_callback()
         return True, None
     
-    def update_player(self, old_player, new_player):
+    def update_player(self, old_player: Player, new_player: Player):
         if old_player not in self.players:
             return False, "ERROR: attempting to edit a player who doesn't exist"
         
