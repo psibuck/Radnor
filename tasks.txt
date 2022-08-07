@@ -44,7 +44,6 @@ FINANCES
 - add transactions
 - edit transactions
 - remove transactions
-- financial summary for players on PlayerProfile, show transactions in, actions(e.g fines, matches played, training sessions)
 
 MATCH REPORTS
 - add match report wizard ui should be fully data driven from a base match report object that we edit
