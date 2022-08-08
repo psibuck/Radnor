@@ -2,6 +2,7 @@ Project
 - add tests for clearing club data
 - set up branching model that requires tests to pass to submit
 - strongly type all lists on club
+- convert players to be passed around as ids
 
 FEATURES
 - add dummy clubs
