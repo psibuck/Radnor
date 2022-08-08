@@ -18,8 +18,6 @@ class Club:
         self.clear_club_data()
 
     def clear_club_data(self):
-        # Before these were explicit to avoid adding incorrect objects
-        # investigate why this fails in load from json
         self.players: list[Player.Player] = []
         self.match_reports: list[MatchReport.MatchReport] = []
         self.training_reports: list[TrainingReport.TrainingReport] = []
