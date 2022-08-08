@@ -1,7 +1,7 @@
 
 import os
 import shutil
-from src.club.club import Club
+import src.club.club as Club
 from src.utilities.save_utilities import DATA_FOLDER, save_club, load_club
 
 class Application:
@@ -10,7 +10,7 @@ class Application:
         self.is_debug = debug
         self.make_data_structure()
         self.populate_clubs()
-        self.club = None
+        self.club: Club.Club = None
         self.on_club_loaded = None
         self.on_application_shutdown = None
         
@@ -28,7 +28,7 @@ class Application:
                 for dir in dirs:
                     self.clubs.append(dir)
 
-    def add_club(self, club_name):
+    def add_club(self, club_name: str):
         os.mkdir(self.get_data_folder() + club_name)
         self.clubs.append(club_name)
         self.clubs.sort()
@@ -63,8 +63,8 @@ class Application:
         if self.on_application_shutdown:
             self.on_application_shutdown()
 
-    def select_club(self, club):
-        self.club = Club(club, self.handle_club_data_changed)
+    def select_club(self, club: str):
+        self.club = Club.Club(club, self.handle_club_data_changed)
         if self.is_debug:
             load_club(self.club, "data/local/")
         else:
@@ -73,14 +73,14 @@ class Application:
         if self.on_club_loaded:
             self.on_club_loaded(self.club)
 
-    def remove_club(self, club_name=""):
+    def remove_club(self, club_name: str =""):
         if club_name == "":
             club_name = self.club.name
         self._delete_club(club_name)
         self.populate_clubs()
         return
 
-    def _delete_club(self, club):
-        path = DATA_FOLDER + self.club.name
+    def _delete_club(self, club: Club.Club):
+        path = DATA_FOLDER + club.name
         if os.path.exists(path):
             shutil.rmtree(path)
