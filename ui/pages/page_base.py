@@ -1,6 +1,8 @@
 from tkinter import Label
 from tkinter import Frame
 
+import src.club.club as Club
+
 class PageBase(Frame):
     name = "No name provided"
     
@@ -8,7 +10,7 @@ class PageBase(Frame):
         Frame.__init__(self, root)
         self.page_manager = manager
         self.root = root
-        self.club = manager.club
+        self.club: Club.Club = manager.club
 
     def setup_content(self):
         label = Label(self, text="unimplemented page")

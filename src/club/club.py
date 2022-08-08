@@ -5,6 +5,8 @@ from src.utilities.data_utilities import json_get
 
 import src.club.player as Player
 import src.club.training_report as TrainingReport
+import src.club.training_venue as TrainingVenue
+import src.match.fixture as Fixture
 import src.match.match_report as MatchReport
 
 class Club:
@@ -21,8 +23,8 @@ class Club:
         self.players: list[Player.Player] = []
         self.match_reports: list[MatchReport.MatchReport] = []
         self.training_reports: list[TrainingReport.TrainingReport] = []
-        self.training_venues = [] 
-        self.fixtures = []
+        self.training_venues: list[TrainingVenue.TrainingVenue] = [] 
+        self.fixtures: list[Fixture.Fixture] = []
         self.opponents = []
 
     def setup_club(self):
@@ -55,12 +57,12 @@ class Club:
         if self.update_callback != None:
             self.update_callback()
 
-    def add_fixture(self, fixture):
+    def add_fixture(self, fixture: Fixture.Fixture):
         self.fixtures.append(fixture)
         self.fixtures.sort()
         self.update_callback()
 
-    def remove_fixture(self, fixture):
+    def remove_fixture(self, fixture: Fixture.Fixture):
         self.fixtures.remove(fixture)
 
     def add_training_report(self, report: TrainingReport.TrainingReport):

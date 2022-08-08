@@ -1,4 +1,3 @@
-
 import os
 import shutil
 import src.club.club as Club
