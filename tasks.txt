@@ -49,3 +49,7 @@ FINANCES
 MATCH REPORTS
 - add match report wizard ui should be fully data driven from a base match report object that we edit
 - subs limit should change depending on match type
+
+CODE CLEAN-up
+- don't directly manipulate "training_venues" on club(search training_venues to see issue) can __(double underscore variables to make them private)
+- do all of the above for data on club, should all be private
