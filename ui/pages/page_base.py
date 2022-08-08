@@ -8,7 +8,7 @@ class PageBase(Frame):
         Frame.__init__(self, root)
         self.page_manager = manager
         self.root = root
-        self.club = manager.app.club
+        self.club = manager.club
 
     def setup_content(self):
         label = Label(self, text="unimplemented page")
