@@ -2,7 +2,9 @@ from difflib import Match
 from src.finances.financial_utilities import *
 from src.finances.transaction import *
 from src.utilities.data_utilities import json_get
-from src.club.player import Player
+
+import src.club.player as Player
+import src.match.match_report as MatchReport
 
 class Club:
 
@@ -15,8 +17,8 @@ class Club:
     def clear_club_data(self):
         # Before these were explicit to avoid adding incorrect objects
         # investigate why this fails in load from json
-        self.players: list[Player] = []
-        self.match_reports = []
+        self.players: list[Player.Player] = []
+        self.match_reports: list[MatchReport.MatchReport] = []
         self.training_reports = []
         self.training_venues = [] 
         self.fixtures = []
@@ -26,7 +28,7 @@ class Club:
         self.process_match_reports()
         self.process_training_reports()
 
-    def add_player(self, new_player: Player):
+    def add_player(self, new_player: Player.Player):
         for player in self.players:
             if player.get_name() == new_player.get_name():
                 return False, "Player must have distinct name"
@@ -36,7 +38,7 @@ class Club:
             self.update_callback()
         return True, None
     
-    def update_player(self, old_player: Player, new_player: Player):
+    def update_player(self, old_player: Player.Player, new_player: Player.Player):
         if old_player not in self.players:
             return False, "ERROR: attempting to edit a player who doesn't exist"
         
@@ -45,7 +47,7 @@ class Club:
         self.players.sort()
         return True, ""
 
-    def add_match_report(self, report):
+    def add_match_report(self, report: MatchReport.MatchReport):
         self.match_reports.append(report)
         self.process_match_report(report)
         self.match_reports.sort()
@@ -71,7 +73,7 @@ class Club:
         self.players.sort()
         return True, ""
 
-    def remove_match_report(self, report):
+    def remove_match_report(self, report: MatchReport.MatchReport):
         self.match_reports.remove(report)
         self.process_match_report(report, False)
 
@@ -79,7 +81,7 @@ class Club:
         for report in self.match_reports:
             self.process_match_report(report)
     
-    def process_match_report(self, report, add=True):
+    def process_match_report(self, report: MatchReport.MatchReport, add=True):
         increment = 1
         if not add:
             increment = -1
