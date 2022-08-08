@@ -13,10 +13,10 @@ MAX_PLAYERS = 11
 MAX_SUBS = 5
 
 # A match report tracks all the data that we know occurred for a given match
-class MatchReport(Fixture):
+class MatchReport(Fixture.Fixture):
 
     def __init__(self):
-        Fixture.__init__(self)
+        Fixture.Fixture.__init__(self)
         self.starting_lineup: list[str] = []
         self.subs: list[str] = []
         self.club_goals = 0
@@ -50,7 +50,7 @@ class MatchReport(Fixture):
     def remove_sub(self, player: Player.Player):
         self.subs.remove(player.get_name())
     
-    def get_scoreline(self):
+    def get_scoreline(self) -> str:
         if self.venue == Fixture.Venue.AWAY:
             return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"
         else:

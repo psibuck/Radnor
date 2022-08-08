@@ -7,9 +7,9 @@ from src.utilities.data_utilities import json_get
 class TrainingReport:
 
     def __init__(self):
-        self.attendees = []
-        self.venue = None
-        self.date = date.today()
+        self.attendees: list[str] = []
+        self.venue: TrainingVenue = None
+        self.date: date = date.today()
 
     def __eq__(self, other):
         if other == None:
@@ -33,7 +33,7 @@ class TrainingReport:
     def __gt__(self, o):
         return self.date > o.date
         
-    def GetNumAttendees(self):
+    def GetNumAttendees(self) -> int:
         return len(self.attendees)
 
     def to_json(self):

@@ -4,6 +4,7 @@ from src.finances.transaction import *
 from src.utilities.data_utilities import json_get
 
 import src.club.player as Player
+import src.club.training_report as TrainingReport
 import src.match.match_report as MatchReport
 
 class Club:
@@ -19,7 +20,7 @@ class Club:
         # investigate why this fails in load from json
         self.players: list[Player.Player] = []
         self.match_reports: list[MatchReport.MatchReport] = []
-        self.training_reports = []
+        self.training_reports: list[TrainingReport.TrainingReport] = []
         self.training_venues = [] 
         self.fixtures = []
         self.opponents = []
@@ -62,7 +63,7 @@ class Club:
     def remove_fixture(self, fixture):
         self.fixtures.remove(fixture)
 
-    def add_training_report(self, report):
+    def add_training_report(self, report: TrainingReport.TrainingReport):
         self.training_reports.append(report)
         self.process_training_report(report)
         self.training_reports.sort()
@@ -109,7 +110,7 @@ class Club:
             if player.get_name() == name:
                 return player
 
-    def process_training_report(self, report):
+    def process_training_report(self, report: TrainingReport.TrainingReport):
         for attendee in report.attendees:
             player = self.get_player_by_name(attendee)
             if player != None:
@@ -145,7 +146,7 @@ class Club:
             players_out.append(player.get_name())
         return players_out
 
-    def get_player_transaction_list(self, player) -> list[Transaction]:
+    def get_player_transaction_list(self, player: Player.Player) -> list[Transaction]:
         transactions: list[Transaction] = []
         for match in self.match_reports:
             if player.get_name() in match.starting_lineup:
