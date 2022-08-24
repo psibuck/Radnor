@@ -20,7 +20,7 @@ class Club:
         self.players: list[Player.Player] = []
         self.match_reports: list[MatchReport.MatchReport] = []
         self.training_reports: list[TrainingReport.TrainingReport] = []
-        self.training_venues: list[TrainingVenue.TrainingVenue] = [] 
+        self.training_venues: list[TrainingVenue.TrainingVenue] = []
         self.fixtures: list[Fixture.Fixture] = []
         self.opponents = []
 
@@ -34,7 +34,7 @@ class Club:
                 return False, "Player must have distinct name"
         self.players.append(new_player)
         self.players.sort()
-        if self.update_callback != None:
+        if self.update_callback is not None:
             self.update_callback()
         return True, None
     
@@ -88,20 +88,20 @@ class Club:
 
         for starter in report.starting_lineup:
             player = self.get_player_by_name(starter)
-            if player != None:
+            if player is not None:
                 player.matches_started += increment
 
         for sub in report.subs:
             player = self.get_player_by_name(sub)
-            if player != None:
+            if player is not None:
                 player.matches_as_sub += increment
 
         for goal in report.goals:
             scorer = self.get_player_by_name(goal.scorer)
-            if scorer != None:
+            if scorer is not None:
                 scorer.goals += increment
             assister = self.get_player_by_name(goal.assister)
-            if assister != None:
+            if assister is not None:
                 assister.assists += increment
 
     def get_player_by_name(self, name):

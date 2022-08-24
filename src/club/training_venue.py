@@ -7,7 +7,7 @@ class TrainingVenue:
         self.cost: float = cost
 
     def __eq__(self, other):
-        if other == None:
+        if other is None:
             return False
         return self.name == other.name and self.cost == other.cost
 

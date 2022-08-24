@@ -15,9 +15,9 @@ class TransactionType(Enum):
 @dataclass
 class Transaction:
 
-    def __init__(self, date: datetime, type: TransactionType, amount: int, notes = ""):
+    def __init__(self, date: datetime, type_in: TransactionType, amount: int, notes = ""):
         self.date: datetime = date
-        self.transaction_type: TransactionType = type 
+        self.transaction_type: TransactionType = type_in 
         self.amount: int = amount 
         self.notes: str = notes
 
