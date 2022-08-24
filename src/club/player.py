@@ -17,10 +17,10 @@ class Player:
         self.goals: int = 0
         self.assists: int = 0
         
-    def __eq__(self, o: 'Player') -> bool:
-        if o == None:
+    def __eq__(self, other_player: 'Player') -> bool:
+        if other_player is None:
             return False
-        return self.first_name == o.first_name and self.surname == o.surname and self.dob == o.dob
+        return self.first_name == other_player.first_name and self.surname == other_player.surname and self.dob == other_player.dob
         
     def __lt__(self, other: 'Player') -> bool:
         return self.get_name().lower() < other.get_name().lower()

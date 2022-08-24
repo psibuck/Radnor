@@ -12,7 +12,7 @@ class TrainingReport:
         self.date: date = date.today()
 
     def __eq__(self, other):
-        if other == None:
+        if other is None:
             return False
         if len(self.attendees) != len(other.attendees):
             return False
@@ -33,7 +33,7 @@ class TrainingReport:
     def __gt__(self, o):
         return self.date > o.date
         
-    def GetNumAttendees(self) -> int:
+    def get_num_attendees(self) -> int:
         return len(self.attendees)
 
     def to_json(self):
@@ -50,7 +50,7 @@ class TrainingReport:
         self.date = date.fromisoformat(json_get(json_data, "date"))
 
     def get_date(self):
-        if self.date != None:
+        if self.date is None:
             return self.date.isoformat()
         return "No date set"
         

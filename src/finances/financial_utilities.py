@@ -1,4 +1,5 @@
-from src.match.match_report import *
+from src.match.fixture import MatchType
+from src.match.match_report import MatchReport, MatchRole
 
 def get_match_fee(match: MatchReport, role: MatchRole) -> int:
     if role == MatchRole.UNUSED_SUB:
