@@ -3,6 +3,7 @@ Project
 - set up branching model that requires tests to pass to submit
 - strongly type all lists on club
 - convert players to be passed around as ids
+- add script to deploy to specific folder and also backup stored data
 
 FEATURES
 - add dummy clubs
@@ -24,11 +25,6 @@ MATCHES
 
 EDITING
 - edit fixture
-
-BUG
-- logo is still feather
-- players don't load goal and assist data after shutdown
-- training counts aren't displayed on player page
 
 UX
 - add confirm to clear local data button
@@ -53,3 +49,12 @@ MATCH REPORTS
 CODE CLEAN-up
 - don't directly manipulate "training_venues" on club(search training_venues to see issue) can __(double underscore variables to make them private)
 - do all of the above for data on club, should all be private
+
+
+BUGS:
+- when editing match reports top data resets
+- "test" appears in match reports
+- logo is still feather
+- players don't load goal and assist data after shutdown
+- training counts aren't displayed on player page
+- goals is totally broken
