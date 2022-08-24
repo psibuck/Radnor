@@ -65,7 +65,7 @@ class MatchReport(Fixture.Fixture):
 
         goals_raw = json_get(json_data, "goals")
         for goal in goals_raw:
-            new_goal = Goal()
+            new_goal = Goal.Goal()
             new_goal.from_json(goal)
             self.goals.append(new_goal)
 
