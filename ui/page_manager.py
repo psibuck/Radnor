@@ -1,10 +1,9 @@
 from enum import Enum
 
+import src.application as Application
+from src.club.club import Club
+from ui.pages.page_tabs import PAGE_TABS
 from ui.pages.club_selector import ClubSelector
-from ui.pages.home import Home
-from ui.pages.match_reports import MatchReports
-from ui.pages.players_page import Players
-from ui.pages.training_reports import TrainingReports
 
 import tkinter as tk
 from tkinter import ttk, BOTH, YES, IntVar, LEFT, LabelFrame, OptionMenu, TOP
@@ -32,11 +31,14 @@ class ClubControls(Enum):
 
 class PageManager:
 
-    def __init__(self, app):
+    def __init__(self, app: Application.Application):
         self.root = tk.Tk()
 
-        self.app = app
-
+        self.app: Application.Application = app
+        self.app.on_club_loaded = self.handle_club_loaded
+        self.app.on_application_shutdown = self.shutdown
+        
+        self.club: Club = app.club
         self.current_index = -1
         self.current_page = None
         
@@ -53,12 +55,10 @@ class PageManager:
         self.tab_frame = LabelFrame(self.app_frame, height=50)
         self.open_club_selector()
 
-    def handle_club_loaded(self):
-        self.pages = []
-        self.pages.append(Home)
-        self.pages.append(Players)
-        self.pages.append(MatchReports)
-        self.pages.append(TrainingReports)
+    def handle_club_loaded(self, club: Club):
+        self.club = club
+
+        self.pages: list[__class__] = PAGE_TABS
 
         self.content_area.pack_forget()
         self.setup_tabs() 
@@ -67,7 +67,7 @@ class PageManager:
         self.current_index = -1   
         self.switch_page(0)
 
-        self.root.title(self.app.club.name)
+        self.root.title(self.club.name)
 
     def get_screen_width(self):
         return WINDOW_WIDTH - 2 * WINDOW_MARGIN

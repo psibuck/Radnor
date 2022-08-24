@@ -31,7 +31,7 @@ class AddPlayerWizard(WizardBase):
         self.signed_on.set(object.is_signed_on)
         self.date_entry.set_date(object.dob)
 
-    def construct_player_from_data(self):
+    def construct_player_from_data(self) -> Player:
         new_player = Player()
         new_player.first_name = self.first_name.get()
         new_player.surname = self.surname.get()
