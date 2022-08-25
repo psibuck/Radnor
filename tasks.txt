@@ -52,7 +52,6 @@ CODE CLEAN-up
 
 
 BUGS:
-- when editing match reports top data resets
 - "test" appears in match reports
 - players don't load goal and assist data after shutdown
 - training counts aren't displayed on player page

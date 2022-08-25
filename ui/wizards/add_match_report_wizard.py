@@ -47,6 +47,9 @@ class AddMatchReportWizard(WizardBase):
         self.selected_opponent = StringVar()
         self.selected_venue = StringVar()
         self.selected_venue.set(str(Venue(1)))
+        self.selected_match_type = StringVar()
+        self.selected_match_type.set(str(MatchType(1)))
+        self.selected_date: date = date.today()
 
         if len(manager.app.club.opponents) > 0:
             self.selected_opponent.set(manager.app.club.opponents[0])
@@ -82,8 +85,6 @@ class AddMatchReportWizard(WizardBase):
         Button(self.option_area, text="+", command=self.add_opponent).grid(row=self.opponent_row, column=3)
 
         TableHeader(self.option_area, "Match Type").grid(row=self.match_type_row, column=0)
-        self.selected_match_type = StringVar()
-        self.selected_match_type.set(str(MatchType(1)))
         match_type_selector = OptionMenu(self.option_area, self.selected_match_type, *list(MatchType))
         match_type_selector.grid(row=self.match_type_row, column=1)
 
@@ -91,7 +92,7 @@ class AddMatchReportWizard(WizardBase):
         venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
         venue_selector.grid(row=self.venue_row, column=1)
 
-        self.date_entry = DateEntry(self.option_area, default_year = date.today().year, years_to_show=2)
+        self.date_entry = DateEntry(self.option_area, default_date = self.selected_date, years_to_show=2)
         self.date_entry.grid(row=self.date_row, column=0, columnspan=5)
 
         self.squad_display = ScrollFrame(player_area, width=150)
@@ -160,8 +161,13 @@ class AddMatchReportWizard(WizardBase):
         self.available_players.append(player)
         self.setup_player_lists()
 
-    def setup_from_object(self, object):
+    def setup_from_object(self, object: MatchReport):
         players = self.club.players[:]
+
+        self.selected_opponent.set(object.opponent)
+        self.selected_venue.set(str(object.venue))
+        self.selected_match_type.set(str(object.match_type))
+        self.selected_date = object.date
 
         self.populate_player_list(object.starting_lineup, self.starters, players)
         self.populate_player_list(object.subs, self.subs, players)
