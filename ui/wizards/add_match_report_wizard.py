@@ -271,6 +271,7 @@ class AddMatchReportWizard(WizardBase):
         for sub in self.subs:
             new_report.add_sub(sub)
             
+        new_report.club_name = self.club.short_name
         new_report.club_goals = self.our_goals.get()
         new_report.opponent_goals = self.opponent_goals.get()
         new_report.venue = Venue[self.selected_venue.get()]

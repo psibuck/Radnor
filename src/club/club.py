@@ -10,8 +10,9 @@ import src.match.match_report as MatchReport
 
 class Club:
 
-    def __init__(self, name, update_callback=None):
-        self.name = name
+    def __init__(self, name: str, short_name: str, update_callback=None):
+        self.name: str = name
+        self.short_name: str = short_name
         self.update_callback = update_callback
 
         self.clear_club_data()
@@ -126,11 +127,13 @@ class Club:
     
     def from_json(self, json_data):
         self.name = json_get(json_data, "name")
+        self.short_name = json_get(json_data, "short_name")
         self.opponents = json_get(json_data, "opponents")
 
     def to_json(self):
         return {
             "name": self.name,
+            "shot_name": self.short_name,
             "opponents": self.opponents
         }
 

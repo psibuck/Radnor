@@ -22,6 +22,7 @@ class MatchReport(Fixture.Fixture):
         self.club_goals = 0
         self.opponent_goals = 0
         self.goals: list[Goal.Goal] = []
+        self.club_name: str = ""
 
     def from_fixture(self, fixture: Fixture.Fixture):
         self.date = fixture.date
@@ -52,15 +53,16 @@ class MatchReport(Fixture.Fixture):
     
     def get_scoreline(self) -> str:
         if self.venue == Fixture.Venue.AWAY:
-            return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + "test"
+            return self.opponent + str(self.opponent_goals) + "-" + str(self.club_goals) + " " + self.club_name
         else:
-            return "test" + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
+            return self.club_name + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
         
     def from_json(self, json_data):
         self.starting_lineup = json_get(json_data, "starters")
         self.subs = json_get(json_data, "subs")
         self.club_goals = json_get(json_data, "num_goals", type=int)
         self.opponent_goals = json_get(json_data, "opponent_goals", type=int)
+        self.club_name = json_get(json_data, "club_name", type=str)
         super().from_json(json_data["fixture"])
 
         goals_raw = json_get(json_data, "goals")
@@ -80,5 +82,6 @@ class MatchReport(Fixture.Fixture):
             "num_goals": self.club_goals,
             "opponent_goals": self.opponent_goals,
             "fixture": super().to_json(),
-            "goals": goals_json
+            "goals": goals_json,
+            "club_name": self.club_name
         }

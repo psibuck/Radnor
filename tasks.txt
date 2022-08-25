@@ -50,6 +50,10 @@ CODE CLEAN-up
 - don't directly manipulate "training_venues" on club(search training_venues to see issue) can __(double underscore variables to make them private)
 - do all of the above for data on club, should all be private
 
+CLUB
+- add rules for short name, maybe make club base and extend opponent from it too?
+- create club needs some work
+- edit club doesn't work
 
 BUGS:
 - "test" appears in match reports
