@@ -8,6 +8,9 @@ from ui.pages.club_selector import ClubSelector
 import tkinter as tk
 from tkinter import ttk, BOTH, YES, IntVar, LEFT, LabelFrame, OptionMenu, TOP
 
+import os
+from PIL import Image, ImageTk
+
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 800
 WINDOW_MARGIN = 10
@@ -45,6 +48,10 @@ class PageManager:
         self.root.resizable(width=False, height=False)
         self.root.protocol("WM_DELETE_WINDOW", self.close_requested)
         self.root.geometry(str(WINDOW_WIDTH) + "x" + str(WINDOW_HEIGHT))
+
+        ico = Image.open(os.getcwd() + "/data/graphics/radnor_logo.png")
+        photo = ImageTk.PhotoImage(ico)
+        self.root.wm_iconphoto(False, photo)
 
         self.app_frame = LabelFrame(self.root, height=WINDOW_HEIGHT - WINDOW_MARGIN, width=WINDOW_WIDTH - WINDOW_MARGIN)
         self.app_frame.pack(fill=BOTH, expand=YES)
@@ -95,7 +102,6 @@ class PageManager:
         if value == ClubControls.SELECT_CLUB:
             self.open_club_selector()
         elif value == ClubControls.DELETE_CLUB:
-            self.remove_club()
             self.open_club_selector()
 
         if value != ClubControls.CLUB_CONTROLS:
