@@ -56,7 +56,6 @@ CLUB
 - edit club doesn't work
 
 BUGS:
-- "test" appears in match reports
-- players don't load goal and assist data after shutdown
-- training counts aren't displayed on player page
 - goals is totally broken
+- players don't load goal and assist data after shutdown
+^^ This is because we don't report goals properly and because we don't report goals there are no stats

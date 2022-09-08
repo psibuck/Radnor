@@ -12,6 +12,7 @@ class GoalDisplay(Frame):
         TableHeader(self, text="Goals").grid(row=0, column=0)
 
         self.goal_entries = []
+        self.player_list = []
 
     def update_player_list(self, list):
         self.player_list = list[:]
