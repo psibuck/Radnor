@@ -1,0 +1,2 @@
+@echo off
+pyinstaller ../main.py --distpath C://Users//psibu//Documents//Radnor//AutoDeploy --workpath C://Users//psibu//Documents//Radnor//AutoDeploy --specpath C://Users//psibu//Documents//Radnor//AutoDeploy -y 
