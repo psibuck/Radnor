@@ -49,7 +49,7 @@ def save_to_json(file: str, objects):
         json_blob = json.dumps(data, indent = 4)
         json_file.write(json_blob)
 
-def json_get(blob, variable_name, class_name=None, type =str):
+def get(blob, variable_name, class_name=None, type =str):
     """Attempts to retrieve an object from a blob of data."""
     try:
         variable = blob[variable_name]

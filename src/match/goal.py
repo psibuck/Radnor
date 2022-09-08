@@ -1,4 +1,4 @@
-from src.utilities.data_utilities import json_get
+import src.utilities.json_utilities as JsonUtil
 
 class Goal:
 
@@ -8,9 +8,9 @@ class Goal:
         self.description = description
 
     def from_json(self, json_data):
-        self.scorer = json_get(json_data, "scorer")
-        self.assister = json_get(json_data, "assister")
-        self.description = json_get(json_data, "description")
+        self.scorer = JsonUtil.get(json_data, "scorer")
+        self.assister = JsonUtil.get(json_data, "assister")
+        self.description = JsonUtil.get(json_data, "description")
 
     def to_json(self):
         return {

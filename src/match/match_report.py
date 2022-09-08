@@ -2,12 +2,13 @@ from enum import Enum
 import src.match.fixture as Fixture
 import src.match.goal as Goal
 import src.club.player as Player
-from src.utilities.data_utilities import json_get
+
+import src.utilities.json_utilities as JsonUtil
 
 class MatchRole(Enum):
     STARTER = 1
     SUB = 2
-    UNUSED_SUB = 3 
+    UNUSED_SUB = 3
 
 MAX_PLAYERS = 11
 MAX_SUBS = 5
@@ -58,14 +59,14 @@ class MatchReport(Fixture.Fixture):
             return self.club_name + " " + str(self.club_goals) + "-" + str(self.opponent_goals) + " " + self.opponent
         
     def from_json(self, json_data):
-        self.starting_lineup = json_get(json_data, "starters")
-        self.subs = json_get(json_data, "subs")
-        self.club_goals = json_get(json_data, "num_goals", type=int)
-        self.opponent_goals = json_get(json_data, "opponent_goals", type=int)
-        self.club_name = json_get(json_data, "club_name", type=str)
+        self.starting_lineup = JsonUtil.get(json_data, "starters")
+        self.subs = JsonUtil.get(json_data, "subs")
+        self.club_goals = JsonUtil.get(json_data, "num_goals", type=int)
+        self.opponent_goals = JsonUtil.get(json_data, "opponent_goals", type=int)
+        self.club_name = JsonUtil.get(json_data, "club_name", type=str)
         super().from_json(json_data["fixture"])
 
-        goals_raw = json_get(json_data, "goals")
+        goals_raw = JsonUtil.get(json_data, "goals")
         for goal in goals_raw:
             new_goal = Goal.Goal()
             new_goal.from_json(goal)
