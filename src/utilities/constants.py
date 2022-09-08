@@ -1,4 +1,2 @@
-
-
 NUM_STARTERS = 11
 MAX_SUBS = 5
