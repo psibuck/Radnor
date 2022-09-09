@@ -10,7 +10,7 @@ from src.match.fixture import Fixture
 from src.match.match_report import MatchReport
 
 import src.club.club as Club
-import src.utilities.data_utilities as DataUtil
+import src.utilities.json_utilities as DataUtil
 
 DATA_FOLDER = "C:/Users/psibu/Documents/Radnor/"
 
