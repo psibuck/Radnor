@@ -1,11 +1,12 @@
+"""A wizard for creating and editing a MatchReport"""
 from datetime import date
 from tkinter import *
-from src.match.fixture import MatchType, Venue
+import src.match.fixture as Fixture
+
 from src.match.goal import Goal
 from src.match.match_report import MatchReport
 from ui import widget_utilities
 from ui.widgets.goal_display import GoalDisplay
-from ui.widgets.object_list import ObjectListWidget
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.player_entry import PlayerEntry
 from ui.widgets.scrollframe import ScrollFrame
@@ -46,9 +47,9 @@ class AddMatchReportWizard(WizardBase):
 
         self.selected_opponent = StringVar()
         self.selected_venue = StringVar()
-        self.selected_venue.set(str(Venue(1)))
+        self.selected_venue.set(str(Fixture.Venue(1)))
         self.selected_match_type = StringVar()
-        self.selected_match_type.set(str(MatchType(1)))
+        self.selected_match_type.set(str(Fixture.MatchType(1)))
         self.selected_date: date = date.today()
 
         if len(manager.app.club.opponents) > 0:
@@ -85,11 +86,11 @@ class AddMatchReportWizard(WizardBase):
         Button(self.option_area, text="+", command=self.add_opponent).grid(row=self.opponent_row, column=3)
 
         TableHeader(self.option_area, "Match Type").grid(row=self.match_type_row, column=0)
-        match_type_selector = OptionMenu(self.option_area, self.selected_match_type, *list(MatchType))
+        match_type_selector = OptionMenu(self.option_area, self.selected_match_type, *list(Fixture.MatchType))
         match_type_selector.grid(row=self.match_type_row, column=1)
 
         TableHeader(self.option_area, "Venue").grid(row=self.venue_row, column=0)
-        venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Venue))
+        venue_selector = OptionMenu(self.option_area, self.selected_venue, *list(Fixture.Venue))
         venue_selector.grid(row=self.venue_row, column=1)
 
         self.date_entry = DateEntry(self.option_area, default_date = self.selected_date, years_to_show=2)
@@ -198,7 +199,7 @@ class AddMatchReportWizard(WizardBase):
             self.swap_object(self.available_players, self.starters, object)
 
     def select_sub(self, object):
-        if len(self.subs) < MAX_SUBS or MatchType[self.selected_match_type.get()] == MatchType.FRIENDLY:
+        if len(self.subs) < MAX_SUBS or Fixture.MatchType[self.selected_match_type.get()] == Fixture.MatchType.FRIENDLY:
             self.swap_object(self.available_players, self.subs, object)
     
     def deselect_sub(self, object):
@@ -260,10 +261,10 @@ class AddMatchReportWizard(WizardBase):
 
     def construct_report(self):
         new_report = MatchReport()
-        new_report.match_type = MatchType[self.selected_match_type.get()]
+        new_report.match_type = Fixture.MatchType[self.selected_match_type.get()]
         if len(self.starters) != NUM_STARTERS:
             return False, "Not enough starters added to match report"
-        if len(self.subs) > MAX_SUBS and new_report.match_type != MatchType.FRIENDLY:
+        if len(self.subs) > MAX_SUBS and new_report.match_type != Fixture.MatchType.FRIENDLY:
             return False, "Too many players on subs bench"
 
         for player in self.starters:
@@ -274,7 +275,7 @@ class AddMatchReportWizard(WizardBase):
         new_report.club_name = self.club.short_name
         new_report.club_goals = self.our_goals.get()
         new_report.opponent_goals = self.opponent_goals.get()
-        new_report.venue = Venue[self.selected_venue.get()]
+        new_report.venue = Fixture.Venue[self.selected_venue.get()]
         new_report.opponent = self.selected_opponent.get()
         new_report.date = self.date_entry.get_date()
 
