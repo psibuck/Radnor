@@ -1,5 +1,6 @@
 from tkinter import Frame, Label, LEFT, OptionMenu, StringVar
 
+import src.club.player as Player
 from ui.widgets.dropdown_selector import DropdownSelector
 
 DEFAULT_SELECTION_VALUE = "NONE"
@@ -14,15 +15,15 @@ class GoalEntry(Frame):
         
         self.goalscorer = StringVar()
         self.goalscorer.set(DEFAULT_SELECTION_VALUE)
-        self.assister = StringVar() 
+        self.assister = StringVar()
         self.assister.set(DEFAULT_SELECTION_VALUE)
 
-        self.update_option_list(player_list)
+        self.update_player_list(player_list)
 
 
-    def update_option_list(self, list):
+    def update_player_list(self, new_player_list: list[Player.Player]):
         self.player_list = []
-        for player in list:
+        for player in new_player_list:
             self.player_list.append(player.get_name())
 
         self.update_display()

@@ -11,7 +11,7 @@ class GoalDisplay(Frame):
         self.root = page_manager.root
         TableHeader(self, text="Goals").grid(row=0, column=0)
 
-        self.goal_entries = []
+        self.goal_entries: list[GoalEntry] = [] 
         self.player_list = []
 
     def update_player_list(self, list):
