@@ -1,5 +1,5 @@
 from datetime import date
-from src.utilities.data_utilities import json_get
+import src.utilities.json_utilities as JsonUtil
 
 class Player:
 
@@ -37,10 +37,10 @@ class Player:
         return "NO"
 
     def from_json(self, json_data):
-        self.first_name = json_get(json_data, "first_name")
-        self.surname = json_get(json_data, "surname")
-        self.dob = json_get(json_data, "dob", type=date)
-        is_signed_on = json_get(json_data, "signed_on")
+        self.first_name = JsonUtil.get(json_data, "first_name")
+        self.surname = JsonUtil.get(json_data, "surname")
+        self.dob = JsonUtil.get(json_data, "dob", type=date)
+        is_signed_on = JsonUtil.get(json_data, "signed_on")
         if is_signed_on == "YES":
             self.is_signed_on = True
     

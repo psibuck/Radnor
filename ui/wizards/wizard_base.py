@@ -14,7 +14,7 @@ class WizardBase(PageBase):
 
         self.setup_variables()
 
-        if self.root_object != None:
+        if self.root_object is not None:
             Button(button_container, text="Save", command=self.on_save_pressed).pack(side=LEFT)
             Button(button_container, text="Revert", command=self.on_revert_pressed).pack(side=LEFT)
             Button(button_container, text="Delete", command=self.on_delete_pressed).pack(side=LEFT)
@@ -31,6 +31,7 @@ class WizardBase(PageBase):
         manager.root.bind('<Return>', self.on_add_pressed)
 
     def setup_variables(self):
+        """Base implementation, called on all wizard classes to initialise variables"""
         print("ERROR: WizardBase::setup_variables not implemented")
 
     def setup_from_object(self, _):

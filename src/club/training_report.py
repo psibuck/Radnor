@@ -1,7 +1,7 @@
 from datetime import date
 
 from src.club.training_venue import TrainingVenue
-from src.utilities.data_utilities import json_get
+import src.utilities.json_utilities as JsonUtil
 
 # A trainig report tracks who attended a training session on which date etc
 class TrainingReport:
@@ -47,7 +47,7 @@ class TrainingReport:
         self.attendees = json_data["attendees"]
         self.venue = TrainingVenue()
         self.venue.from_json(json_data["venue"])
-        self.date = date.fromisoformat(json_get(json_data, "date"))
+        self.date = date.fromisoformat(JsonUtil.get(json_data, "date"))
 
     def get_date(self):
         if self.date is None:

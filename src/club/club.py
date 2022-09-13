@@ -1,12 +1,14 @@
 from src.finances.financial_utilities import *
 from src.finances.transaction import *
-from src.utilities.data_utilities import json_get
+
 
 import src.club.player as Player
 import src.club.training_report as TrainingReport
 import src.club.training_venue as TrainingVenue
 import src.match.fixture as Fixture
 import src.match.match_report as MatchReport
+
+import src.utilities.json_utilities as JsonUtil
 
 class Club:
 
@@ -126,9 +128,9 @@ class Club:
         self.update_callback()
     
     def from_json(self, json_data):
-        self.name = json_get(json_data, "name")
-        self.short_name = json_get(json_data, "short_name")
-        self.opponents = json_get(json_data, "opponents")
+        self.name = JsonUtil.get(json_data, "name")
+        self.short_name = JsonUtil.get(json_data, "short_name")
+        self.opponents = JsonUtil.get(json_data, "opponents")
 
     def to_json(self):
         return {

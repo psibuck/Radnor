@@ -1,5 +1,6 @@
 from datetime import date
 from tkinter import *
+import src.match.fixture as Fixture
 from src.match.fixture import MatchType, Venue
 from src.match.goal import Goal
 from src.match.match_report import MatchReport
@@ -194,6 +195,32 @@ class AddMatchReportWizard(WizardBase):
             while self.oppo_entry.get():
                 self.oppo_entry.delete(0)
 
+    def select_starter(self, object):
+        if len(self.starters) < 11:
+            self.swap_object(self.available_players, self.starters, object)
+
+    def select_sub(self, object):
+        if len(self.subs) < MAX_SUBS or Fixture.MatchType[self.selected_match_type.get()] == Fixture.MatchType.FRIENDLY:
+            self.swap_object(self.available_players, self.subs, object)
+    
+    def deselect_sub(self, object):
+        self.swap_object(self.starters, self.available_players, object)
+        self.swap_object(self.subs, self.available_players, object)
+    
+    def swap_object(self, current_list, new_list, object):
+        if object in current_list:
+            current_list.remove(object)
+            new_list.append(object)
+            new_list.sort()
+
+            self.setup_objects_list()
+
+    def setup_objects_list(self):
+        self.setup_list(self.available_players_list, self.available_players, [ButtonInfo(self.select_sub, "SUB"), ButtonInfo(self.select_starter, "XI")]) 
+        self.setup_list(self.selected_players_list, self.starters, [ButtonInfo(self.deselect_sub, "-")])
+        self.setup_list(self.substitute_players_list, self.subs, [ButtonInfo(self.deselect_sub, "-")])
+        self.goal_area.update_player_list(self.get_selected_players())
+    
     def get_selected_players(self):
         return self.starters[:] + self.subs[:]
 
