@@ -71,7 +71,6 @@ class Application:
             else:
                 save_club(self.club)
         if self.on_application_shutdown is Callable:
-            # pylint: not-callable
             self.on_application_shutdown()
 
     def select_club(self, club: str):
@@ -83,7 +82,6 @@ class Application:
             load_club(self.club)
         self.club.setup_club()
         if self.on_club_loaded is Callable:
-            # pylint: not-callable
             self.on_club_loaded(self.club)
 
     def remove_club(self, club_name: str =""):
