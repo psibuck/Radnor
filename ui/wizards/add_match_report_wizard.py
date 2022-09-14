@@ -70,6 +70,8 @@ class AddMatchReportWizard(WizardBase):
         self.goal_area.pack(side=RIGHT)
 
         self.our_goals.trace("w", self.goal_area.handle_goals_update)
+        if object is not None:
+            self.goal_area.setup_from_object(object)
 
         TableHeader(self.option_area, text=self.club.name).grid(row=self.scoreline_row, column=0)
         NumericEntry(self.option_area, self.our_goals).grid(row=self.scoreline_row, column = 1)
@@ -248,9 +250,6 @@ class AddMatchReportWizard(WizardBase):
         self.club.remove_match_report(self.root_object)
         self.club.add_match_report(report)
         return True, ""
-
-    def handle_delete_pressed(self):
-        return super().handle_delete_pressed()
 
     def handle_add_pressed(self):
         success, report = self.construct_report()

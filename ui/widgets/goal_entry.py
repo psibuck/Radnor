@@ -1,12 +1,13 @@
 from tkinter import Frame, Label, LEFT, OptionMenu, StringVar
 
 import src.club.player as Player
+import src.match.goal as Goal
 from ui.widgets.dropdown_selector import DropdownSelector
 
 DEFAULT_SELECTION_VALUE = "NONE"
 class GoalEntry(Frame):
 
-    def __init__(self, root, index, player_list):
+    def __init__(self, root, index, player_list, goal: Goal.Goal = None):
         super().__init__(root)
 
         Label(self, text="Goal " + str(index)).pack(side=LEFT)
@@ -17,6 +18,12 @@ class GoalEntry(Frame):
         self.goalscorer.set(DEFAULT_SELECTION_VALUE)
         self.assister = StringVar()
         self.assister.set(DEFAULT_SELECTION_VALUE)
+
+        if goal is not None:
+            self.goalscorer.set(goal.scorer)
+
+            if goal.assister != "NONE":
+                self.assister.set(goal.assister)
 
         self.update_player_list(player_list)
 

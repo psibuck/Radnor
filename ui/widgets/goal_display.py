@@ -1,5 +1,6 @@
 from tkinter import Frame
 
+import src.match.match_report as MatchReport
 from ui.widgets.goal_entry import GoalEntry
 from ui.widgets.table import TableHeader
 
@@ -13,6 +14,15 @@ class GoalDisplay(Frame):
 
         self.goal_entries: list[GoalEntry] = [] 
         self.player_list = []
+
+    def setup_from_object(self, report: MatchReport.MatchReport):
+        """Setup the goal display from an existing match report"""
+        count = 0
+        for goal in report.goals:
+            new_goal = GoalEntry(self, count + 1, self.player_list, goal)
+            new_goal.grid(row=count, column=0)
+            self.goal_entries.append(new_goal)
+            count += 1
 
     def update_player_list(self, list):
         self.player_list = list[:]
