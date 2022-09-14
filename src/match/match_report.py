@@ -62,7 +62,7 @@ class MatchReport(Fixture.Fixture):
 
     def get_scoreline(self) -> str:
         """Constructs a string representation of the scoreline."""
-        scoreline: str = "{home_team} {home_goals} - {away_goals} {away_team}"
+        scoreline: str = "{} {} - {} {}"
         if self.venue == Fixture.Venue.AWAY:
             return scoreline.format(self.opponent, self.opponent_goals, self.club_goals, self.club_name)
         return scoreline.format(self.club_name, self.club_goals, self.opponent_goals, self.opponent)

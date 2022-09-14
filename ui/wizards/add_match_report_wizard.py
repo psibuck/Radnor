@@ -281,7 +281,7 @@ class AddMatchReportWizard(WizardBase):
         new_report.date = self.date_entry.get_date()
 
         for goal in self.goal_area.goal_entries:
-            new_goal = Goal(goal.goalscorer, goal.assister, "test goal description")
+            new_goal = Goal(goal.goalscorer.get(), goal.assister.get(), "test goal description")
             new_report.add_goal(new_goal)
 
         return True, new_report

@@ -65,12 +65,12 @@ class Application:
 
     def quit(self):
         """The quit function for the entire application."""
-        if self.club != None:
+        if self.club is not None:
             if self.is_debug:
                 save_club(self.club, "data/local/")
             else:
                 save_club(self.club)
-        if self.on_application_shutdown is Callable:
+        if self.on_application_shutdown is not None:
             self.on_application_shutdown()
 
     def select_club(self, club: str):
@@ -81,7 +81,7 @@ class Application:
         else:
             load_club(self.club)
         self.club.setup_club()
-        if self.on_club_loaded is Callable:
+        if self.on_club_loaded is not None:
             self.on_club_loaded(self.club)
 
     def remove_club(self, club_name: str =""):
