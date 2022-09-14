@@ -1,7 +1,5 @@
-from cgitb import text
-from statistics import variance
 from tkinter import Entry, StringVar
-
+from src.club.club import ClubCreationData
 from ui.wizards.wizard_base import WizardBase
 
 class AddClubWizard(WizardBase):
@@ -25,5 +23,6 @@ class AddClubWizard(WizardBase):
             if club == self.club_name.get():
                 return False, "Club with name " + club + " already exists"
         
-        self.page_manager.app.add_club(self.club_name.get(), self.short_name.get())
+        
+        self.page_manager.app.add_club(ClubCreationData(self.club_name.get(), self.short_name.get()))
         return True, ""

@@ -12,7 +12,7 @@ class Application:
     def __init__(self, debug=False):
         self.is_debug = debug
         self.club: Club.Club = None
-        self.clubs = []
+        self.clubs: list[Club.ClubCreationData] = []
         self.on_club_loaded: Union[None, Callable] = None
         self.on_application_shutdown:  Union[None, Callable] = None
 
@@ -31,7 +31,7 @@ class Application:
         if os.path.exists(data_folder):
             for _, dirs, _ in os.walk(data_folder):
                 for dir_name in dirs:
-                    self.clubs.append(dir_name)
+                    self.clubs.append(Club.ClubCreationData(dir_name, ""))
 
     def _make_data_structure(self) -> None:
         """Construct the data structure that we save data to."""
@@ -43,10 +43,10 @@ class Application:
                 os.mkdir(path_string)
             path_string += "/"
 
-    def add_club(self, club_name: str) -> None:
+    def add_club(self, club_data: Club.ClubCreationData) -> None:
         """Function to add a new club object. Should probably be in the database layer."""
-        os.mkdir(self._get_data_folder() + club_name)
-        self.clubs.append(club_name)
+        os.mkdir(self._get_data_folder() + club_data.name)
+        self.clubs.append(club_data.name)
         self.clubs.sort()
 
     def clear_local_data(self):
@@ -73,7 +73,7 @@ class Application:
         if self.on_application_shutdown is not None:
             self.on_application_shutdown()
 
-    def select_club(self, club: str):
+    def select_club(self, club: Club.ClubCreationData):
         """Function to select and load a different club to the one currently loaded."""
         self.club = Club.Club(club, self.handle_club_data_changed)
         if self.is_debug:

@@ -56,6 +56,4 @@ CLUB
 - edit club doesn't work
 
 BUGS:
-- goals is totally broken
-- players don't load goal and assist data after shutdown
-^^ This is because we don't report goals properly and because we don't report goals there are no stats
+- can select same assister as goalscorer

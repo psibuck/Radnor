@@ -33,7 +33,7 @@ class ClubControls(Enum):
         return self.name
 
 class PageManager:
-
+    """The page manager is the controller for the UI. It opens pages, handles closing and listens for global user input."""
     def __init__(self, app: Application.Application):
         self.root = tk.Tk()
 
@@ -76,10 +76,12 @@ class PageManager:
 
         self.root.title(self.club.name)
 
-    def get_screen_width(self):
+    def get_window_width(self):
+        """Returns the width of the window."""
         return WINDOW_WIDTH - 2 * WINDOW_MARGIN
 
-    def get_screen_height(self):
+    def get_window_height(self):
+        """Returns the height of the window."""
         return WINDOW_HEIGHT - 2 * WINDOW_MARGIN
         
     def setup_tabs(self):

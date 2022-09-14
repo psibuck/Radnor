@@ -15,7 +15,6 @@ class PageBase(Frame):
     def setup_content(self):
         label = Label(self, text="unimplemented page")
         label.pack()
-        return 
 
     def shutdown(self):
         for widget in self.winfo_children():

@@ -9,12 +9,19 @@ import src.match.fixture as Fixture
 import src.match.match_report as MatchReport
 
 import src.utilities.json_utilities as JsonUtil
+from typing import Callable
+
+@dataclass
+class ClubCreationData:
+    """Data class that contains all the information needed to create a club."""
+    name: str
+    short_name: str
 
 class Club:
 
-    def __init__(self, name: str, short_name: str, update_callback=None):
-        self.name: str = name
-        self.short_name: str = short_name
+    def __init__(self, club_data: ClubCreationData, update_callback: Callable = None):
+        self.name: str = club_data.name
+        self.short_name: str = club_data.short_name
         self.update_callback = update_callback
 
         self.clear_club_data()
@@ -25,7 +32,7 @@ class Club:
         self.training_reports: list[TrainingReport.TrainingReport] = []
         self.training_venues: list[TrainingVenue.TrainingVenue] = []
         self.fixtures: list[Fixture.Fixture] = []
-        self.opponents = []
+        self.opponents: list[str] = []
 
     def setup_club(self):
         self.process_match_reports()
@@ -40,11 +47,11 @@ class Club:
         if self.update_callback is not None:
             self.update_callback()
         return True, None
-    
+   
     def update_player(self, old_player: Player.Player, new_player: Player.Player):
         if old_player not in self.players:
             return False, "ERROR: attempting to edit a player who doesn't exist"
-        
+ 
         old_player_index = self.players.index(old_player)
         self.players[old_player_index] = new_player
         self.players.sort()
@@ -135,7 +142,7 @@ class Club:
     def to_json(self):
         return {
             "name": self.name,
-            "shot_name": self.short_name,
+            "short_name": self.short_name,
             "opponents": self.opponents
         }
 

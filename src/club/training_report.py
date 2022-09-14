@@ -53,4 +53,8 @@ class TrainingReport:
         if self.date is None:
             return self.date.isoformat()
         return "No date set"
+
+    def get_num_attendees(self):
+        """Return the number of players that attended training."""
+        return len(self.attendees)
         

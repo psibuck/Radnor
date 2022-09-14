@@ -12,7 +12,7 @@ class Home(PageBase):
         super().__init__(manager, root)
 
     def setup_content(self):
-        screen_width = self.page_manager.get_screen_width()
+        screen_width = self.page_manager.get_window_width()
         num_tables = 3
         box_width = screen_width / num_tables
 

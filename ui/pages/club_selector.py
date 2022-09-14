@@ -9,7 +9,7 @@ class ClubSelector(PageBase):
 
     def setup_content(self):
         for club in self.page_manager.app.clubs:
-            Button(self, text=club, command=lambda c = club: self.select_club(c)).pack()
+            Button(self, text=club.name, command=lambda c = club: self.select_club(c)).pack()
         
         Button(self, text="Add", command=self.handle_add_club).pack(side=BOTTOM)
     

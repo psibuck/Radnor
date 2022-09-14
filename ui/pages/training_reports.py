@@ -73,7 +73,7 @@ class TrainingReports(PageBase):
         training_list_label.pack(side = TOP)
 
         training_table = Table(self.training_list_frame, remove_func = self.remove_training_report, select_func=self.edit_training_report)
-        columns = [TableColumn("Date", function="get_date" ), TableColumn("Num Players", function="GetNumAttendees"), TableColumn("Venue", "venue")]
+        columns = [TableColumn("Date", function="get_date" ), TableColumn("Num Players", function="get_num_attendees"), TableColumn("Venue", "venue")]
         training_table.add_columns(columns)
         for report in self.club.training_reports:
             training_table.add_object(report)
