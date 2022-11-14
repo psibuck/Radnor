@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from src.finances.financial_utilities import *
 from src.finances.transaction import *
 
@@ -7,6 +8,7 @@ import src.club.training_report as TrainingReport
 import src.club.training_venue as TrainingVenue
 import src.match.fixture as Fixture
 import src.match.match_report as MatchReport
+import src.finances.transaction_manager as TransactionManager
 
 import src.utilities.json_utilities as JsonUtil
 from typing import Callable
@@ -159,13 +161,15 @@ class Club:
 
     def get_player_transaction_list(self, player: Player.Player) -> list[Transaction]:
         transactions: list[Transaction] = []
+
+        player_name = player.get_name()
         for match in self.match_reports:
-            if player.get_name() in match.starting_lineup:
-                transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.STARTER)))
-            elif player.get_name() in match.subs:
-                transactions.append(Transaction(match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.SUB)))
+            if player_name in match.starting_lineup:
+                transactions.append(Transaction(player_name, match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.STARTER)))
+            elif player_name in match.subs:
+                transactions.append(Transaction(player_name, match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.SUB)))
 
         for training_session in self.training_reports:
-            transactions.append(Transaction(training_session.date, TransactionType.TRAINING, training_session.venue.cost))
-            
-        return transactions
+            transactions.append(Transaction(player_name, training_session.date, TransactionType.TRAINING, training_session.venue.cost))
+
+        return TransactionManager.get_player_transactions(player)
