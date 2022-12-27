@@ -4,6 +4,8 @@ Project
 - strongly type all lists on club
 - convert players to be passed around as ids
 - add script to deploy to specific folder and also backup stored data
+- investigate python testing frameworks, and add tests for src Project
+- restructure projects, main logic base should be standalone and testable(currently anything under "src")
 
 FEATURES
 - add dummy clubs
@@ -45,10 +47,12 @@ FINANCES
 MATCH REPORTS
 - add match report wizard ui should be fully data driven from a base match report object that we edit
 - subs limit should change depending on match type
+- match reports should store the cost of the session in case they change in the interim and we edit the data
 
 CODE CLEAN-up
 - don't directly manipulate "training_venues" on club(search training_venues to see issue) can __(double underscore variables to make them private)
 - do all of the above for data on club, should all be private
+- move magic numbers into data e.g inside financial_utilities
 
 CLUB
 - add rules for short name, maybe make club base and extend opponent from it too?
@@ -57,3 +61,4 @@ CLUB
 
 BUGS:
 - can select same assister as goalscorer
+- no way to navigate off player info page back to the player list
