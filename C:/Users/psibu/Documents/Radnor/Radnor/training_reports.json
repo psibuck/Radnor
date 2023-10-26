@@ -1,0 +1,15 @@
+[
+    {
+        "attendees": [
+            "aa aa",
+            "sadsa aas",
+            "Tom Bradshaw",
+            "Pringle"
+        ],
+        "venue": {
+            "name": "Academy",
+            "cost": 5.0
+        },
+        "date": "2022-11-08"
+    }
+]
