@@ -4,15 +4,17 @@ import shutil
 
 from src.club.club import *
 from src.club.player import Player
-from src.club.training_report import TrainingReport
-from src.club.training_venue import TrainingVenue
+from src.training.report import TrainingReport
+from src.training.venue import TrainingVenue
 from src.match.fixture import MatchType, Venue
-from src.match.match_report import MatchReport
+from src.match.report import MatchReport
 from src.utilities.save_utilities import save_club, load_club
 
-TEST_PLAYERS = [["jack", "charlton"],["steven", "gerrard"], ["alex", "telles"], ["michael","ballack"],["peter","crouch"]]
+TEST_PLAYERS = [["jack", "charlton"], ["steven", "gerrard"], [
+    "alex", "telles"], ["michael", "ballack"], ["peter", "crouch"]]
 TEST_VENUE_NAMES = ["nou camp", "old trafford", "anfield", "etihad"]
 TEST_VENUE_COSTS = [5, 2.50, 6, 10]
+
 
 def TEST_create_club_and_add_duplicate_player(test_folder):
     club_one = Club("test_club")
@@ -24,13 +26,14 @@ def TEST_create_club_and_add_duplicate_player(test_folder):
     if valid == False:
         print("TEST FAILED: failed to add player to club. Error: " + error)
         return False
-    
+
     valid, error = club_one.add_player(Player(first_name, surname))
     if not valid and len(club_one.players) == 1:
         return True
 
     print("TEST FAILED: successfully added duplicate player to club")
     return False
+
 
 def TEST_create_club_and_add_players(test_folder):
     club_one = Club("test_club")
@@ -56,14 +59,17 @@ def TEST_create_club_and_add_players(test_folder):
             i += 1
     return True
 
+
 def TEST_create_match_report_and_save_and_load(test_folder):
     club_one = Club("test_club")
     match_report = MatchReport()
 
     while len(match_report.starting_lineup) < 11:
-        match_report.add_starter(Player(random.choice(TEST_PLAYERS)[0], random.choice(TEST_PLAYERS)[1]))
+        match_report.add_starter(Player(random.choice(TEST_PLAYERS)[
+                                 0], random.choice(TEST_PLAYERS)[1]))
     while len(match_report.subs) < 5:
-        match_report.add_sub(Player(random.choice(TEST_PLAYERS)[0], random.choice(TEST_PLAYERS)[1]))
+        match_report.add_sub(Player(random.choice(TEST_PLAYERS)[
+                             0], random.choice(TEST_PLAYERS)[1]))
 
     match_report.match_type = random.choice(list(MatchType))
     match_report.venue = random.choice(list(Venue))
@@ -86,8 +92,9 @@ def TEST_create_match_report_and_save_and_load(test_folder):
         return False
     if match_report.venue != report.venue:
         return False
-    
-    return True   
+
+    return True
+
 
 def TEST_create_training_venues_and_save_and_load(test_folder):
     num_venues_to_generate = 5
@@ -95,7 +102,8 @@ def TEST_create_training_venues_and_save_and_load(test_folder):
     club_one = Club("test_club")
 
     while len(club_one.training_venues) < num_venues_to_generate:
-        club_one.training_venues.append(TrainingVenue(random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
+        club_one.training_venues.append(TrainingVenue(
+            random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
 
     save_club(club_one, test_folder)
 
@@ -121,13 +129,15 @@ def TEST_create_training_venues_and_save_and_load(test_folder):
         i += 1
     return True
 
+
 def TEST_create_training_report_and_save_and_load(test_folder):
     num_reports_to_generate = 10
 
     club_one = Club("test_club")
 
     while len(club_one.training_venues) < num_reports_to_generate:
-        club_one.training_venues.append(TrainingVenue(random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
+        club_one.training_venues.append(TrainingVenue(
+            random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
 
     while len(club_one.training_reports) < num_reports_to_generate:
         new_report = TrainingReport()
@@ -136,7 +146,8 @@ def TEST_create_training_report_and_save_and_load(test_folder):
         while i < num_attendees:
             new_report.attendees.append(random.choice(TEST_PLAYERS))
             i += 1
-        new_report.venue = TrainingVenue(random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS))
+        new_report.venue = TrainingVenue(random.choice(
+            TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS))
         club_one.training_reports.append(new_report)
 
     save_club(club_one, test_folder)
@@ -158,12 +169,12 @@ def TEST_create_training_report_and_save_and_load(test_folder):
 
     return True
 
-    
+
 def run_tests():
     count = 0
     successful = 0
     for test_def in tests:
-        test_name = test_def.__name__ 
+        test_name = test_def.__name__
         print("Running " + test_name + " test")
         if test_def(test_folder_name):
             print(test_name + " passed")
@@ -175,16 +186,18 @@ def run_tests():
 
     return count == successful
 
+
 def clean_up():
     shutil.rmtree(test_folder_name)
+
 
 test_folder_name = "test/"
 os.mkdir("test")
 tests = [TEST_create_club_and_add_players,
- TEST_create_club_and_add_duplicate_player,
- TEST_create_match_report_and_save_and_load,
- TEST_create_training_venues_and_save_and_load,
- TEST_create_training_report_and_save_and_load]
+         TEST_create_club_and_add_duplicate_player,
+         TEST_create_match_report_and_save_and_load,
+         TEST_create_training_venues_and_save_and_load,
+         TEST_create_training_report_and_save_and_load]
 
 if run_tests():
-    clean_up()    
+    clean_up()

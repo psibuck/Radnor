@@ -5,7 +5,7 @@ import src.match.fixture as Fixture
 from src.club.player import Player
 from src.match.fixture import MatchType, Venue
 from src.match.goal import Goal
-from src.match.match_report import MatchReport
+from src.match.report import MatchReport
 from ui import widget_utilities
 from ui.widgets.goal_display import GoalDisplay
 from ui.widgets.date_entry import DateEntry

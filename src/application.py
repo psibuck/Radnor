@@ -3,8 +3,10 @@ import os
 import shutil
 from typing import Callable, Union
 
-import src.club.club as Club
+
+from src.Club.club import *
 from src.utilities.save_utilities import DATA_FOLDER, save_club, load_club
+
 
 class Application:
     """The core application class which controls the lifetime of the app."""
@@ -45,15 +47,17 @@ class Application:
 
     def add_club(self, club_data: Club.ClubCreationData) -> None:
         """Function to add a new club object. Should probably be in the database layer."""
+        print("ADD CLUB")
+        print(club_data)
         os.mkdir(self._get_data_folder() + club_data.name)
         self.clubs.append(club_data.name)
-        self.clubs.sort()
+        # self.clubs.sort()
 
     def clear_local_data(self):
         """Deletes all local data"""
         if os.path.exists(DATA_FOLDER):
             shutil.rmtree(DATA_FOLDER)
-    
+
         self.club.clear_club_data()
 
     def handle_club_data_changed(self):
@@ -84,7 +88,7 @@ class Application:
         if self.on_club_loaded is not None:
             self.on_club_loaded(self.club)
 
-    def remove_club(self, club_name: str =""):
+    def remove_club(self, club_name: str = ""):
         """Delete a club from the database."""
         if club_name == "":
             club_name = self.club.name

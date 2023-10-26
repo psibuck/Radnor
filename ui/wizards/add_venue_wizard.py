@@ -1,6 +1,6 @@
 from tkinter import Entry, Label, StringVar
 
-from src.club.training_venue import TrainingVenue
+from src.training.venue import TrainingVenue
 from ui.wizards.wizard_base import WizardBase
 
 class AddVenueWizard(WizardBase):
