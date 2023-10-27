@@ -4,20 +4,22 @@ import shutil
 
 from src.club.club import *
 from src.club.player import Player
-from src.training.report import TrainingReport
-from src.training.venue import TrainingVenue
 from src.match.fixture import MatchType, Venue
 from src.match.report import MatchReport
+from src.processors.match_report_processor import MatchReportProcessor
+from src.training.report import TrainingReport
+from src.training.venue import TrainingVenue
 from src.utilities.save_utilities import save_club, load_club
 
 TEST_PLAYERS = [["jack", "charlton"], ["steven", "gerrard"], [
     "alex", "telles"], ["michael", "ballack"], ["peter", "crouch"]]
 TEST_VENUE_NAMES = ["nou camp", "old trafford", "anfield", "etihad"]
 TEST_VENUE_COSTS = [5, 2.50, 6, 10]
+TEST_CLUB_CREATION_DATA: ClubCreationData = ClubCreationData("test_club", "test")
 
 
 def TEST_create_club_and_add_duplicate_player(test_folder):
-    club_one = Club("test_club")
+    club_one = Club(TEST_CLUB_CREATION_DATA)
 
     first_name = "same"
     surname = "name"
@@ -36,14 +38,14 @@ def TEST_create_club_and_add_duplicate_player(test_folder):
 
 
 def TEST_create_club_and_add_players(test_folder):
-    club_one = Club("test_club")
+    club_one = Club(TEST_CLUB_CREATION_DATA)
 
     for player in TEST_PLAYERS:
         club_one.add_player(Player(player[0], player[1]))
 
     save_club(club_one, test_folder)
 
-    club_two = Club("test_club")
+    club_two = Club(TEST_CLUB_CREATION_DATA)
     load_club(club_two, test_folder)
 
     num_players = len(club_one.players)
@@ -61,7 +63,7 @@ def TEST_create_club_and_add_players(test_folder):
 
 
 def TEST_create_match_report_and_save_and_load(test_folder):
-    club_one = Club("test_club")
+    club_one = Club(TEST_CLUB_CREATION_DATA)
     match_report = MatchReport()
 
     while len(match_report.starting_lineup) < 11:
@@ -74,10 +76,10 @@ def TEST_create_match_report_and_save_and_load(test_folder):
     match_report.match_type = random.choice(list(MatchType))
     match_report.venue = random.choice(list(Venue))
 
-    club_one.add_match_report(match_report)
+    MatchReportProcessor.add_match_report(club_one, match_report)
     save_club(club_one, test_folder)
 
-    club_two = Club("test_club")
+    club_two = Club(TEST_CLUB_CREATION_DATA)
     load_club(club_two, test_folder)
 
     if len(club_two.match_reports) != 1:
@@ -99,7 +101,7 @@ def TEST_create_match_report_and_save_and_load(test_folder):
 def TEST_create_training_venues_and_save_and_load(test_folder):
     num_venues_to_generate = 5
 
-    club_one = Club("test_club")
+    club_one = Club(TEST_CLUB_CREATION_DATA)
 
     while len(club_one.training_venues) < num_venues_to_generate:
         club_one.training_venues.append(TrainingVenue(
@@ -107,7 +109,7 @@ def TEST_create_training_venues_and_save_and_load(test_folder):
 
     save_club(club_one, test_folder)
 
-    club_two = Club("test_club")
+    club_two = Club(TEST_CLUB_CREATION_DATA)
     load_club(club_two, test_folder)
 
     if len(club_two.training_venues) != num_venues_to_generate:
@@ -133,7 +135,7 @@ def TEST_create_training_venues_and_save_and_load(test_folder):
 def TEST_create_training_report_and_save_and_load(test_folder):
     num_reports_to_generate = 10
 
-    club_one = Club("test_club")
+    club_one = Club(TEST_CLUB_CREATION_DATA)
 
     while len(club_one.training_venues) < num_reports_to_generate:
         club_one.training_venues.append(TrainingVenue(
@@ -152,7 +154,7 @@ def TEST_create_training_report_and_save_and_load(test_folder):
 
     save_club(club_one, test_folder)
 
-    club_two = Club("test_club")
+    club_two = Club(TEST_CLUB_CREATION_DATA)
     load_club(club_two, test_folder)
 
     if len(club_two.training_reports) != len(club_one.training_reports):
@@ -192,6 +194,10 @@ def clean_up():
 
 
 test_folder_name = "test/"
+if os.path.exists(test_folder_name):
+    print("Error: Test folder already exists, cleaning up")
+    clean_up()
+
 os.mkdir("test")
 tests = [TEST_create_club_and_add_players,
          TEST_create_club_and_add_duplicate_player,
