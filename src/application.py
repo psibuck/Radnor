@@ -29,6 +29,8 @@ class Application:
         return DATA_FOLDER
 
     def _populate_clubs(self) -> None:
+        self.clubs: list[ClubCreationData] = []
+
         data_folder: str = self._get_data_folder()
         if os.path.exists(data_folder):
             for _, dirs, _ in os.walk(data_folder):
@@ -86,15 +88,12 @@ class Application:
         if self.on_club_loaded is not None:
             self.on_club_loaded(self.club)
 
-    def remove_club(self, club_name: str = ""):
-        """Delete a club from the database."""
-        if club_name == "":
-            club_name = self.club.name
-        self._delete_club(club_name)
+    def remove_club(self, club: Club):
+        """Delete a club from the application."""
+        self._delete_club(club)
         self._populate_clubs()
-        return
 
     def _delete_club(self, club: Club):
-        path = DATA_FOLDER + club.name
+        path = "data/local/" + club.name if self.is_debug else DATA_FOLDER + club.name
         if os.path.exists(path):
             shutil.rmtree(path)

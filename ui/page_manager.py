@@ -104,6 +104,7 @@ class PageManager:
         if value == ClubControls.SELECT_CLUB:
             self.open_club_selector()
         elif value == ClubControls.DELETE_CLUB:
+            self.app.remove_club(self.app.club)
             self.open_club_selector()
            
         if value != ClubControls.CLUB_CONTROLS:
