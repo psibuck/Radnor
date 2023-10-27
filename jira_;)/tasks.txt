@@ -17,6 +17,7 @@ UI
 - value of ObjectListWidget?
 - fix add venue wizard
 - fix add match report wizard
+- club creation has no titles to explain what you are setting
 
 
 MATCHES

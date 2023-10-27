@@ -3,4 +3,4 @@ UI
 - no way to navigate off player info page back to the player list
 
 CORE
-- cannot add new clubs to the game
+- delete club does not work
