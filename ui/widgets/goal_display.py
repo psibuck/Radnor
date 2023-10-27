@@ -1,6 +1,6 @@
 from tkinter import Frame
 
-import src.match.match_report as MatchReport
+import src.match.report as MatchReport
 from ui.widgets.goal_entry import GoalEntry
 from ui.widgets.table import TableHeader
 

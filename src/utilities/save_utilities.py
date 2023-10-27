@@ -4,10 +4,10 @@ from typing import Union
 import os
 
 from src.club.player import Player
-from src.club.training_report import TrainingReport
-from src.club.training_venue import TrainingVenue
+from src.training.report import TrainingReport
+from src.training.venue import TrainingVenue
 from src.match.fixture import Fixture
-from src.match.match_report import MatchReport
+from src.match.report import MatchReport
 
 import src.club.club as Club
 import src.utilities.json_utilities as DataUtil

@@ -1,9 +1,11 @@
 from datetime import date
 
-from src.club.training_venue import TrainingVenue
+from src.training.venue import TrainingVenue
 import src.utilities.json_utilities as JsonUtil
 
 # A trainig report tracks who attended a training session on which date etc
+
+
 class TrainingReport:
 
     def __init__(self):
@@ -16,7 +18,7 @@ class TrainingReport:
             return False
         if len(self.attendees) != len(other.attendees):
             return False
-        
+
         i = 0
         while i < len(self.attendees):
             if self.attendees[i] != other.attendees[i]:
@@ -29,12 +31,9 @@ class TrainingReport:
 
     def __lt__(self, o):
         return self.date < o.date
-    
+
     def __gt__(self, o):
         return self.date > o.date
-        
-    def get_num_attendees(self) -> int:
-        return len(self.attendees)
 
     def to_json(self):
         return {
@@ -42,7 +41,7 @@ class TrainingReport:
             "venue": self.venue.to_json(),
             "date": self.date.isoformat()
         }
-    
+
     def from_json(self, json_data):
         self.attendees = json_data["attendees"]
         self.venue = TrainingVenue()
@@ -57,4 +56,3 @@ class TrainingReport:
     def get_num_attendees(self):
         """Return the number of players that attended training."""
         return len(self.attendees)
-        

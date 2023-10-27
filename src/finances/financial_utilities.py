@@ -1,5 +1,5 @@
 from src.match.fixture import MatchType
-from src.match.match_report import MatchReport, MatchRole
+from src.match.report import MatchReport, MatchRole
 
 def get_match_fee(match: MatchReport, role: MatchRole) -> int:
     """Returns the cost of playing a match, based on the type of match and participant role."""

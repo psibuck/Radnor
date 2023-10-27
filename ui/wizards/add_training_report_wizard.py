@@ -4,7 +4,7 @@ from distutils.sysconfig import customize_compiler
 from tkinter import *
 from turtle import clear
 
-from src.club.training_report import TrainingReport
+from src.training.report import TrainingReport
 from ui.widget_utilities import clear_all_children
 from ui.widgets.date_entry import DateEntry
 from ui.widgets.table import Table, TableHeader
