@@ -9,7 +9,6 @@ class ClubSelector(PageBase):
         super().__init__(manager, root)
 
     def setup_content(self):
-        print("ClubSelector: setup content")
         for club in self.page_manager.app.clubs:
             Button(self, text=club.name,
                    command=lambda c=club: self.select_club(c)).pack()
@@ -17,7 +16,6 @@ class ClubSelector(PageBase):
         Button(self, text="Add", command=self.handle_add_club).pack(side=BOTTOM)
 
     def handle_add_club(self):
-        print("add club")
         self.page_manager.open_subpage(AddClubWizard)
 
     def select_club(self, club):

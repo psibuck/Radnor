@@ -47,11 +47,9 @@ class Application:
 
     def add_club(self, club_data: ClubCreationData) -> None:
         """Function to add a new club object. Should probably be in the database layer."""
-        print("ADD CLUB")
-        print(club_data)
         os.mkdir(self._get_data_folder() + club_data.name)
-        self.clubs.append(club_data.name)
-        # self.clubs.sort()
+        self.clubs.append(club_data)
+        self.clubs.sort()
 
     def clear_local_data(self):
         """Deletes all local data"""
