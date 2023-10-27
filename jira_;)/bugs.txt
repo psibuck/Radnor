@@ -1,0 +1,7 @@
+UI
+- can select same assister as goalscorer
+- no way to navigate off player info page back to the player list
+
+CORE
+- game crashes on startup, Club is not a class
+- cannot add new clubs to the game
