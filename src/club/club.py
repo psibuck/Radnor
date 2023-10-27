@@ -1,7 +1,6 @@
 from src.club.club_creation import ClubCreationData
 from src.finances.financial_utilities import get_match_fee, MatchRole
 from src.finances.transaction import Transaction, TransactionType
-from src.processors.match_report_processor import *
 
 import src.club.player as Player
 import src.training.report as TrainingReport
@@ -40,6 +39,8 @@ class Club:
         self.opponents: list[str] = []
 
     def setup_club(self):
+        from src.processors.match_report_processor import MatchReportProcessor
+        
         MatchReportProcessor.process_match_reports(self)
         self.process_training_reports()
 
