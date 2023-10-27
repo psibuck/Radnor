@@ -4,18 +4,21 @@ from src.match.report import MatchReport
 
 class MatchReportProcessor:
 
-    def add_match_report(self, club: Club, report: MatchReport):
+    @staticmethod
+    def add_match_report(club: Club, report: MatchReport):
         club.match_reports.append(report)
-        club.process_match_report(report)
+        MatchReportProcessor.process_match_report(club, report)
         club.match_reports.sort()
         if club.update_callback != None:
             club.update_callback()
 
-    def process_match_reports(self, club: Club):
+    @staticmethod
+    def process_match_reports(club: Club):
         for report in club.match_reports:
-            self.process_match_report(club, report)
+            MatchReportProcessor.process_match_report(club, report)
 
-    def process_match_report(self, club: Club, report: MatchReport, add=True):
+    @staticmethod
+    def process_match_report(club: Club, report: MatchReport, add=True):
         increment = 1
         if not add:
             increment = -1
@@ -38,6 +41,7 @@ class MatchReportProcessor:
             if assister is not None:
                 assister.assists += increment
 
-    def remove_match_report(self, club: Club, report: MatchReport):
+    @staticmethod
+    def remove_match_report(club: Club, report: MatchReport):
         club.match_reports.remove(report)
-        club.process_match_report(report, False)
+        MatchReportProcessor.process_match_report(club, report, False)

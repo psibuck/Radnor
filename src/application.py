@@ -3,8 +3,8 @@ import os
 import shutil
 from typing import Callable, Union
 
-
-from src.Club.club import *
+from src.club.club import Club
+from src.club.club_creation import ClubCreationData
 from src.utilities.save_utilities import DATA_FOLDER, save_club, load_club
 
 
@@ -13,8 +13,8 @@ class Application:
 
     def __init__(self, debug=False):
         self.is_debug = debug
-        self.club: Club.Club = None
-        self.clubs: list[Club.ClubCreationData] = []
+        self.club: Club = None
+        self.clubs: list[ClubCreationData] = []
         self.on_club_loaded: Union[None, Callable] = None
         self.on_application_shutdown:  Union[None, Callable] = None
 
@@ -33,7 +33,7 @@ class Application:
         if os.path.exists(data_folder):
             for _, dirs, _ in os.walk(data_folder):
                 for dir_name in dirs:
-                    self.clubs.append(Club.ClubCreationData(dir_name, ""))
+                    self.clubs.append(ClubCreationData(dir_name, ""))
 
     def _make_data_structure(self) -> None:
         """Construct the data structure that we save data to."""
@@ -45,7 +45,7 @@ class Application:
                 os.mkdir(path_string)
             path_string += "/"
 
-    def add_club(self, club_data: Club.ClubCreationData) -> None:
+    def add_club(self, club_data: ClubCreationData) -> None:
         """Function to add a new club object. Should probably be in the database layer."""
         print("ADD CLUB")
         print(club_data)
@@ -77,9 +77,9 @@ class Application:
         if self.on_application_shutdown is not None:
             self.on_application_shutdown()
 
-    def select_club(self, club: Club.ClubCreationData):
+    def select_club(self, club: ClubCreationData):
         """Function to select and load a different club to the one currently loaded."""
-        self.club = Club.Club(club, self.handle_club_data_changed)
+        self.club = Club(club, self.handle_club_data_changed)
         if self.is_debug:
             load_club(self.club, "data/local/")
         else:
@@ -96,7 +96,7 @@ class Application:
         self._populate_clubs()
         return
 
-    def _delete_club(self, club: Club.Club):
+    def _delete_club(self, club: Club):
         path = DATA_FOLDER + club.name
         if os.path.exists(path):
             shutil.rmtree(path)

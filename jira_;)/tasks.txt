@@ -59,6 +59,3 @@ CLUB
 - create club needs some work
 - edit club doesn't work
 
-BUGS:
-- can select same assister as goalscorer
-- no way to navigate off player info page back to the player list
