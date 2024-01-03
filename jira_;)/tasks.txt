@@ -10,7 +10,6 @@ Project
 FEATURES
 - add dummy clubs
 - add remove club functionality
-- add club image selector
 - we need to ask where to store data using filedialog.askdirectory(). Currently if we get a new distribution we lose old data
 
 UI
@@ -57,6 +56,4 @@ CODE CLEAN-up
 
 CLUB
 - add rules for short name, maybe make club base and extend opponent from it too?
-- create club needs some work
-- edit club doesn't work
 
