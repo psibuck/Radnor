@@ -16,7 +16,7 @@ class Application:
         self.club: Club = None
         self.clubs: list[ClubCreationData] = []
         self.on_club_loaded: Union[None, Callable] = None
-        self.on_application_shutdown:  Union[None, Callable] = None
+        self.on_application_shutdown: Union[None, Callable] = None
 
         self._populate_clubs()
         self._make_data_structure()
@@ -52,6 +52,11 @@ class Application:
         os.mkdir(self._get_data_folder() + club_data.name)
         self.clubs.append(club_data)
         self.clubs.sort()
+
+    def edit_club(self, new_club_data: ClubCreationData) -> None:
+        """This function takes some new club data and overwrites the stored club data"""
+        self._delete_club(new_club_data.name)
+        self.add_club(new_club_data)
 
     def clear_local_data(self):
         """Deletes all local data"""
@@ -90,10 +95,10 @@ class Application:
 
     def remove_club(self, club: Club):
         """Delete a club from the application."""
-        self._delete_club(club)
+        self._delete_club(club.name)
         self._populate_clubs()
 
-    def _delete_club(self, club: Club):
-        path = "data/local/" + club.name if self.is_debug else DATA_FOLDER + club.name
+    def _delete_club(self, club_name: str):
+        path = "data/local/" + club_name if self.is_debug else DATA_FOLDER + club_name
         if os.path.exists(path):
             shutil.rmtree(path)
