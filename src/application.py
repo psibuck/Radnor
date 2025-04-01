@@ -1,4 +1,5 @@
 """The application module is concerned with starting the program and the core modules e.g UI/DATABASE"""
+
 import os
 import shutil
 from typing import Callable, Union
