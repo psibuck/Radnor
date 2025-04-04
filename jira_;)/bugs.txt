@@ -4,3 +4,4 @@ UI
 
 CORE
 - delete club does not work
+- in debug we load real data but save to debug location
