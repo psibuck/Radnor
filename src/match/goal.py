@@ -1,4 +1,5 @@
-import src.utilities.json_utilities as JsonUtil
+import src.database.json_utilities as JsonUtil
+
 
 class Goal:
 
@@ -16,5 +17,5 @@ class Goal:
         return {
             "scorer": self.scorer,
             "assister": self.assister,
-            "description": self.description
+            "description": self.description,
         }

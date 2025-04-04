@@ -9,10 +9,15 @@ from src.match.report import MatchReport
 from src.processors.match_report_processor import MatchReportProcessor
 from src.training.report import TrainingReport
 from src.training.venue import TrainingVenue
-from src.utilities.save_utilities import save_club, load_club
+from src.database.save_utilities import save_club, load_club
 
-TEST_PLAYERS = [["jack", "charlton"], ["steven", "gerrard"], [
-    "alex", "telles"], ["michael", "ballack"], ["peter", "crouch"]]
+TEST_PLAYERS = [
+    ["jack", "charlton"],
+    ["steven", "gerrard"],
+    ["alex", "telles"],
+    ["michael", "ballack"],
+    ["peter", "crouch"],
+]
 TEST_VENUE_NAMES = ["nou camp", "old trafford", "anfield", "etihad"]
 TEST_VENUE_COSTS = [5, 2.50, 6, 10]
 TEST_CLUB_CREATION_DATA: ClubCreationData = ClubCreationData("test_club", "test")
@@ -67,11 +72,13 @@ def TEST_create_match_report_and_save_and_load(test_folder):
     match_report = MatchReport()
 
     while len(match_report.starting_lineup) < 11:
-        match_report.add_starter(Player(random.choice(TEST_PLAYERS)[
-                                 0], random.choice(TEST_PLAYERS)[1]))
+        match_report.add_starter(
+            Player(random.choice(TEST_PLAYERS)[0], random.choice(TEST_PLAYERS)[1])
+        )
     while len(match_report.subs) < 5:
-        match_report.add_sub(Player(random.choice(TEST_PLAYERS)[
-                             0], random.choice(TEST_PLAYERS)[1]))
+        match_report.add_sub(
+            Player(random.choice(TEST_PLAYERS)[0], random.choice(TEST_PLAYERS)[1])
+        )
 
     match_report.match_type = random.choice(list(MatchType))
     match_report.venue = random.choice(list(Venue))
@@ -104,8 +111,11 @@ def TEST_create_training_venues_and_save_and_load(test_folder):
     club_one = Club(TEST_CLUB_CREATION_DATA)
 
     while len(club_one.training_venues) < num_venues_to_generate:
-        club_one.training_venues.append(TrainingVenue(
-            random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
+        club_one.training_venues.append(
+            TrainingVenue(
+                random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)
+            )
+        )
 
     save_club(club_one, test_folder)
 
@@ -138,8 +148,11 @@ def TEST_create_training_report_and_save_and_load(test_folder):
     club_one = Club(TEST_CLUB_CREATION_DATA)
 
     while len(club_one.training_venues) < num_reports_to_generate:
-        club_one.training_venues.append(TrainingVenue(
-            random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)))
+        club_one.training_venues.append(
+            TrainingVenue(
+                random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)
+            )
+        )
 
     while len(club_one.training_reports) < num_reports_to_generate:
         new_report = TrainingReport()
@@ -148,8 +161,9 @@ def TEST_create_training_report_and_save_and_load(test_folder):
         while i < num_attendees:
             new_report.attendees.append(random.choice(TEST_PLAYERS))
             i += 1
-        new_report.venue = TrainingVenue(random.choice(
-            TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS))
+        new_report.venue = TrainingVenue(
+            random.choice(TEST_VENUE_NAMES), random.choice(TEST_VENUE_COSTS)
+        )
         club_one.training_reports.append(new_report)
 
     save_club(club_one, test_folder)
@@ -158,14 +172,18 @@ def TEST_create_training_report_and_save_and_load(test_folder):
     load_club(club_two, test_folder)
 
     if len(club_two.training_reports) != len(club_one.training_reports):
-        print("TEST FAILED: discrepancy in number of training reports after save and load")
+        print(
+            "TEST FAILED: discrepancy in number of training reports after save and load"
+        )
         return False
 
     # TO-DO: functionise this
     i = 0
     while i < len(club_two.training_reports):
         if club_one.training_reports[i] != club_two.training_reports[i]:
-            print("TEST FAILED: discrepancy in object data after being saved and loaded")
+            print(
+                "TEST FAILED: discrepancy in object data after being saved and loaded"
+            )
             return False
         i += 1
 
@@ -199,11 +217,13 @@ if os.path.exists(test_folder_name):
     clean_up()
 
 os.mkdir("test")
-tests = [TEST_create_club_and_add_players,
-         TEST_create_club_and_add_duplicate_player,
-         TEST_create_match_report_and_save_and_load,
-         TEST_create_training_venues_and_save_and_load,
-         TEST_create_training_report_and_save_and_load]
+tests = [
+    TEST_create_club_and_add_players,
+    TEST_create_club_and_add_duplicate_player,
+    TEST_create_match_report_and_save_and_load,
+    TEST_create_training_venues_and_save_and_load,
+    TEST_create_training_report_and_save_and_load,
+]
 
 if run_tests():
     clean_up()

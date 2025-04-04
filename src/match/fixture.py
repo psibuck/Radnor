@@ -1,14 +1,16 @@
 from datetime import date
 from enum import Enum
-import src.utilities.json_utilities as JsonUtil
+import src.database.json_utilities as JsonUtil
+
 
 class MatchType(Enum):
     LEAGUE = 1
     CUP = 2
-    FRIENDLY = 3 
+    FRIENDLY = 3
 
     def __str__(self):
         return self.name
+
 
 class Venue(Enum):
     HOME = 1
@@ -17,6 +19,7 @@ class Venue(Enum):
 
     def __str__(self):
         return self.name
+
 
 # A fixture is a match that has yet to be played
 class Fixture:
@@ -31,7 +34,7 @@ class Fixture:
 
     def __lt__(self, o):
         return self.date < o.date
-    
+
     def __gt__(self, o):
         return self.date > o.date
 
@@ -46,9 +49,9 @@ class Fixture:
             "match_type": self.match_type.value,
             "venue": self.venue.value,
             "opponent": self.opponent,
-            "date": self.date.isoformat()
+            "date": self.date.isoformat(),
         }
-    
+
     def get_match_type(self):
         return self.match_type.name
 

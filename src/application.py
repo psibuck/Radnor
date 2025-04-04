@@ -6,7 +6,8 @@ from typing import Callable, Union
 
 from src.club.club import Club
 from src.club.club_creation import ClubCreationData
-from src.utilities.save_utilities import DATA_FOLDER, save_club, load_club
+from src.database.load_utilities import load_all_clubs
+from src.database.save_utilities import DATA_FOLDER, save_club, load_club
 
 
 class Application:
@@ -30,13 +31,7 @@ class Application:
         return DATA_FOLDER
 
     def _populate_clubs(self) -> None:
-        self.clubs: list[ClubCreationData] = []
-
-        data_folder: str = self._get_data_folder()
-        if os.path.exists(data_folder):
-            for _, dirs, _ in os.walk(data_folder):
-                for dir_name in dirs:
-                    self.clubs.append(ClubCreationData(dir_name, ""))
+        self.clubs: list[ClubCreationData] = load_all_clubs()
 
     def _make_data_structure(self) -> None:
         """Construct the data structure that we save data to."""

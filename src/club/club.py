@@ -9,7 +9,7 @@ import src.match.fixture as Fixture
 import src.match.report as MatchReport
 import src.finances.transaction_manager as TransactionManager
 
-import src.utilities.json_utilities as JsonUtil
+import src.database.json_utilities as JsonUtil
 from typing import Callable
 
 
@@ -27,7 +27,7 @@ class Club:
         self.fixtures: list[Fixture.Fixture] = []
         self.opponents: list[str] = []
 
-    def __lt__(self, other_club: 'Club') -> bool:
+    def __lt__(self, other_club: "Club") -> bool:
         return self.name > other_club.name
 
     def clear_club_data(self) -> None:
@@ -40,7 +40,7 @@ class Club:
 
     def setup_club(self):
         from src.processors.match_report_processor import MatchReportProcessor
-        
+
         MatchReportProcessor.process_match_reports(self)
         self.process_training_reports()
 
@@ -111,13 +111,12 @@ class Club:
         return {
             "name": self.name,
             "short_name": self.short_name,
-            "opponents": self.opponents
+            "opponents": self.opponents,
         }
 
     def get_top_scorers(self, num):
         players = self.players[:]
-        players = sorted(
-            players, key=lambda player: player.goals, reverse=True)
+        players = sorted(players, key=lambda player: player.goals, reverse=True)
         return players[:num]
 
     def get_player_names(self):
@@ -132,14 +131,32 @@ class Club:
         player_name = player.get_name()
         for match in self.match_reports:
             if player_name in match.starting_lineup:
-                transactions.append(Transaction(
-                    player_name, match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.STARTER)))
+                transactions.append(
+                    Transaction(
+                        player_name,
+                        match.date,
+                        TransactionType.MATCH,
+                        amount=get_match_fee(match, MatchRole.STARTER),
+                    )
+                )
             elif player_name in match.subs:
-                transactions.append(Transaction(
-                    player_name, match.date, TransactionType.MATCH, amount=get_match_fee(match, MatchRole.SUB)))
+                transactions.append(
+                    Transaction(
+                        player_name,
+                        match.date,
+                        TransactionType.MATCH,
+                        amount=get_match_fee(match, MatchRole.SUB),
+                    )
+                )
 
         for training_session in self.training_reports:
-            transactions.append(Transaction(player_name, training_session.date,
-                                TransactionType.TRAINING, training_session.venue.cost))
+            transactions.append(
+                Transaction(
+                    player_name,
+                    training_session.date,
+                    TransactionType.TRAINING,
+                    training_session.venue.cost,
+                )
+            )
 
         return TransactionManager.get_player_transactions(player)

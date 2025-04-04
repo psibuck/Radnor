@@ -8,7 +8,7 @@ application.select_club(application.clubs[0])
 
 @app.get("/")
 def home():
-    return {"message": "Hello, Radnor App!"}
+    return {"message": "Hello Radnor!"}
 
 
 @app.get("/player_list")

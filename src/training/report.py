@@ -1,7 +1,7 @@
 from datetime import date
 
 from src.training.venue import TrainingVenue
-import src.utilities.json_utilities as JsonUtil
+import src.database.json_utilities as JsonUtil
 
 # A trainig report tracks who attended a training session on which date etc
 
@@ -39,7 +39,7 @@ class TrainingReport:
         return {
             "attendees": self.attendees,
             "venue": self.venue.to_json(),
-            "date": self.date.isoformat()
+            "date": self.date.isoformat(),
         }
 
     def from_json(self, json_data):

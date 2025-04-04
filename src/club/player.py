@@ -1,9 +1,12 @@
 """This file contains the Player class and all related helpers."""
+
 from datetime import date
-import src.utilities.json_utilities as JsonUtil
+import src.database.json_utilities as JsonUtil
+
 
 class Player:
     """The player class which contains data and functions all related to the players who play for the team."""
+
     def __init__(self, first_name="", surname=""):
         self.first_name: str = first_name
         self.surname: str = surname
@@ -20,13 +23,17 @@ class Player:
 
         # A list of identifiers used for this player, for example in bank transactions
         self.aliases: list[str] = []
-        
-    def __eq__(self, other_player: 'Player') -> bool:
+
+    def __eq__(self, other_player: "Player") -> bool:
         if other_player is None:
             return False
-        return self.first_name == other_player.first_name and self.surname == other_player.surname and self.dob == other_player.dob
-        
-    def __lt__(self, other: 'Player') -> bool:
+        return (
+            self.first_name == other_player.first_name
+            and self.surname == other_player.surname
+            and self.dob == other_player.dob
+        )
+
+    def __lt__(self, other: "Player") -> bool:
         return self.get_name().lower() < other.get_name().lower()
 
     def __str__(self) -> str:
@@ -47,13 +54,13 @@ class Player:
         is_signed_on = JsonUtil.get(json_data, "signed_on")
         if is_signed_on == "YES":
             self.is_signed_on = True
-    
+
     def to_json(self):
         return {
             "first_name": self.first_name,
             "surname": self.surname,
             "dob": self.dob.isoformat(),
-            "signed_on": self.get_is_signed_on()
+            "signed_on": self.get_is_signed_on(),
         }
 
     def get_appearances(self) -> str:
