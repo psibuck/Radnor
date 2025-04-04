@@ -63,5 +63,15 @@ CORE
 - rewrite functions to manipulate existing data(no loading or reliance on 'application')
 - swap to 'List' from 'list' to ensure compatability
 
-BUGS
-in debug we load real data but save to debug location
+
+GOAL1
+- ensure that clubs can be viewed using the existing json approach in the ui
+- investigate database solutions and setup a database
+- add club schema with a name and an id
+- migrate existing clubs across
+- adjust existing code to lookup and store clubs by id rather than name
+
+GOAL2
+- add player schema with an autoinc id, name, dob and an optional clubId
+- migrate existing players
+- add ui to web to show all players

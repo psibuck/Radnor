@@ -1,0 +1,7 @@
+Goal 1
+Users can use the web frontend to add and remove clubs. A club can be selected from the list or new clubs can be added. Clubs can also be removed(deleted). Clubs
+are the first demonstration of a database usage, we store and load them from a database where they have a unique id which auto increments.
+
+Goal 2
+A club owns player which can be added via the ui. Players can be removed and if so any record of them should be deleted, but in general we retain players for future
+registration. 
