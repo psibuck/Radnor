@@ -57,3 +57,11 @@ CODE CLEAN-up
 CLUB
 - add rules for short name, maybe make club base and extend opponent from it too?
 
+CORE
+*move towards stateless*
+- rest api should load data from json
+- rewrite functions to manipulate existing data(no loading or reliance on 'application')
+- swap to 'List' from 'list' to ensure compatability
+
+BUGS
+in debug we load real data but save to debug location
