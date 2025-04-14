@@ -74,4 +74,5 @@ GOAL1
 GOAL2
 - add player schema with an autoinc id, name, dob and an optional clubId
 - migrate existing players
-- add ui to web to show all players
+- adjust existing code to create players in the database
+- adjust existing code to load players from the database
