@@ -3,20 +3,19 @@ from src.application import Application
 from ui.page_manager import PageManager
 from fastapi import FastAPI
 
-app = "app" in sys.argv
+is_app = "app" in sys.argv
+is_debug = "debug" in sys.argv
 
-if app:
-    is_debug = "debug" in sys.argv
+radnor_app = Application(is_debug)
 
+if is_app:
     # Refactor this, consider role of page manager vs app, same thing?
-    app = Application(is_debug)
-    ui = PageManager(app)
+    ui = PageManager(radnor_app)
     ui.draw()
 
 else:
     app = FastAPI()
-    application = Application(True)
-    application.select_club(application.clubs[0])
+    radnor_app.select_club(radnor_app.clubs[0])
 
     @app.get("/")
     def home():
@@ -24,5 +23,5 @@ else:
 
     @app.get("/player_list")
     def greet():
-        club_names = [club.name for club in application.clubs]
+        club_names = [club.name for club in radnor_app.clubs]
         return {"message": f"{club_names}!"}
