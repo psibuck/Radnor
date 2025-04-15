@@ -8,3 +8,4 @@ main.spec
 .DS_Store
 firebase/config.json
 firebase/firebase_key.json
+app.db
